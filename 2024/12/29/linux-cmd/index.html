@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>linux实用命令 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="常用命令df1234567891011121314  df -h 打印设备上挂载了多少磁盘，以及磁盘里还有多少可用空间。[root@harbor ~]# df -h文件系统        容量  已用  可用 已用% 挂载点&#x2F;dev&#x2F;vda1        50G   23G   24G   50% &#x2F;devtmpfs        7.8G     0  7.8G    0% &#x2F;devtmpfs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux实用命令">
+<meta property="og:url" content="http://example.com/2024/12/29/linux-cmd/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="常用命令df1234567891011121314  df -h 打印设备上挂载了多少磁盘，以及磁盘里还有多少可用空间。[root@harbor ~]# df -h文件系统        容量  已用  可用 已用% 挂载点&#x2F;dev&#x2F;vda1        50G   23G   24G   50% &#x2F;devtmpfs        7.8G     0  7.8G    0% &#x2F;devtmpfs">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2024-12-29T14:51:34.066Z">
+<meta property="article:modified_time" content="2024-12-29T14:51:34.066Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-linux-cmd" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2024/12/29/linux-cmd/" class="article-date">
+  <time class="dt-published" datetime="2024-12-29T14:51:34.066Z" itemprop="datePublished">2024-12-29</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      linux实用命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h1><h2 id="df"><a href="#df" class="headerlink" title="df"></a>df</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  df -h 打印设备上挂载了多少磁盘，以及磁盘里还有多少可用空间。</span><br><span class="line"></span><br><span class="line">[root@harbor ~]# df -h</span><br><span class="line">文件系统        容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/vda1        50G   23G   24G   50% /</span><br><span class="line">devtmpfs        7.8G     0  7.8G    0% /dev</span><br><span class="line">tmpfs           7.8G     0  7.8G    0% /dev/shm</span><br><span class="line">tmpfs           7.8G  2.9M  7.8G    1% /run</span><br><span class="line">tmpfs           7.8G     0  7.8G    0% /sys/fs/cgroup</span><br><span class="line">/dev/vdc1       197G  157G   31G   84% /var/lib/docker</span><br><span class="line">/dev/vdd1        99G   68G   26G   73% /data</span><br><span class="line"></span><br><span class="line">系统盘分配大小为50G，/dev/vda1分区被挂载到根目录</span><br><span class="line">docker数据盘大小197G，/dev/vdc1分区被挂载到/var/lib/docker，这意味着所有在/var/lib/docker之下的文件和目录在物理意义上存储于/dev/vdc1上</span><br></pre></td></tr></table></figure>
+
+<h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">根据正则表达式查找相关内容并打印对应的数据</span><br><span class="line"></span><br><span class="line">-A 除了显示符合范本样式的那一行之外，并显示该行之后的内容。</span><br><span class="line">-B 在显示符合范本样式的那一行之外，并显示该行之前的内容。</span><br><span class="line">-C 除了显示符合范本样式的那一列之外，并显示该列之前后的内容。</span><br><span class="line">-c 计算符合范本样式的列数。</span><br><span class="line">-i 忽略字符大小写的差别。</span><br><span class="line">-v 反转查找</span><br><span class="line"></span><br><span class="line"># 查看日志里面有 error 关键字的日志记录，与这个记录前后三行的日志信息</span><br><span class="line">cat log-fail.txt |grep error -C 3</span><br></pre></td></tr></table></figure>
+
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">localhost% cat test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"># 打印文本的总列数，即字段数量</span><br><span class="line">localhost% awk &#x27;END&#123;print NF&#125;&#x27; test.txt</span><br><span class="line">10</span><br><span class="line"></span><br><span class="line"># 打印文件的第一列和第五列</span><br><span class="line">localhost% awk &#x27;&#123;print $1,$5&#125;&#x27; test.txt</span><br><span class="line">NAME VERSION</span><br><span class="line">k8s01 v1.16.4</span><br><span class="line">k8s02 v1.16.4</span><br><span class="line">k8s03 v1.16.4</span><br><span class="line">k8s04 v1.16.4</span><br><span class="line"></span><br><span class="line"># 打印最后一列字段</span><br><span class="line">localhost% awk &#x27;&#123;print $NF&#125;&#x27; test.txt</span><br><span class="line">CONTAINER-RUNTIME</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line"></span><br><span class="line">打印倒数第二列字段：</span><br><span class="line">localhost% awk &#x27;&#123;print $(NF-1)&#125;&#x27; test.txt</span><br><span class="line">KERNEL-VERSION</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line"></span><br><span class="line"># 打印文本文件的总行数</span><br><span class="line">localhost% awk &#x27;END&#123;print NR&#125;&#x27; test.txt</span><br><span class="line">5</span><br><span class="line"></span><br><span class="line"># 打印文本第1行数据</span><br><span class="line">localhost% awk &#x27;NR==1&#123;print&#125;&#x27; test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line"></span><br><span class="line"># 打印文本大于第1行的数据</span><br><span class="line">localhost% awk &#x27;NR&gt;1&#123;print&#125;&#x27; test.txt</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"># 打印文本最后1行数据</span><br><span class="line">localhost% awk &#x27;END&#123;print&#125;&#x27; test.txt</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"># 打印统计两种状态的主机数量</span><br><span class="line">localhost% cat test.txt |awk &#x27;NR&gt;1&#123;print $2&#125;&#x27; |uniq -c</span><br><span class="line">   3 Ready</span><br><span class="line">   1 NotReady</span><br></pre></td></tr></table></figure>
+
+<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">定位到数据行并对数据进行增删改查操作。</span><br><span class="line"></span><br><span class="line">替换文本中的字符串：</span><br><span class="line">sed &#x27;s/book/books/&#x27; file</span><br><span class="line"># 使用后缀/g标记会替换每一行中的所有匹配：</span><br><span class="line">[root@harbor image_pull_push]# cat img-list.txt |sed &#x27;s/registry.cn-hangzhou.aliyuncs.com/192.168.0.11/g&#x27;</span><br><span class="line">当需要从第N处匹配开始替换时，可以使用 /Ng：</span><br><span class="line">echo sksksksksksk | sed &#x27;s/sk/SK/3g&#x27;</span><br><span class="line">skskSKSKSKSK</span><br></pre></td></tr></table></figure>
+
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">find . -name README.md 查找当前目录下是否存在README.md </span><br><span class="line">find / -name nginx.conf 查找根目录/是否存在nginx.conf</span><br><span class="line">find /home -name &quot;*.txt&quot; 在/home目录下查找以.txt结尾的文件名</span><br><span class="line">find / -size +500M 搜索大于500M的文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 创建带有内容的文件</span><br><span class="line">[root@harbor ~]# echo hello &gt; new.yaml</span><br><span class="line">[root@harbor ~]# cat new.yaml</span><br><span class="line">hello</span><br><span class="line"># 追加写入文件</span><br><span class="line">[root@harbor ~]# echo hello-test &gt;&gt; new.yaml</span><br><span class="line">[root@harbor ~]# cat new.yaml</span><br><span class="line">hello</span><br><span class="line">hello-test</span><br></pre></td></tr></table></figure>
+
+<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wc -l 统计文本行数</span><br><span class="line">wc -w 统计文本字数</span><br><span class="line">wc -c 统计文本字节数</span><br></pre></td></tr></table></figure>
+
+<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">创建一个50M的文件，文件名为out.txt</span><br><span class="line">dd if=/dev/zero of=out.txt bs=10M count=1</span><br></pre></td></tr></table></figure>
+
+<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">tar -cvf log.tar log2012.log 仅打包，不压缩！ </span><br><span class="line">tar -zcvf log.tar.gz log2012.log   打包后，以 gzip 压缩 </span><br><span class="line">tar -jcvf log.tar.bz2 log2012.log  打包后，以 bzip2 压缩</span><br><span class="line">tar -ztvf log.tar.gz 查阅tar包内有哪些文件</span><br><span class="line">tar -zxvf /opt/soft/test/log.tar.gz 将tar包解压缩</span><br></pre></td></tr></table></figure>
+
+<h1 id="文件与目录管理"><a href="#文件与目录管理" class="headerlink" title="文件与目录管理"></a>文件与目录管理</h1><h2 id="ls"><a href="#ls" class="headerlink" title="ls"></a>ls</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> ls -l 列出当前目录下所有文件详细信息</span><br><span class="line"> ls -a 列出当前目录下所有文件及目录，包括隐藏文件目录</span><br><span class="line"></span><br><span class="line">[root@dev-7 ~]# ll -d /var/log/message*</span><br><span class="line">-rw-------  1 root root  3746323 12月 22 17:58 /var/log/messages</span><br><span class="line">-rw-------. 1 root root 11478322 10月 15 17:28 /var/log/messages-20191015</span><br><span class="line">-rw-------  1 root root  1296942 12月 21 03:43 /var/log/messages-20191221</span><br><span class="line">-rw-------  1 root root  6150415 12月 22 03:27 /var/log/messages-20191222</span><br></pre></td></tr></table></figure>
+
+<h2 id="stat"><a href="#stat" class="headerlink" title="stat"></a>stat</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">stat 显示指定文件的详细信息，比ls更详细</span><br></pre></td></tr></table></figure>
+
+<h2 id="pwd"><a href="#pwd" class="headerlink" title="pwd"></a>pwd</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pwd 获取当前目录所在的路径</span><br></pre></td></tr></table></figure>
+
+<h2 id="mkdir"><a href="#mkdir" class="headerlink" title="mkdir"></a>mkdir</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p 创建目录，若无父目录，则创建p(parent)</span><br></pre></td></tr></table></figure>
+
+<h2 id="tree"><a href="#tree" class="headerlink" title="tree"></a>tree</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">树形结构列出指定目录下的所有文件，包括子目录里的文件</span><br></pre></td></tr></table></figure>
+
+<h2 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat 显示全部内容，结合grep可以查找内容</span><br></pre></td></tr></table></figure>
+
+<h2 id="more、less"><a href="#more、less" class="headerlink" title="more、less"></a>more、less</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">more 分页显示文本文件内容</span><br><span class="line">less 支持上下滑动，左右移动显示内容</span><br></pre></td></tr></table></figure>
+
+<h2 id="head、tail"><a href="#head、tail" class="headerlink" title="head、tail"></a>head、tail</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">head file （显示文件file的前10行）</span><br><span class="line">tail file （显示文件file的最后10行）</span><br><span class="line">tail -n 20 file （显示文件file的最后20行）</span><br><span class="line">tail -f 20 file (实时显示文件最新追加的20行内容)</span><br></pre></td></tr></table></figure>
+
+<h2 id="vim"><a href="#vim" class="headerlink" title="vim"></a>vim</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">一般模式：</span><br><span class="line">上下翻页：Ctrl+f、Ctrl+b、</span><br><span class="line">跳到当前行最后字符处：Fn+右键</span><br><span class="line">跳到当前行最前面字符处：Fn+左键、0</span><br><span class="line">查找字符images：/image  n继续查找</span><br><span class="line">删除行：dd ndd（n代表删除或复制的行数）</span><br><span class="line">复制行：yy  nyy</span><br><span class="line">粘贴行：p、P</span><br><span class="line">复原前一个操作：u</span><br><span class="line">重做上一个操作：ctrl+r</span><br><span class="line">显示行号：:set nu</span><br><span class="line">字符全局替换：:%s/foo/bar/g  :&#123;作用范围&#125;s/&#123;目标&#125;/&#123;替换&#125;/&#123;替换标志&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">从远程拷贝目录到本地</span><br><span class="line">scp -r root@10.10.10.10:/opt/soft/mongodb /opt/soft/ </span><br><span class="line">上传本地目录到远程机器指定目录</span><br><span class="line">scp -r /opt/soft/mongodb root@10.10.10.10:/opt/soft/scptest</span><br></pre></td></tr></table></figure>
+
+<h2 id="chmod、chown"><a href="#chmod、chown" class="headerlink" title="chmod、chown"></a>chmod、chown</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">chmod 修改一个文件的权限</span><br><span class="line">chown 修改一个文件所归属的用户或组</span><br><span class="line">以 README.md 文件为例，文件权限中有三组内容：</span><br><span class="line">第一组内容（rw）表示该文件在当前用户下的权限,d代表是目录</span><br><span class="line">第二组内容（r）表示在同组下的权限</span><br><span class="line">第三组内容（r）表示不在同组下其他方的权限。而 r 表示可读，w 表示可写，x 表示文件可执行。</span><br><span class="line">localhost:wise2c-robot liaoxb$ ls -l</span><br><span class="line">total 1216</span><br><span class="line">-rw-r--r--   1 liaoxb  staff     515 11  5 14:36 Dockerfile</span><br><span class="line">drwxr-xr-x   6 liaoxb  staff     192 11  5 14:36 Project</span><br><span class="line">-rw-r--r--   1 liaoxb  staff    1404 11  5 14:36 README.md</span><br><span class="line">drwxr-xr-x  25 liaoxb  staff     800 12 13 18:36 libspecs</span><br><span class="line">-rw-r--r--   1 liaoxb  staff  250147 12 20 17:02 log.html</span><br><span class="line">-rw-r--r--   1 liaoxb  staff   61616 12 20 17:02 output.xml</span><br><span class="line">-rw-r--r--   1 liaoxb  staff    1405 12 20 15:01 red.xml</span><br><span class="line">-rw-r--r--   1 liaoxb  staff  230561 12 20 17:02 report.html</span><br><span class="line">-rw-r--r--   1 liaoxb  staff     229 12 20 12:44 requirements.txt</span><br></pre></td></tr></table></figure>
+
+<h1 id="进程和网络管理"><a href="#进程和网络管理" class="headerlink" title="进程和网络管理"></a>进程和网络管理</h1><h2 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef 报告当前系统的进程状态。用户的 UID，进程的PID，父进程的PPID，以及进程开始的时间，运行参数等信息</span><br></pre></td></tr></table></figure>
+
+<h2 id="top"><a href="#top" class="headerlink" title="top"></a>top</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top 显示负载情况，当前用户，启动时间，相关的任务树，以及内存，进程的一些数据等，同样也包含 PID、USER、内存、共享内存，CPU 占比等全部信息</span><br></pre></td></tr></table></figure>
+
+<h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">有时进程之间需要通信，需要开启一个socket，socket就是对外建立连接的一个窗口，然后借助TCP协议进行通信。但进行通信之前首先需要进程开启一个端口，这时就可以通过netstat命令查看开启的端口以及由哪个进程开启</span><br><span class="line">netstat -anlp</span><br><span class="line"></span><br><span class="line">-t或--tcp：显示TCP传输协议的连线状况；</span><br><span class="line">-u或--udp：显示UDP传输协议的连线状况；</span><br><span class="line">-n或--numeric：直接使用ip地址，而不通过域名服务器；</span><br><span class="line">-l或--listening：显示监控中的服务器的Socket</span><br><span class="line">-p或--programs：显示正在使用Socket的程序识别码和程序名称；</span><br></pre></td></tr></table></figure>
+
+<h2 id="ss"><a href="#ss" class="headerlink" title="ss"></a>ss</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ss 可以用来获取socket统计信息，它可以显示和netstat类似的内容。但ss的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效</span><br></pre></td></tr></table></figure>
+
+<h1 id="系统管理命令"><a href="#系统管理命令" class="headerlink" title="系统管理命令"></a>系统管理命令</h1><h2 id="du"><a href="#du" class="headerlink" title="du"></a>du</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">du -sh 对文件和目录磁盘使用的空间总量的查看</span><br></pre></td></tr></table></figure>
+
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -d -n 60 &quot;free -h&quot; 每分钟动态监测主机内存的使用情况</span><br></pre></td></tr></table></figure>
+
+<h2 id="who"><a href="#who" class="headerlink" title="who"></a>who</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">显示在线登陆用户</span><br></pre></td></tr></table></figure>
+
+<h2 id="whoami"><a href="#whoami" class="headerlink" title="whoami"></a>whoami</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">显示当前操作用户</span><br></pre></td></tr></table></figure>
+
+<h2 id="uname"><a href="#uname" class="headerlink" title="uname"></a>uname</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r 显示linux内核版本</span><br></pre></td></tr></table></figure>
+
+<h2 id="rpm"><a href="#rpm" class="headerlink" title="rpm"></a>rpm</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa 列出所有安装过的包</span><br><span class="line">rpm -ql nfs-utils-1.3.0-0.54.el7.x86_64 获取rpm包中的文件安装路径</span><br><span class="line">rpm -ivh your-package.rpm 安装rpm软件包</span><br></pre></td></tr></table></figure>
+
+<h2 id="alias"><a href="#alias" class="headerlink" title="alias"></a>alias</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">alias showmeit=&quot;ps -aux&quot; 命令重命名</span><br><span class="line">unaliax showmeit 解除使用</span><br></pre></td></tr></table></figure>
+
+<h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">nohup command &gt; myout.file 2&gt;&amp;1 &amp;</span><br><span class="line">stderr和stdout被重定向到myout.file文件中</span><br><span class="line">使用Ctrl + C发送SIGINT信号，程序关闭；</span><br><span class="line">关闭session发送SIGHUP信号，程序免疫；</span><br><span class="line">平时经常使用nohup和&amp;配合来启动程序。双同免疫</span><br></pre></td></tr></table></figure>
+
+<h2 id="script"><a href="#script" class="headerlink" title="script"></a>script</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">script -q myfile 静默模式记录，exit 退出记录</span><br></pre></td></tr></table></figure>
+
+<h2 id="crontab"><a href="#crontab" class="headerlink" title="crontab"></a>crontab</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"> crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：minute   hour   day   month   week   command</span><br><span class="line"> </span><br><span class="line">   每五分钟执行  */5 * * * *</span><br><span class="line"></span><br><span class="line">   每小时执行  0 * * * *</span><br><span class="line"></span><br><span class="line">   每天执行    0 0 * * *</span><br><span class="line">   </span><br><span class="line">   每周六、周日的1:10重启smb *10 1 * * 6,0 /etc/init.d/smb restart*</span><br><span class="line"></span><br><span class="line"> 创建cron脚本用法</span><br><span class="line"></span><br><span class="line">- 第一步，vi创建cron脚本,命名为crontest.cron，写入命令*0 9 * * * echo &quot;Good morning.&quot; &gt;&gt; /tmp/test.txt* 每天早上9点执行打印一次命令</span><br><span class="line">- 第二步：添加定时任务。执行命令 *crontab crontest.cron* 搞定</span><br><span class="line">- 第三步：*crontab -l* 查看定时任务是否成功或者检测/var/spool/cron下是否生成对应cron脚本</span><br><span class="line"> </span><br><span class="line"> 其它用法</span><br><span class="line"></span><br><span class="line">- *crontab -r* 删除该用户的定时任务</span><br><span class="line">- *crontab -e* 编辑该用户的定时任务</span><br></pre></td></tr></table></figure>
+
+<h2 id="wget"><a href="#wget" class="headerlink" title="wget"></a>wget</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">下载harbor安装包，默认会以最后一个符合/的后面的字符来命令</span><br><span class="line">wget https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.1.tgz </span><br><span class="line"></span><br><span class="line">下载并以不同的文件名保存</span><br><span class="line">wget -O harbor.tgz https://storage.googleapis.com/harbor-releases/release-1.7.0/harbor-offline-installer-v1.7.1.tgz</span><br><span class="line">后台下载</span><br><span class="line">wget -b url</span><br></pre></td></tr></table></figure>
+
+<p>linux命令大全汇总 <a target="_blank" rel="noopener" href="http://man.linuxde.net/netstat">http://man.linuxde.net/netstat</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2024/12/29/linux-cmd/" data-id="cm59qcp3c0000c7ji3t1g5p1g" data-title="linux实用命令" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2024/12/29/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2024/12/">December 2024</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2024/12/29/linux-cmd/">linux实用命令</a>
+          </li>
+        
+          <li>
+            <a href="/2024/12/29/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2024 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
