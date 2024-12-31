@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="需求背景1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台 安装和配置Jenkinsjenkins容器安装12# 在docker主机上执行命令：do">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Jenkins搭建CI自动化测试">
+<meta property="og:url" content="http://example.com/2019/03/29/jenkins-ci-apitest/index.html">
+<meta property="og:site_name" content="liaoxb&#39;s blog">
+<meta property="og:description" content="需求背景1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台 安装和配置Jenkinsjenkins容器安装12# 在docker主机上执行命令：do">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk01.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk02.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk03.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk09.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk05.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk04.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk07.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk06.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk08.png?raw=true">
+<meta property="article:published_time" content="2019-03-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2024-12-31T14:57:40.001Z">
+<meta property="article:author" content="liaoxb">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk01.png?raw=true">
+
+
+<link rel="canonical" href="http://example.com/2019/03/29/jenkins-ci-apitest/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/03/29/jenkins-ci-apitest/","path":"2019/03/29/jenkins-ci-apitest/","title":"使用Jenkins搭建CI自动化测试"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用Jenkins搭建CI自动化测试 | liaoxb's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">liaoxb's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">需求背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AEJenkins"><span class="nav-number">2.</span> <span class="nav-text">安装和配置Jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jenkins%E5%AE%B9%E5%99%A8%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.</span> <span class="nav-text">jenkins容器安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%82%AE%E4%BB%B6%E9%80%9A%E7%9F%A5"><span class="nav-number">2.2.</span> <span class="nav-text">配置邮件通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6robot-framework"><span class="nav-number">2.3.</span> <span class="nav-text">安装插件robot-framework</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E5%86%99Pipeline%E8%84%9A%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">编写Pipeline脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#webhook%E8%87%AA%E5%8A%A8%E8%A7%A6%E5%8F%91Jenkins-pipeline"><span class="nav-number">4.</span> <span class="nav-text">webhook自动触发Jenkins pipeline</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E6%8A%A5%E5%91%8A%E5%B1%95%E7%A4%BA"><span class="nav-number">5.</span> <span class="nav-text">测试结果报告展示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E6%94%B9%E8%BF%9B"><span class="nav-number">6.</span> <span class="nav-text">持续改进</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">liaoxb</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">标签</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/29/jenkins-ci-apitest/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用Jenkins搭建CI自动化测试 | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Jenkins搭建CI自动化测试
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-03-29 00:00:00" itemprop="dateCreated datePublished" datetime="2019-03-29T00:00:00+08:00">2019-03-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2024-12-31 22:57:40" itemprop="dateModified" datetime="2024-12-31T22:57:40+08:00">2024-12-31</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试<br>2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台</p>
+<h1 id="安装和配置Jenkins"><a href="#安装和配置Jenkins" class="headerlink" title="安装和配置Jenkins"></a>安装和配置Jenkins</h1><h2 id="jenkins容器安装"><a href="#jenkins容器安装" class="headerlink" title="jenkins容器安装"></a>jenkins容器安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 在docker主机上执行命令：</span><br><span class="line">docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可。<br>docker run参数的具体说明请看官方文档，介绍得很详细。<a target="_blank" rel="noopener" href="https://jenkins.io/zh/doc/book/installing/">https://jenkins.io/zh/doc/book/installing/</a></p>
+</blockquote>
+<p>执行命令截图：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk01.png?raw=true" alt="jk.png"></p>
+<p>为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk02.png?raw=true" alt="jk.png"></p>
+<h2 id="配置邮件通知"><a href="#配置邮件通知" class="headerlink" title="配置邮件通知"></a>配置邮件通知</h2><p>这里特别注意的是密码应该填qq邮箱的授权码，填写完毕测试一下邮件发送成功即可<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk03.png?raw=true" alt="jk.png"></p>
+<h2 id="安装插件robot-framework"><a href="#安装插件robot-framework" class="headerlink" title="安装插件robot-framework"></a>安装插件robot-framework</h2><p>由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装这个插件。该插件在Jenkins中收集并发布Robot Framework测试结果。bfyrjbqkzqvaibjd<br>至此，jenkins的基本配置工作就算完了，接下来最核心就是编写pipeline脚本。</p>
+<h1 id="编写Pipeline脚本"><a href="#编写Pipeline脚本" class="headerlink" title="编写Pipeline脚本"></a>编写Pipeline脚本</h1><p>直接贴脚本，pipeline支持的语法请查看官方手册。</p>
+<p>pipeline流程图：</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk09.png?raw=true" alt="jk.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    options &#123;</span><br><span class="line">        // 添加日志打印时间</span><br><span class="line">        timestamps()</span><br><span class="line">        // 设置全局超时间</span><br><span class="line">        // timeout(time:10,unit:&#x27;MINUTES&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">    environment &#123;</span><br><span class="line">        // GIT_BRANCH = &#x27;master&#x27; # 已设置全局变量</span><br><span class="line">        GIT_USER_ID = &#x27;76f84542-2dba-4128-8651-bed7a849eddd&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(&#x27;Git Clone&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                // sh  &#x27;printenv |sort&#x27;</span><br><span class="line">                git branch: &quot;$&#123;GIT_BRANCH&#125;&quot;, credentialsId: &quot;$&#123;GIT_USER_ID&#125;&quot;, url: &#x27;https://gitee.com/wisecloud/wise2c-robot.git&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(&#x27;Build Image&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh &#x27;docker build -t $&#123;JOB_NAME&#125;:$&#123;GIT_BRANCH&#125; .&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(&#x27;API Test&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                script&#123;</span><br><span class="line">                    sh &#x27;ls -a&#x27;</span><br><span class="line">                    sh &#x27;docker run --rm -v jenkins-data:/robot-results --name $&#123;JOB_NAME&#125; $&#123;JOB_NAME&#125;:$&#123;GIT_BRANCH&#125; robot --outputdir /robot-results /wise2c-robot/Project/Suites/resource_manager.robot&#x27;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    post &#123;</span><br><span class="line">        always &#123;</span><br><span class="line">            echo &#x27;Publish Test Report&#x27;</span><br><span class="line">            robot logFileName: &#x27;log.html&#x27;, outputFileName: &#x27;output.xml&#x27;, outputPath: &#x27;/var/jenkins_home/&#x27;, passThreshold: 100.0, reportFileName: &#x27;report.html&#x27;, unstableThreshold: 90.0</span><br><span class="line">            // deleteDir() /* clean up our workspace */</span><br><span class="line">        &#125;</span><br><span class="line">        success &#123;</span><br><span class="line">            mail bcc: &#x27;&#x27;, body: &quot;API自动化测试通过\n测试版本分支：$&#123;GIT_BRANCH&#125;\n测试报告地址：$&#123;BUILD_URL&#125;&quot;, cc: &#x27;&#x27;, from: &#x27;1219199895@qq.com&#x27;, replyTo: &#x27;&#x27;, subject: &quot;$&#123;JOB_NAME&#125;测试报告&quot;, to: &#x27;liaoxb@wise2c.com&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">        failure &#123;</span><br><span class="line">            mail bcc: &#x27;&#x27;, body: &quot;API自动化测试未通过，请相关模块的同事分析定位问题，谢谢大家。\n测试版本分支：$&#123;GIT_BRANCH&#125;\n测试报告地址：$&#123;BUILD_URL&#125;&quot;, cc: &#x27;&#x27;, from: &#x27;1219199895@qq.com&#x27;, replyTo: &#x27;&#x27;, subject: &quot;$&#123;JOB_NAME&#125;测试报告&quot;, to: &#x27;liaoxb@wise2c.com&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="webhook自动触发Jenkins-pipeline"><a href="#webhook自动触发Jenkins-pipeline" class="headerlink" title="webhook自动触发Jenkins pipeline"></a>webhook自动触发Jenkins pipeline</h1><p>1、新建pipeline时，构建触发器选择‘触发远程构建’这项，输入token name。比如apitest<br>这时就可以获得一个webhhok地址，提供给维护CICD平台的同事即可。<br>2、把pipeline脚本内容粘贴到流水线里，检查下有没有语法错误，最后点击保存<br>3、现在可以用curl模拟发送一次webhhok请求，不过记得临时把全局安全配置里的授权策略给放开，改成没有任何限制。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl JENKINS_URL/job/wise2c-robot/build?token=TOKEN_NAME</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk05.png?raw=true" alt="jk.png"></p>
+<h1 id="测试结果报告展示"><a href="#测试结果报告展示" class="headerlink" title="测试结果报告展示"></a>测试结果报告展示</h1><p>job首页测试结果展示，失败了1条case，同时收到了一封关于api测试失败的邮件通知：</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk04.png?raw=true" alt="jk.png"><br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk07.png?raw=true" alt="jk.png"></p>
+<p>测试结果详情页面展示，点击log.html链接可以直接查看日志；</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk06.png?raw=true" alt="jk.png"><br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk08.png?raw=true" alt="jk.png"></p>
+<p>注：如果到打开失败，可以参考这个解决办法。<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed">https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed</a><br>管理jenkins–&gt;脚本命令行输入如下脚本:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">System.setProperty(&quot;hudson.model.DirectoryBrowserSupport.CSP&quot;,&quot;sandbox allow-scripts; default-src &#x27;none&#x27;; img-src &#x27;self&#x27; data: ; style-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; data: ; script-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; ;&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="持续改进"><a href="#持续改进" class="headerlink" title="持续改进"></a>持续改进</h1><p>1、目前创建的wise2c-robot任务脚本数量500+，全部跑完至少需要2个小时，后期打算按模块拆分成多个子任务job，并行执行测试。</p>
+<p>2、邮件通知的正文内容过于简单，希望能把每条case的执行结果直接展示出来</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/04/2019-03-04-Kubernetes%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/" rel="prev" title="Kubernetes集群监控">
+                  <i class="fa fa-angle-left"></i> Kubernetes集群监控
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/12/01/kubernetes-deploy/" rel="next" title="使用kubeadm部署K8S集群v1.16.4">
+                  使用kubeadm部署K8S集群v1.16.4 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">liaoxb</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
