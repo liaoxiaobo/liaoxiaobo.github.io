@@ -22,7 +22,7 @@
     <meta name="description" content="在实际工作中，通过prometheus监控的主要对象有如下几个：  基础设施层：主要是监控k8s节点资源，如CPU,内存,网络吞吐和带宽占用,磁盘I&#x2F;O和磁盘使用等指标； 中间件层：监控产品使用到的中间件（一般会独立部署在外部集群），主要有consul、mysql、nats、redis、haproxy Kubernetes集群：监控Kubernetes集群本身的关键指标 Kubernet">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kubernetes集群监控">
-<meta property="og:url" content="http://example.com/2019/03/04/2019-03-04-Kubernetes%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/index.html">
+<meta property="og:url" content="http://example.com/2019/03/04/kubernetes_monitor/index.html">
 <meta property="og:site_name" content="liaoxb&#39;s blog">
 <meta property="og:description" content="在实际工作中，通过prometheus监控的主要对象有如下几个：  基础设施层：主要是监控k8s节点资源，如CPU,内存,网络吞吐和带宽占用,磁盘I&#x2F;O和磁盘使用等指标； 中间件层：监控产品使用到的中间件（一般会独立部署在外部集群），主要有consul、mysql、nats、redis、haproxy Kubernetes集群：监控Kubernetes集群本身的关键指标 Kubernet">
 <meta property="og:locale" content="zh_CN">
@@ -41,10 +41,10 @@
 <meta name="twitter:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/prometheus/image1.png?raw=true">
 
 
-<link rel="canonical" href="http://example.com/2019/03/04/2019-03-04-Kubernetes%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/">
+<link rel="canonical" href="http://example.com/2019/03/04/kubernetes_monitor/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/03/04/2019-03-04-Kubernetes%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/","path":"2019/03/04/2019-03-04-Kubernetes集群监控/","title":"Kubernetes集群监控"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/03/04/kubernetes_monitor/","path":"2019/03/04/kubernetes_monitor/","title":"Kubernetes集群监控"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Kubernetes集群监控 | liaoxb's blog</title>
@@ -125,7 +125,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -161,7 +161,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/04/2019-03-04-Kubernetes%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/04/kubernetes_monitor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -313,8 +313,8 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2019/03/29/jenkins-ci-apitest/" rel="next" title="使用Jenkins搭建CI自动化测试">
-                  使用Jenkins搭建CI自动化测试 <i class="fa fa-angle-right"></i>
+                <a href="/2019/03/29/jenkins-ci-autotest/" rel="next" title="使用Jenkins工具集成自动化测试">
+                  使用Jenkins工具集成自动化测试 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -335,7 +335,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>

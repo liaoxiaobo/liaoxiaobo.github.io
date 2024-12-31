@@ -111,7 +111,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -227,7 +227,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/23/selenium-grid/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/12/20/autotest_by_rf/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -245,7 +245,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/07/23/selenium-grid/" class="post-title-link" itemprop="url">selenium-grid实践</a>
+          <a href="/2020/12/20/autotest_by_rf/" class="post-title-link" itemprop="url">自动化测试实战总结-Robot Framework</a>
         </h2>
 
         <div class="post-meta-container">
@@ -256,14 +256,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-07-23 00:00:00" itemprop="dateCreated datePublished" datetime="2020-07-23T00:00:00+08:00">2020-07-23</time>
+      <time title="创建时间：2020-12-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-12-20T00:00:00+08:00">2020-12-20</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-12-31 22:54:56" itemprop="dateModified" datetime="2024-12-31T22:54:56+08:00">2024-12-31</time>
+      <time title="修改时间：2025-01-01 02:37:41" itemprop="dateModified" datetime="2025-01-01T02:37:41+08:00">2025-01-01</time>
     </span>
 
   
@@ -276,43 +276,85 @@
     
     
     <div class="post-body" itemprop="articleBody">
-          <p>1、镜像分类</p>
-<blockquote>
-<p>hub 是集中管理节点，集中对外提供服务。node 是分布式的浏览器节点，受 hub 节点的控制。</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">使用的镜像：</span><br><span class="line">selenium/hub:Selenium Grid Hub 节点</span><br><span class="line">selenium/node-chrome:安装有 Chrome 的 Selenium Node 节点镜像</span><br><span class="line">selenium/node-firefox:安装有 Firefox 的 Selenium Node 节点镜像</span><br><span class="line">selenium/node-chrome-debug: 安装有 Chrome 的 Selenium Node 节点镜像，包含远程桌面</span><br><span class="line">selenium/node-firefox-debug: 安装有 Firefox 的 Selenium Node 节点镜像，包含远程桌面</span><br></pre></td></tr></table></figure>
-
-<p>2、使用场景</p>
-<blockquote>
-<p>解决重复执行测试,解决多浏览器兼容测试</p>
-</blockquote>
-<blockquote>
-<p>分布式执行，减少测试运行时间</p>
-</blockquote>
-<p>3、安装部署</p>
-<blockquote>
-<p>docker方式安装</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p 4444:4444 --name selenium-hub selenium/hub</span><br><span class="line"></span><br><span class="line">docker run -d --name node-chrome --link selenium-hub:hub selenium/node-chrome</span><br><span class="line"></span><br><span class="line">docker run -d --name node-firefox --link selenium-hub:hub selenium/node-firefox</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>docker-compose方式安装</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">version: &quot;3&quot;</span><br><span class="line">services:</span><br><span class="line">  selenium-hub:</span><br><span class="line">    image: selenium/hub</span><br><span class="line">    container_name: selenium-hub</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;4444:4444&quot;</span><br><span class="line"></span><br><span class="line">  chrome:</span><br><span class="line">    image: selenium/node-chrome</span><br><span class="line">    volumes:</span><br><span class="line">      - /dev/shm:/dev/shm</span><br><span class="line">    depends_on:</span><br><span class="line">      - selenium-hub</span><br><span class="line">    environment:</span><br><span class="line">      - HUB_HOST=selenium-hub</span><br><span class="line">    #ports:</span><br><span class="line">    #  - &quot;5900:5900&quot; # for VNC viewer</span><br><span class="line"></span><br><span class="line">  firefox:</span><br><span class="line">    image: selenium/node-firefox</span><br><span class="line">    volumes:</span><br><span class="line">      - /dev/shm:/dev/shm</span><br><span class="line">    depends_on:</span><br><span class="line">      - selenium-hub</span><br><span class="line">    environment:</span><br><span class="line">      - HUB_HOST=selenium-hub</span><br><span class="line"></span><br><span class="line"># 检查运行状态</span><br><span class="line">localhost% docker ps</span><br><span class="line">CONTAINER ID        IMAGE                   COMMAND                  CREATED             STATUS              PORTS                     NAMES</span><br><span class="line">6d4640a22a4f        selenium/node-firefox   &quot;/opt/bin/entry_poin…&quot;   15 minutes ago      Up 15 minutes                                 node-firefox</span><br><span class="line">ff2fe54541ea        selenium/node-chrome    &quot;/opt/bin/entry_poin…&quot;   16 minutes ago      Up 16 minutes                                 node-chrome</span><br><span class="line">18d02a1b37bd        selenium/hub            &quot;/opt/bin/entry_poin…&quot;   19 minutes ago      Up 19 minutes       0.0.0.0:4444-&gt;4444/tcp   selenium-hub</span><br></pre></td></tr></table></figure>
-
-<p>4、运行测试脚本</p>
-<blockquote>
-<p>当部署带debug的浏览器镜像，通过主机ports暴露和vnc命令就可以打开浏览器进行调试<br>open vnc:&#x2F;&#x2F;:<a href="mailto:secret@192.168.1.100">secret@192.168.1.100</a>:5900</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"># 脚本里通过browserName指定测试浏览器</span><br><span class="line"></span><br><span class="line">localhost% cat grid_demo.py</span><br><span class="line">from selenium import webdriver</span><br><span class="line">from time import sleep</span><br><span class="line"></span><br><span class="line">driver = webdriver.Remote(</span><br><span class="line">command_executor=&#x27;http://127.0.0.1:4444/wd/hub&#x27;,</span><br><span class="line">desired_capabilities=&#123;&#x27;browserName&#x27;: &#x27;chrome&#x27;&#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">driver.get(&#x27;https://www.baidu.com&#x27;)</span><br><span class="line">print(&quot;get baidu&quot;)</span><br><span class="line"></span><br><span class="line">driver.find_element_by_id(&quot;kw&quot;).send_keys(&quot;hello selenium&quot;)</span><br><span class="line">driver.find_element_by_id(&quot;su&quot;).click()</span><br><span class="line"></span><br><span class="line">sleep(1)</span><br><span class="line"></span><br><span class="line">driver.get_screenshot_as_file(&quot;./baidu_img.png&quot;)</span><br><span class="line"></span><br><span class="line">driver.quit()</span><br><span class="line">print(&quot;end...&quot;)</span><br><span class="line"></span><br><span class="line">localhost% python grid_demo.py</span><br><span class="line">get baidu</span><br><span class="line">end...</span><br></pre></td></tr></table></figure>
-
-<p>5、查看hub容器运行日志</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">localhost% docker logs -f 18d02a1b37bd</span><br><span class="line">2020-07-22 10:14:33,369 INFO Included extra file &quot;/etc/supervisor/conf.d/selenium-hub.conf&quot; during parsing</span><br><span class="line">2020-07-22 10:14:33,371 INFO supervisord started with pid 8</span><br><span class="line">2020-07-22 10:14:34,379 INFO spawned: &#x27;selenium-hub&#x27; with pid 11</span><br><span class="line">Starting Selenium Hub with configuration:</span><br><span class="line">2020-07-22 10:14:34,394 INFO success: selenium-hub entered RUNNING state, process has stayed up for &gt; than 0 seconds (startsecs)</span><br><span class="line">&#123;</span><br><span class="line">  &quot;host&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">  &quot;port&quot;: 4444,</span><br><span class="line">  &quot;role&quot;: &quot;hub&quot;,</span><br><span class="line">  &quot;maxSession&quot;: 5,</span><br><span class="line">  &quot;newSessionWaitTimeout&quot;: -1,</span><br><span class="line">  &quot;capabilityMatcher&quot;: &quot;org.openqa.grid.internal.utils.DefaultCapabilityMatcher&quot;,</span><br><span class="line">  &quot;throwOnCapabilityNotPresent&quot;: true,</span><br><span class="line">  &quot;jettyMaxThreads&quot;: -1,</span><br><span class="line">  &quot;cleanUpCycle&quot;: 5000,</span><br><span class="line">  &quot;browserTimeout&quot;: 0,</span><br><span class="line">  &quot;timeout&quot;: 1800,</span><br><span class="line">  &quot;debug&quot;: false</span><br><span class="line">&#125;</span><br><span class="line">10:14:34.882 INFO [GridLauncherV3.parse] - Selenium server version: 3.141.59, revision: e82be7d358</span><br><span class="line">10:14:35.082 INFO [GridLauncherV3.lambda$buildLaunchers$5] - Launching Selenium Grid hub on port 4444</span><br><span class="line">2020-07-22 10:14:35.587:INFO::main: Logging initialized @1187ms to org.seleniumhq.jetty9.util.log.StdErrLog</span><br><span class="line">10:14:35.905 INFO [Hub.start] - Selenium Grid hub is up and running</span><br><span class="line">10:14:35.907 INFO [Hub.start] - Nodes should register to http://172.17.0.2:4444/grid/register/</span><br><span class="line">10:14:35.907 INFO [Hub.start] - Clients should connect to http://172.17.0.2:4444/wd/hub</span><br><span class="line">10:15:53.376 INFO [DefaultGridRegistry.add] - Registered a node http://172.17.0.3:5555</span><br><span class="line">10:17:20.131 INFO [DefaultRemoteProxy.onEvent] - Marking the node http://172.17.0.3:5555 as down: cannot reach the node for 2 tries</span><br><span class="line">10:17:23.039 INFO [DefaultGridRegistry.add] - Registered a node http://172.17.0.3:5555</span><br><span class="line">10:17:23.046 WARN [DefaultGridRegistry.removeIfPresent] - Cleaning up stale test sessions on the unregistered node http://172.17.0.3:5555</span><br><span class="line">10:18:28.156 INFO [DefaultGridRegistry.add] - Registered a node http://172.17.0.4:5555</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">10:35:10.016 INFO [RequestHandler.process] - Got a request to create a new session: Capabilities &#123;browserName: firefox&#125;</span><br><span class="line">10:35:10.024 INFO [TestSlot.getNewSession] - Trying to create a new session on test slot &#123;server:CONFIG_UUID=77d8f1a3-4df1-417a-b274-e8e30d1e4de1, seleniumProtocol=WebDriver, browserName=firefox, maxInstances=1, moz:firefoxOptions=&#123;log=&#123;level=info&#125;&#125;, platformName=LINUX, version=68.0.1, applicationName=, platform=LINUX&#125;</span><br><span class="line"></span><br><span class="line">10:36:01.160 INFO [RequestHandler.process] - Got a request to create a new session: Capabilities &#123;browserName: chrome&#125;</span><br><span class="line">10:36:01.165 INFO [TestSlot.getNewSession] - Trying to create a new session on test slot &#123;server:CONFIG_UUID=5f3ba141-2be6-438a-91a3-fc5b4f60224a, seleniumProtocol=WebDriver, browserName=chrome, maxInstances=1, platformName=LINUX, version=76.0.3809.87, applicationName=, platform=LINUX&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<p>6、node浏览器参数解析</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">browserTimeout: 0</span><br><span class="line"></span><br><span class="line">debug: false</span><br><span class="line"></span><br><span class="line">jettyMaxThreads: -1</span><br><span class="line"></span><br><span class="line">host: 172.17.0.3</span><br><span class="line"></span><br><span class="line">port: 5555</span><br><span class="line"></span><br><span class="line">role: node      # 表示启动的是node节点</span><br><span class="line"></span><br><span class="line">timeout: 1800</span><br><span class="line"></span><br><span class="line">cleanUpCycle: 5000</span><br><span class="line"></span><br><span class="line">maxSession: 1       # node节点最大会话请求</span><br><span class="line"></span><br><span class="line">capabilities: Capabilities &#123;applicationName: , browserName: chrome, maxInstances: 1, platform: LINUX, platformName: LINUX, seleniumProtocol: WebDriver, server:CONFIG_UUID: 5f3ba141-2be6-438a-91a3-fc5..., version: 76.0.3809.87&#125;</span><br><span class="line"></span><br><span class="line">downPollingLimit: 2</span><br><span class="line"></span><br><span class="line">hub: http://172.17.0.2:4444/grid/register   # 表示hub机地址</span><br><span class="line"></span><br><span class="line">id: http://172.17.0.3:5555</span><br><span class="line"></span><br><span class="line">nodePolling: 5000</span><br><span class="line"></span><br><span class="line">nodeStatusCheckTimeout: 5000</span><br><span class="line"></span><br><span class="line">proxy: org.openqa.grid.selenium.proxy.DefaultRemoteProxy</span><br><span class="line"></span><br><span class="line">register: true</span><br><span class="line"></span><br><span class="line">registerCycle: 5000</span><br><span class="line"></span><br><span class="line">remoteHost: http://172.17.0.3:5555</span><br><span class="line"></span><br><span class="line">unregisterIfStillDownAfter: 60000</span><br></pre></td></tr></table></figure>
+          <p>自动化测试跟其它任何一种测试类型（比如异常测试、稳定性测试、性能测试等）都是类似的，它也是一种测试类型而已。在开展测试之前，我们首先必须要明确自动化测试的需求是什么，要解决什么样的问题。</p>
+<h2 id="一、明确需求"><a href="#一、明确需求" class="headerlink" title="一、明确需求"></a>一、明确需求</h2><p>核心需求：“自动化”代替“手动”，提高测试效率</p>
+<p>核心理念：</p>
+<p>1、明确自动化收益。即每完成一条自动化用例，就减少了一条手工用例的执行时间。</p>
+<p>2、每次回归或上线验证必须执行的用例优先自动化，让自动化收益最大化</p>
+<p>3、确保新增用例是稳定100%通过前提下才被增加至用例集</p>
+<p>4、自动化不可能完全代替手动</p>
+<p>5、不要让环境问题成为瓶颈</p>
+<h2 id="二、技术选型"><a href="#二、技术选型" class="headerlink" title="二、技术选型"></a>二、技术选型</h2><p>1、首先要分析项目的架构和状况</p>
+<p>2、对于后端的服务，它如果是纯粹以接口的形式提供给其它组件去调用，那可以采取“接口自动化”</p>
+<p>3、对于Web产品，如果前后端都在测试的保障范围，而且前端页面相对比较稳定，可以考虑采用“UI自动化”</p>
+<p>4、最后测试技术栈选择python还是java，必须考虑团队成员的语言偏好和熟练程度</p>
+<h2 id="三、自动化实施过程"><a href="#三、自动化实施过程" class="headerlink" title="三、自动化实施过程"></a>三、自动化实施过程</h2><h3 id="实施目标"><a href="#实施目标" class="headerlink" title="实施目标"></a>实施目标</h3><ul>
+<li>同一份代码可以在多个集群执行</li>
+<li>各个集群的测试数据相互独立，不会互相影响</li>
+<li>可以方便地与数据库进行交互</li>
+<li>当用例执行出错时，有详细的日志帮助定位</li>
+<li>较好的可维护性和集群扩展性</li>
+</ul>
+<p>目前我跟的项目已经实现自动化的内容如下：</p>
+<ul>
+<li>基于接口的场景回归自动化测试</li>
+<li>编译部署过程自动化</li>
+<li>接入CICD平台跑自动化冒烟测试</li>
+</ul>
+<p>有计划未来要实现的自动化如下：</p>
+<ul>
+<li>接入CR平台（代码变更分析平台）的自动化</li>
+<li>对外&#x2F;上线打包发布的自动化</li>
+</ul>
+<h3 id="具体工作"><a href="#具体工作" class="headerlink" title="具体工作"></a>具体工作</h3><p>框架搭建时，主要用了以下工具：</p>
+<ul>
+<li>gitee：管理多分支代码</li>
+<li>Robot Framework：作为测试框架</li>
+<li>docker：打包测试脚本和python包依赖，构建测试镜像</li>
+</ul>
+<p>配置数据管理</p>
+<ul>
+<li>目前是把不同的测试集群信息放在wisecloud.yaml文件里管理，另外basedata.py文件管理其它配置数据。比如公共登录账号、harbor地址账号等。</li>
+<li>配置读取：单独创建一个Rest类，并继承REST父类。get_baseurl实例方法会根据env_type变量值，去动态获取目标集群的访问地址、集群ip地址,并调用BuiltIn().set_global_variable方法去设为全局变量。供用例执行过程中使用</li>
+</ul>
+<p>分层设计与解耦</p>
+<ul>
+<li><p>用例、方法（关键字）、测试库分层</p>
+</li>
+<li><p>用例按模块划分成多个测试用例文件，集中放进测试套件Suites</p>
+</li>
+<li><p>方法按模块划分成多个资源文件，集中放进资源文件夹Resource</p>
+</li>
+<li><p>自定义创建测试库和方法，集中放进Library。以关键字的形式以供调用</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">├── Library</span><br><span class="line">│   ├── Basedata.py</span><br><span class="line">│   ├── Rest.py</span><br><span class="line">│   ├── ServiceAdd.py</span><br><span class="line">│   └── wisecloud.yaml</span><br><span class="line">├── Resource</span><br><span class="line">│   ├── BackupRestore.robot</span><br><span class="line">│   ├── Common.robot</span><br><span class="line">│   ├── Configcenter.robot</span><br><span class="line">│   ├── Dashboard.robot</span><br><span class="line">│   ├── Monitor.robot</span><br><span class="line">│   ├── Orche_App.robot</span><br><span class="line">│   ├── Orche_Stack.robot</span><br><span class="line">│   ├── Resource_Manager.robot</span><br><span class="line">│   ├── Workflow.robot</span><br><span class="line">│   └── pipeline_workflow.robot</span><br><span class="line">├── Suites</span><br><span class="line">│   ├── backuprestore.robot</span><br><span class="line">│   ├── configcenter.robot</span><br><span class="line">│   ├── dashboard.robot</span><br><span class="line">│   ├── ingress</span><br><span class="line">│   │   └── ingress.robot</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="改进与提升"><a href="#改进与提升" class="headerlink" title="改进与提升"></a>改进与提升</h3><ul>
+<li>用例并发执行，解决用例耗时问题</li>
+<li>统一配置数据文件，放在资源文件夹里</li>
+<li>单例模式，解决用例频繁依赖登录接口组装header的问题</li>
+<li>解决一切脚本不稳定问题</li>
+</ul>
+<h2 id="四、自动化在研发阶段的应用"><a href="#四、自动化在研发阶段的应用" class="headerlink" title="四、自动化在研发阶段的应用"></a>四、自动化在研发阶段的应用</h2><h3 id="持续集成自动化测试"><a href="#持续集成自动化测试" class="headerlink" title="持续集成自动化测试"></a>持续集成自动化测试</h3><p>狭义的理解是每次开发提交代码，自动触发构建和测试。</p>
+<p>但是在实际项目中并不是这样玩的，实际落地的CI测试可能是每日1次或者每周1次，这完全取决于产品形态和团队的研发流程而定。</p>
+<h3 id="作为开发冒烟的一部分（未完成）"><a href="#作为开发冒烟的一部分（未完成）" class="headerlink" title="作为开发冒烟的一部分（未完成）"></a>作为开发冒烟的一部分（未完成）</h3><p>目前已经跟开发达成一致，开发非常欢迎将自动化用例接入到开发环境，用于他们每次变更时的环境正确性验证，可以尽早帮助他们发现研发过程中出现的问题。并且在提测前，只有100%通过自动化测试才可以进行提测。</p>
+<h2 id="五、自动化在测试阶段的应用"><a href="#五、自动化在测试阶段的应用" class="headerlink" title="五、自动化在测试阶段的应用"></a>五、自动化在测试阶段的应用</h2><h3 id="版本提测后的自动化回归验收"><a href="#版本提测后的自动化回归验收" class="headerlink" title="版本提测后的自动化回归验收"></a>版本提测后的自动化回归验收</h3><p>在开发提测后，我会自动化地完成以下事情：</p>
+<ul>
+<li>流水线拉取测试代码</li>
+<li>构建测试镜像</li>
+<li>执行自动化测试</li>
+<li>查看测试结果报告</li>
+</ul>
+<p>当自动化用例全部执行通过时，说明系统的核心功能回归没有问题，然后开始版本的细粒度功能的测试。</p>
+<h3 id="版本Bug修复后的回归验收"><a href="#版本Bug修复后的回归验收" class="headerlink" title="版本Bug修复后的回归验收"></a>版本Bug修复后的回归验收</h3><p>在测试过程中，开发肯定会经常修复bug重新提交代码，每次有代码重新提交时，我都可以自动编译部署pr镜像。</p>
+<h2 id="六、成效"><a href="#六、成效" class="headerlink" title="六、成效"></a>六、成效</h2><p>已实现的成效如下</p>
+<ul>
+<li>自动编译部署：测试过程中开发修复bug提交代码是非常频繁的，每次的手动编译部署可能都会耗费十几分钟，并且测试人员的关注点还不能离开。</li>
+<li>自动化回归测试：以前一次回归测试，需要QA持续地投入超过30分钟。现在通过一键执行，程序会自动地执行，时间控制在5分钟以内。且QA可以将注意力放到其它事情上。</li>
+</ul>
+<p>正在计划、可预见的成效：</p>
+<ul>
+<li>自动打包发布：目前都是人工利用shell脚本retag&amp;push版本镜像到发布仓库中，还必须把注意力投入其中去检查是否有遗漏。计划利用流水线job去做好这件事</li>
+</ul>
 
       
     </div>
@@ -339,7 +381,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/12/01/kubernetes-deploy/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/11/15/git_tool_note/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -357,7 +399,215 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/12/01/kubernetes-deploy/" class="post-title-link" itemprop="url">使用kubeadm部署K8S集群v1.16.4</a>
+          <a href="/2020/11/15/git_tool_note/" class="post-title-link" itemprop="url">Git工具-基础使用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-11-15 00:00:00" itemprop="dateCreated datePublished" datetime="2020-11-15T00:00:00+08:00">2020-11-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-01 02:31:09" itemprop="dateModified" datetime="2025-01-01T02:31:09+08:00">2025-01-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="代码拉取到本地"><a href="#代码拉取到本地" class="headerlink" title="代码拉取到本地"></a>代码拉取到本地</h3><h4 id="与主分支保持同步"><a href="#与主分支保持同步" class="headerlink" title="与主分支保持同步"></a>与主分支保持同步</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git pull origin main</span><br><span class="line">git checkout feature/my-new-feature</span><br><span class="line">git merge main</span><br></pre></td></tr></table></figure>
+<h4 id="代码拉取冲突处理"><a href="#代码拉取冲突处理" class="headerlink" title="代码拉取冲突处理"></a>代码拉取冲突处理</h4><p><strong>1、保留并继续合并代码</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">error: Your local changes to the following files would be overwritten by merge:</span><br><span class="line">	test.txt</span><br><span class="line">Please commit your changes or stash them before you merge.</span><br><span class="line">Aborting</span><br><span class="line">localhost:bookstore liaoxb$</span><br><span class="line">localhost:bookstore liaoxb$ echo &#x27;local change test&#x27; &gt; test.txt</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">error: Your local changes to the following files would be overwritten by merge:</span><br><span class="line">	test.txt</span><br><span class="line">Please commit your changes or stash them before you merge.</span><br><span class="line">Aborting</span><br></pre></td></tr></table></figure>
+
+<p>git stash 暂存本地的代码修改<br>git pull 拉取远端最新代码<br>git stash pop 合并暂存的本地代码，解决已冲突的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git stash</span><br><span class="line">Saved working directory and index state WIP on master: d369e85 update</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br><span class="line">localhost:bookstore liaoxb$ git stash pop</span><br><span class="line">Auto-merging test.txt</span><br><span class="line">CONFLICT (content): Merge conflict in test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、远端覆盖本地代码</strong></p>
+<p>git reset –hard 回滚到上个版本<br>git pull</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git reset --hard</span><br><span class="line">HEAD is now at d369e85 update</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建分支并推送到远端"><a href="#创建分支并推送到远端" class="headerlink" title="创建分支并推送到远端"></a>创建分支并推送到远端</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建新分支,同时切换到bugfix1</span></span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Already up to <span class="built_in">date</span>.</span><br><span class="line">localhost:bookstore liaoxb$ git checkout -b bugfix1</span><br><span class="line">Switched to a new branch <span class="string">&#x27;bugfix1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改并提交代码</span></span><br><span class="line">localhost:bookstore liaoxb$ <span class="built_in">echo</span> <span class="string">&#x27;bugfix test&#x27;</span> &gt; test.txt</span><br><span class="line">localhost:bookstore liaoxb$ git add .</span><br><span class="line">localhost:bookstore liaoxb$ git commit -m <span class="string">&quot;bugfix test&quot;</span></span><br><span class="line">[bugfix1 2eafe98] bugfix <span class="built_in">test</span></span><br><span class="line"> 1 file changed, 1 insertion(+), 3 deletions(-)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 新分支push到远端</span></span><br><span class="line">localhost:bookstore liaoxb$ git push --set-upstream origin bugfix1</span><br><span class="line">Counting objects: 3, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 8 threads.</span><br><span class="line">Compressing objects: 100% (2/2), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (3/3), 259 bytes | 259.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 3 (delta 1), reused 0 (delta 0)</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">remote: Create a pull request <span class="keyword">for</span> <span class="string">&#x27;bugfix1&#x27;</span> on Gitee by visiting:</span><br><span class="line">remote:     https://gitee.com/wisecloud/bookstore/pull/new/wisecloud:bugfix1...wisecloud:master</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line"> * [new branch]      bugfix1 -&gt; bugfix1</span><br><span class="line">Branch <span class="string">&#x27;bugfix1&#x27;</span> <span class="built_in">set</span> up to track remote branch <span class="string">&#x27;bugfix1&#x27;</span> from <span class="string">&#x27;origin&#x27;</span>.</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码合并到主分支"><a href="#代码合并到主分支" class="headerlink" title="代码合并到主分支"></a>代码合并到主分支</h3><h4 id="方法一：git-merge"><a href="#方法一：git-merge" class="headerlink" title="方法一：git merge"></a>方法一：git merge</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切至合并分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git branch</span><br><span class="line">* bugfix1</span><br><span class="line">  master</span><br><span class="line">localhost:bookstore liaoxb$ git checkout master</span><br><span class="line">Switched to branch <span class="string">&#x27;master&#x27;</span></span><br><span class="line">Your branch is up to <span class="built_in">date</span> with <span class="string">&#x27;origin/master&#x27;</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行合并操作</span></span><br><span class="line">localhost:bookstore liaoxb$ git merge bugfix1</span><br><span class="line">Updating d369e85..2eafe98</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 4 +---</span><br><span class="line"> 1 file changed, 1 insertion(+), 3 deletions(-)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># git push到远端</span></span><br><span class="line">localhost:bookstore liaoxb$ git push</span><br><span class="line">Total 0 (delta 0), reused 0 (delta 0)</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line">   d369e85..2eafe98  master -&gt; master</span><br></pre></td></tr></table></figure>
+
+<h4 id="方法二：git-cherry-pick"><a href="#方法二：git-cherry-pick" class="headerlink" title="方法二：git cherry-pick"></a>方法二：git cherry-pick</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换到master分支</span></span><br><span class="line">git checkout master</span><br><span class="line"></span><br><span class="line"><span class="comment"># Cherry pick 操作</span></span><br><span class="line">git cherry-pick &lt;commit_1&gt; &lt;commit_2&gt; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>执行合并操作期间，若遇到代码冲突，需要先解决后，才能继续合并提交</p>
+</blockquote>
+<h4 id="代码合并冲突处理"><a href="#代码合并冲突处理" class="headerlink" title="代码合并冲突处理"></a>代码合并冲突处理</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 解决完冲突后，将修改的文件重新加入暂存区</span></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 继续剩余的提交</span></span><br><span class="line">git cherry-pick --<span class="built_in">continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 遇到冲突，放弃合并，回到操作前的样子</span></span><br><span class="line">git cherry-pick --abort</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遇到冲突，放弃合并，不回到操作前的样子</span></span><br><span class="line">git cherry-pick --quit</span><br></pre></td></tr></table></figure>
+
+<h3 id="本地和远端删除已废弃分支"><a href="#本地和远端删除已废弃分支" class="headerlink" title="本地和远端删除已废弃分支"></a>本地和远端删除已废弃分支</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 删除远端分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/bugfix1</span><br><span class="line">  origin/master</span><br><span class="line">localhost:bookstore liaoxb$ git branch -d origin/bugfix1</span><br><span class="line">Deleted remote-tracking branch origin/bugfix1 (was 2eafe98).</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除本地分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git push origin --delete origin/bugfix1</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line"> - [deleted]         bugfix1</span><br><span class="line">localhost:bookstore liaoxb$ git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/master</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支引入错误代码，需要回滚"><a href="#分支引入错误代码，需要回滚" class="headerlink" title="分支引入错误代码，需要回滚"></a>分支引入错误代码，需要回滚</h3><p>回滚至某次commit，之后的所有commit全部会丢失</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard &lt;commit_id&gt;</span><br><span class="line">git push --force</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/02/20/paas_design/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/02/20/paas_design/" class="post-title-link" itemprop="url">PaaS平台架构设计概要</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-20 00:00:00" itemprop="dateCreated datePublished" datetime="2020-02-20T00:00:00+08:00">2020-02-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2025-01-01 01:29:20" itemprop="dateModified" datetime="2025-01-01T01:29:20+08:00">2025-01-01</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="为什么需要PaaS平台"><a href="#为什么需要PaaS平台" class="headerlink" title="为什么需要PaaS平台"></a>为什么需要PaaS平台</h1><p>PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/paas/paas1.jpg?raw=true" alt="示例1.png"></p>
+<h1 id="如何建设PaaS平台"><a href="#如何建设PaaS平台" class="headerlink" title="如何建设PaaS平台"></a>如何建设PaaS平台</h1><p>功能模块：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/paas/paas3.jpg?raw=true" alt="示例1.png"></p>
+<p>平台技术<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/paas/paas4.jpg?raw=true" alt="示例1.png"></p>
+<h2 id="应用管理"><a href="#应用管理" class="headerlink" title="应用管理"></a>应用管理</h2><p>PaaS平台最核心的功能就是应用全生命周期管理。应用通常是一个独立完整的业务功能，一个应用可能由多个服务组件组成，对于微服务而言每个组件都可以独立于其他组件部署、启动、运行和治理。PaaS平台需要提高对应用的一键式部署、健康检查、弹性扩缩、升级发布、资源管理、访问管理、监控管理等功能，从而保证应用的整体服务能力。</p>
+<p>一键式部署：一般支持通过镜像、应用模板和 YAML等方式部署应用，让用户可通过多种应用交付物快速便捷的部署。</p>
+<p>健康检查：由于容器启动后应用还需要较长时间才能接受请求，容器正常运行但容器中的应用服务异常等原因。需要支持应用健康状态的检查，健康检查结果会指导负载均衡、滚动发布和弹性伸缩，实现更平滑的过程 。</p>
+<p>弹性扩缩：支持通过手动、自动和定时等方式对容器的实例进行弹性的扩缩，保证应用运行的稳定性。</p>
+<p>升级发布：支持通过单一服务按照指定实例数滚动升级实现滚动发布；通过建立跨服务的 4 层负载均衡实现灰度发布／蓝绿发布；并支持一键回滚；基于预定义镜像规则自动发布，支持 DevOps 自动化流水线场景。</p>
+<p>资源管理：对容器部署或运行过程中的的 CPU、内存等计算资源、网络和存储资源的分配进行集中管理。</p>
+<p>访问管理：容器的外部接入访问入口，和平台内部访问容器的控制台入口的管理。</p>
+<p>监控管理：对容器产生的日志进行统一查看和导出，并且配置容器的日志管理服务器；对容器的资源包括CPU、内存、网络、存储等的使用情况进行可视化监控。</p>
+<p>服务治理：通过提供完整的非侵入式的微服务治理解决方案，支持完整的服务生命周期管理和流量治理。能够很好的解决云原生服务的管理、网络连接以及安全管理等服务网络治理问题。</p>
+<p>灰度发布：灰度发布是迭代软件产品在生产环境安全上线的重要手段。允许用户按照标准制定一套流量分发规则，平滑稳定的实现灰度发布功能。主要有金丝雀、蓝绿、A&#x2F;B Testing 等典型灰度发布功能。</p>
+<p>流量治理：应用流量治理提供可视化云原生应用的网络状态监控，并实现在线的网络连接和安全策略的管理配置。提供策略化、场景化的网络连接、安全策略管理能力。支持基于应用拓扑对服务配置负载均衡、熔断容错等治理规则，并提供实时的、可视化的服务流量管理。</p>
+<p>流量监控：通过流量监控可以监控流量概况、组件运行状态、调用链等信息，并在系统业务异常时快速定位到问题点。</p>
+<h2 id="Devops"><a href="#Devops" class="headerlink" title="Devops"></a>Devops</h2><p>由于软件开发复杂度的增高和更多的协同工作，敏捷开发能够更好地在协同工作中确保软件开发和交付质量。而 CI&#x2F;CD 就是专门为解决上述需求的软件开发实践。CI&#x2F;CD 要求每次的集成都是通过自动化的构建来验证，包括自动编译、发布和测试，从而尽快地发现集成错误，让团队能够更快的开发内聚的软件，减轻了软件发布时的压力。</p>
+<p>持续集成：持续集成是一种实现产品和应用快速迭代的一种实践方式，这种实践要求开发人员所提交的每一次代码都能够快速被合并到生产线，并进行自动构建和上线。能够容易定位 Bug 并提前发现和解决，降低开发成本。</p>
+<p>持续交付：持续交付的缩短了需求完成周期，满足小粒度交付需求，打造自持敏捷开发，精益迭代和持续交付的研发基础设施。此外，提高了产品迭代速度，提升了应用软件质量。并且支持容器扩容、收缩、升级和回滚，轻松实现应用灰度发布，还拥有更快的应用交付和Go-to-Market能力。</p>
+<p>流水线：应用从代码编译、测试、打包和部署的过程，流水线管理一般使用常用的 Jenkinsfile 来表述一组 CI&#x2F;CD 流程。从代码仓库 、代码编译、镜像制作、镜像安全、推送到仓库、应用版本、到定时构建的端到端流水线设置。</p>
+<p>版本发布：DevOps 的应用版本管理可备份每个应用的关键配置。应用下可以设置应用版本，用于记录本次应用和其下制品版本的关系，可便于部署或回滚操作。</p>
+<h2 id="运维管理"><a href="#运维管理" class="headerlink" title="运维管理"></a>运维管理</h2><p>日志、监控和告警等实现对容器云平台的组件状态、基础设施资源、运行的各个应用系统统一管理。让用户能够对平台进行手动和自动检查、排错和维护，保证平台的稳定。</p>
+<p>日志：日志模块需收集平台组件、业务应用、业务服务以及云上中间件的日志。可采用平台统一日志管理系统，或对接 ELK。</p>
+<p>监控告警：监控模块需提供对集群和应用的资源状态两个维度监控。并支持大规模系统监控、多指标监控、多维度监控，为每一个层级资源的运行状态都提供实时的多种指标监控。并且收集资源实时监控数据和历史监控数据，帮助用户观察和建立资源和集群性能的正常标准。监控模块可采用平台的自有监控体系，或对接外部监控系统，比如 Prometheus。</p>
+<h2 id="交付中心"><a href="#交付中心" class="headerlink" title="交付中心"></a>交付中心</h2><p>容器镜像实现容器运行时标准化，应用模板（helm）实现编排文件的标准化。镜像和应用模板是开发（Dev）和运维（Ops）的媒介，完成测试的镜像、应用模板可以发布到生产环境；然后在平台上部署和管理应用，持续监控应用服务的运行情况，并保持持续的反馈运行情况，以便及时的改进，形成一个良性循环。</p>
+<p>镜像管理：提供了多种构建镜像的方式，支持对接 CI&#x2F;CD工具，能够简化企业应用容器化的难度，轻松实现应用的容器化。并提供日常镜像维护的功能，比如镜像扫描、镜像同步和镜像清理等。</p>
+<p>应用模板：基于 Helm 标准的应用模板提供统一的资源管理与调度，高效地实现了模板的快速部署与后期管理，大幅简化了Kubernetes资源的安装管理过程。</p>
+<h2 id="安全管理"><a href="#安全管理" class="headerlink" title="安全管理"></a>安全管理</h2><p>多租户管理：不同租户中的资源彼此隔离。使得它们既可以共享同一个平台资源，也能够互不干扰。对于平台来说，需要将平台的计算资源、存储资源和网络资源，分配给各租户，让租户根据自身使用场景管理应用、用户、角色和资源。</p>
+<p>用户管理：用户管理模块，可对企业用户进行增删改查等操作，以及配置用户密码安全策略，保证用户和平台安全；同时可对接企业用户目录，同步企业现存用户管理系统，避免重复操作。</p>
+<p>权限管理：权限管理是在 Kubernetes的角色访问控制（RBAC）的能力基础上，打造的细粒度权限管理功能。支持集群级别、租户级别的权限控制，能够从集群和租户层面对用户组或用户进行细粒度授权。</p>
+<p>第三方登录认证：当对接企业现有用户中心时，需要实现第三方登录认证。用户只需要登录一次，就可以访问所有相互信任的应用系统。解决企业不同业务应用之间的身份认证问题。</p>
+<p>文档参考链接来源：<br><a target="_blank" rel="noopener" href="https://www.kubernetes.org.cn/7272.html">https://www.kubernetes.org.cn/7272.html</a><br><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/108719565">https://zhuanlan.zhihu.com/p/108719565</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/12/01/kubernetes_deploy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/12/01/kubernetes_deploy/" class="post-title-link" itemprop="url">使用kubeadm部署K8S集群v1.16.4</a>
         </h2>
 
         <div class="post-meta-container">
@@ -540,7 +790,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/29/jenkins-ci-apitest/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/29/jenkins-ci-autotest/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -558,7 +808,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/03/29/jenkins-ci-apitest/" class="post-title-link" itemprop="url">使用Jenkins搭建CI自动化测试</a>
+          <a href="/2019/03/29/jenkins-ci-autotest/" class="post-title-link" itemprop="url">使用Jenkins工具集成自动化测试</a>
         </h2>
 
         <div class="post-meta-container">
@@ -576,7 +826,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-12-31 22:57:40" itemprop="dateModified" datetime="2024-12-31T22:57:40+08:00">2024-12-31</time>
+      <time title="修改时间：2025-01-01 02:44:51" itemprop="dateModified" datetime="2025-01-01T02:44:51+08:00">2025-01-01</time>
     </span>
 
   
@@ -647,7 +897,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/04/2019-03-04-Kubernetes%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/04/kubernetes_monitor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -665,7 +915,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/03/04/2019-03-04-Kubernetes%E9%9B%86%E7%BE%A4%E7%9B%91%E6%8E%A7/" class="post-title-link" itemprop="url">Kubernetes集群监控</a>
+          <a href="/2019/03/04/kubernetes_monitor/" class="post-title-link" itemprop="url">Kubernetes集群监控</a>
         </h2>
 
         <div class="post-meta-container">
@@ -1107,204 +1357,6 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/26/nfs-server-install/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="liaoxb">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liaoxb's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | liaoxb's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/05/26/nfs-server-install/" class="post-title-link" itemprop="url">NFS服务器搭建和挂载</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2018-05-26 00:00:00" itemprop="dateCreated datePublished" datetime="2018-05-26T00:00:00+08:00">2018-05-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-12-31 18:12:41" itemprop="dateModified" datetime="2024-12-31T18:12:41+08:00">2024-12-31</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="nfs-server-install"><a href="#nfs-server-install" class="headerlink" title="nfs-server-install"></a>nfs-server-install</h1><p>NFS 是Network File System的缩写，即网络文件系统。功能是通过网络让不同的机器、不同的操作系统能够彼此分享个别的数据，让应用程序在客户端通过网络访问位于服务器磁盘中的数据，是在类Unix系统间实现磁盘文件共享的一种方法。<br>NFS在文件传送或信息传送过程中依赖于RPC协议。所以只要用到NFS的地方都要启动RPC服务，不论是NFS SERVER或者NFS CLIENT。这样SERVER和CLIENT才能通过RPC来实现PROGRAM PORT（centos5之前，之后是rpcbind）的对应。可以这么理解RPC和NFS的关系：NFS是一个文件系统，而RPC是负责信息的传输。</p>
-<p>Centos系统环境：<br>服务端IP 192.168.1.28<br>客户端IP 192.168.1.21、192.168.1.155</p>
-<p>一、安装NFS-Server</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa|grep nfs <span class="comment">#检查系统是否已安装NFS</span></span><br><span class="line">yum install nfs-utils -y <span class="comment">#客户端和服务端都要安装</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/nfs/nfs01.png?raw=true" alt="image"></p>
-<p>二、服务端配置启动NFS</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/nfsshare </span><br><span class="line">vim /etc/exports #配置共享目录供客户端集群以读写权限访问</span><br><span class="line">systemctl start nfs</span><br><span class="line">showmount -e localhost //查询NFS的共享状态</span><br><span class="line"></span><br><span class="line">[root@test--0004 ~]# showmount -e 192.168.1.28</span><br><span class="line">Export list for 192.168.1.28:</span><br><span class="line">/var/nfsshare2 *</span><br><span class="line">/var/nfsshare *</span><br></pre></td></tr></table></figure>
-
-
-
-<p>说明：NFS服务的配置文件为&#x2F;etc&#x2F;exports，这个文件是NFS的主要配置文件，不过系统并没有默认值，所以这个文件不一定会存在，可能要使用vim手动建立，然后在文件里面写入配置内容。内容格式如下：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;输出目录&gt; [客户端1 选项（访问权限,用户映射,其他）] [客户端2 选项（访问权限,用户映射,其他)]</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">1、输出目录：输出目录是指NFS系统中需要共享给客户机使用的目录；</span><br><span class="line">2、客户端：客户端是指网络中可以访问这个NFS输出目录的计算机</span><br><span class="line">          客户端常用的指定方式：</span><br><span class="line">          指定ip地址的主机：192.168.8.106</span><br><span class="line">          指定子网中的所有主机：192.168.0.0/24或 192.168.0.0/255.255.255.0</span><br><span class="line">          指定域名的主机：wj.bsmart.com</span><br><span class="line">          指定域中的所有主机：*.bsmart.com</span><br><span class="line">          所有主机：*</span><br><span class="line"></span><br><span class="line">3、 选项：选项用来设置输出目录的访问权限、用户映射等。</span><br><span class="line"></span><br><span class="line">   NFS主要有3类选项：</span><br><span class="line"></span><br><span class="line">  1）访问权限选项：</span><br><span class="line"></span><br><span class="line">          设置输出目录只读：ro</span><br><span class="line">          设置输出目录读写：rw</span><br><span class="line">          </span><br><span class="line">2）用户映射选项</span><br><span class="line"></span><br><span class="line">    all_squash：将远程访问的所有普通用户及所属组都映射为匿名用户或用户组（nfsnobody）；</span><br><span class="line">    no_all_squash：与all_squash取反（默认设置）；</span><br><span class="line">    root_squash：将root用户及所属组都映射为匿名用户或用户组（默认设置）；</span><br><span class="line">    no_root_squash：与rootsquash取反；</span><br><span class="line">    anonuid=xxx：将远程访问的所有用户都映射为匿名用户，并指定该用户为本地用户（UID=xxx）；</span><br><span class="line">    anongid=xxx：将远程访问的所有用户组都映射为匿名用户组账户，并指定该匿名用户组账户为本地用户组账户（GID=xxx）；</span><br><span class="line"></span><br><span class="line">3）其它选项</span><br><span class="line"></span><br><span class="line">    secure：限制客户端只能从小于1024的tcp/ip端口连接nfs服务器（默认设置）；</span><br><span class="line">    insecure：允许客户端从大于1024的tcp/ip端口连接服务器；</span><br><span class="line">    <span class="built_in">sync</span>：将数据同步写入内存缓冲区与磁盘中，效率低，但可以保证数据的一致性；</span><br><span class="line">    async：将数据先保存在内存缓冲区中，必要时才写入磁盘；</span><br><span class="line">    wdelay：检查是否有相关的写操作，如果有则将这些写操作一起执行，这样可以提高效率（默认设置）；</span><br><span class="line">    no_wdelay：若有写操作则立即执行，应与<span class="built_in">sync</span>配合使用；</span><br><span class="line">    subtree：若输出目录是一个子目录，则nfs服务器将检查其父目录的权限(默认设置)；</span><br><span class="line">    no_subtree：即使输出目录是一个子目录，nfs服务器也不检查其父目录的权限，这样可以提高效率；</span><br></pre></td></tr></table></figure>
-
-<p>三、设置开机启动</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> rpcbind.service</span><br><span class="line">systemctl <span class="built_in">enable</span> nfs-service</span><br></pre></td></tr></table></figure>
-
-
-
-<p>四、测试挂载：</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">客户端执行：</span><br><span class="line">mount -t nfs 192.168.1.28:/var/nfsshare /mnt <span class="comment">#客户端挂载NFS服务器中的共享目录</span></span><br><span class="line"><span class="built_in">touch</span> /mnt/test.txt <span class="comment">#客户端挂载点生成文件，此文件会被共享至NFS服务器:/var/nfsshare</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;hello word&quot;</span> &gt; /mnt/test.txt</span><br><span class="line">umount /mnt <span class="comment">#解除和NFS服务器的挂载</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/26/work-notes/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="liaoxb">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liaoxb's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | liaoxb's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2017/11/26/work-notes/" class="post-title-link" itemprop="url">工作笔记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2017-11-26 16:36:25" itemprop="dateCreated datePublished" datetime="2017-11-26T16:36:25+08:00">2017-11-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2024-12-30 02:42:18" itemprop="dateModified" datetime="2024-12-30T02:42:18+08:00">2024-12-30</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="排查端口占用问题"><a href="#排查端口占用问题" class="headerlink" title="排查端口占用问题"></a>排查端口占用问题</h2><p>1、安装net-tools命令行工具 yum install -y net-tools<br>2、执行命令查看被占用端口的pid netstat -anlp | grep port<br>如下图，发现本机8083端口被22980的程序wisecloud-met所占用</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port04.png?raw=true" alt="1.png"></p>
-<p>3、进一步使用命令：ps -aux | grep wisecloud-met，或者直接：ps -aux | grep pid 查看，就可以明确知道8083端口是被哪个程序占用了！然后判断是否使用KILL命令干掉！</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port05.png?raw=true" alt="2.png"></p>
-<p>知识拓展：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wonux/p/6268134.html">Linux网络管理常用命令：net-tools VS iproute2</a></p>
-<h2 id="测试端口连通性"><a href="#测试端口连通性" class="headerlink" title="测试端口连通性"></a>测试端口连通性</h2><h3 id="方法一：telnet"><a href="#方法一：telnet" class="headerlink" title="方法一：telnet"></a>方法一：telnet</h3><p>预置条件：安装telnet<br>step 1、rpm -qa telnet-server（无输出表示telnet-server未安装，则执行step2；否则执行step3）<br>step 2、yum -y install telnet-server（安装telnet-server）<br>step 3、rpm -qa telnet（无输出表示telnet未安装，则执行step4，否则执行step5）<br>step 4、yum -y install telnet（安装）</p>
-<p>telnet为用户提供了在本地计算机上完成远程主机工作的能力，因此可以通过telnet来测试端口的连通性，具体用法格式：telnet ip port<br>如果telnet连接不存在的端口，那会显示Connecttion refused<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port01.png?raw=true" alt="示例1.png"></p>
-<h3 id="方法二：curl"><a href="#方法二：curl" class="headerlink" title="方法二：curl"></a>方法二：curl</h3><p>预置条件：安装curl<br>curl 的官网下载地址：<a target="_blank" rel="noopener" href="http://curl.haxx.se/download/">http://curl.haxx.se/download/</a><br>下载地址如下： <a target="_blank" rel="noopener" href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>1.wget <a target="_blank" rel="noopener" href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>如果使用 wget下载https开头的网址域名 时报错，你可能需要加上 –no-check-certificate 选项<br>2.tar -xzvf curl-7.38.0.tar.gz<br>3.cd curl-7.38.0<br>.&#x2F;configure<br>make<br>make install</p>
-<p>curl是利用URL语法在命令行方式下工作的开源文件传输工具。也可以用来测试端口的连通性，具体用法:curl ip:port<br>说明：如果远程主机开通了相应的端口，都会输出信息，如果没有开通相应的端口，则没有任何提示，需要CTRL+C断开。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port02.png?raw=true" alt="示例2.png"></p>
-<h3 id="方法三：wget"><a href="#方法三：wget" class="headerlink" title="方法三：wget"></a>方法三：wget</h3><p>预置条件：安装wget</p>
-<p>debian 或者 ubuntu : sudo apt-get install wget</p>
-<p>centos : sudo yum -y install wget</p>
-<p>wget是一个从网络上自动下载文件的自由工具，支持通过HTTP、HTTPS、FTP三个最常见的TCP&#x2F;IP协议下载，并可以使用HTTP代理。wget名称的由来是“World Wide Web”与“get”的结合，它也可以用来测试端口的连通性具体用法:wget ip:port，如果远程主机不存在端口则会一直提示连接主机。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port03.png?raw=true" alt="示例3.png"></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
     <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
@@ -1317,7 +1369,7 @@
 
   <div class="copyright">
     &copy; 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
