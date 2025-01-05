@@ -207,18 +207,18 @@
     
     <div class="post-body" itemprop="articleBody">
           <h2 id="排查端口占用问题"><a href="#排查端口占用问题" class="headerlink" title="排查端口占用问题"></a>排查端口占用问题</h2><p>1、安装net-tools命令行工具 yum install -y net-tools<br>2、执行命令查看被占用端口的pid netstat -anlp | grep port<br>如下图，发现本机8083端口被22980的程序wisecloud-met所占用</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port04.png?raw=true" alt="1.png"></p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port04.png?raw=true" alt="1.png"></p>
 <p>3、进一步使用命令：ps -aux | grep wisecloud-met，或者直接：ps -aux | grep pid 查看，就可以明确知道8083端口是被哪个程序占用了！然后判断是否使用KILL命令干掉！</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port05.png?raw=true" alt="2.png"></p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port05.png?raw=true" alt="2.png"></p>
 <p>知识拓展：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/wonux/p/6268134.html">Linux网络管理常用命令：net-tools VS iproute2</a></p>
 <h2 id="测试端口连通性"><a href="#测试端口连通性" class="headerlink" title="测试端口连通性"></a>测试端口连通性</h2><h3 id="方法一：telnet"><a href="#方法一：telnet" class="headerlink" title="方法一：telnet"></a>方法一：telnet</h3><p>预置条件：安装telnet<br>step 1、rpm -qa telnet-server（无输出表示telnet-server未安装，则执行step2；否则执行step3）<br>step 2、yum -y install telnet-server（安装telnet-server）<br>step 3、rpm -qa telnet（无输出表示telnet未安装，则执行step4，否则执行step5）<br>step 4、yum -y install telnet（安装）</p>
-<p>telnet为用户提供了在本地计算机上完成远程主机工作的能力，因此可以通过telnet来测试端口的连通性，具体用法格式：telnet ip port<br>如果telnet连接不存在的端口，那会显示Connecttion refused<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port01.png?raw=true" alt="示例1.png"></p>
+<p>telnet为用户提供了在本地计算机上完成远程主机工作的能力，因此可以通过telnet来测试端口的连通性，具体用法格式：telnet ip port<br>如果telnet连接不存在的端口，那会显示Connecttion refused<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port01.png?raw=true" alt="示例1.png"></p>
 <h3 id="方法二：curl"><a href="#方法二：curl" class="headerlink" title="方法二：curl"></a>方法二：curl</h3><p>预置条件：安装curl<br>curl 的官网下载地址：<a target="_blank" rel="noopener" href="http://curl.haxx.se/download/">http://curl.haxx.se/download/</a><br>下载地址如下： <a target="_blank" rel="noopener" href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>1.wget <a target="_blank" rel="noopener" href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>如果使用 wget下载https开头的网址域名 时报错，你可能需要加上 –no-check-certificate 选项<br>2.tar -xzvf curl-7.38.0.tar.gz<br>3.cd curl-7.38.0<br>.&#x2F;configure<br>make<br>make install</p>
-<p>curl是利用URL语法在命令行方式下工作的开源文件传输工具。也可以用来测试端口的连通性，具体用法:curl ip:port<br>说明：如果远程主机开通了相应的端口，都会输出信息，如果没有开通相应的端口，则没有任何提示，需要CTRL+C断开。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port02.png?raw=true" alt="示例2.png"></p>
+<p>curl是利用URL语法在命令行方式下工作的开源文件传输工具。也可以用来测试端口的连通性，具体用法:curl ip:port<br>说明：如果远程主机开通了相应的端口，都会输出信息，如果没有开通相应的端口，则没有任何提示，需要CTRL+C断开。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port02.png?raw=true" alt="示例2.png"></p>
 <h3 id="方法三：wget"><a href="#方法三：wget" class="headerlink" title="方法三：wget"></a>方法三：wget</h3><p>预置条件：安装wget</p>
 <p>debian 或者 ubuntu : sudo apt-get install wget</p>
 <p>centos : sudo yum -y install wget</p>
-<p>wget是一个从网络上自动下载文件的自由工具，支持通过HTTP、HTTPS、FTP三个最常见的TCP&#x2F;IP协议下载，并可以使用HTTP代理。wget名称的由来是“World Wide Web”与“get”的结合，它也可以用来测试端口的连通性具体用法:wget ip:port，如果远程主机不存在端口则会一直提示连接主机。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port03.png?raw=true" alt="示例3.png"></p>
+<p>wget是一个从网络上自动下载文件的自由工具，支持通过HTTP、HTTPS、FTP三个最常见的TCP&#x2F;IP协议下载，并可以使用HTTP代理。wget名称的由来是“World Wide Web”与“get”的结合，它也可以用来测试端口的连通性具体用法:wget ip:port，如果远程主机不存在端口则会一直提示连接主机。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port03.png?raw=true" alt="示例3.png"></p>
 
       
     </div>
