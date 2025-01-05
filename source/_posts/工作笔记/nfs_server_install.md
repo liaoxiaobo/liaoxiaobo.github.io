@@ -25,7 +25,7 @@ yum install nfs-utils -y #客户端和服务端都要安装
 
 
 
-![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/nfs/nfs01.png?raw=true)
+![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/nfs/nfs01.png?raw=true)
 
 二、服务端配置启动NFS
 

@@ -128,11 +128,11 @@ nginx-web
 
 4、在浏览器中访问 [www.test.com，这时应该就可以根据location，访问到不同的服务了。](http://www.test.com，这时应该就可以根据location，访问到不同的服务了。)
 访问Grafana Dashboard：
-![7.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx15.png?raw=true)
+![7.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx15.png?raw=true)
 访问Alertmanager ui：
-![7.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx16.png?raw=true)
+![7.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx16.png?raw=true)
 访问:Prometheus ui
-![7.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx17.png?raw=true)
+![7.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx17.png?raw=true)
 
 # 关于负载均衡策略
 

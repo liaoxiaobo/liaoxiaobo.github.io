@@ -9,15 +9,15 @@ tags:
 # 为什么需要PaaS平台
 
 PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。
-![示例1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/paas/paas1.jpg?raw=true)
+![示例1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas1.jpg?raw=true)
 
 # 如何建设PaaS平台
 
 功能模块：
-![示例1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/paas/paas3.jpg?raw=true)
+![示例1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas3.jpg?raw=true)
 
 平台技术
-![示例1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/paas/paas4.jpg?raw=true)
+![示例1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas4.jpg?raw=true)
 
 ## 应用管理
 

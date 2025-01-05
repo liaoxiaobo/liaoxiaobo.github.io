@@ -28,15 +28,15 @@ docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/loc
 > docker run参数的具体说明请看官方文档，介绍得很详细。https://jenkins.io/zh/doc/book/installing/
 
 执行命令截图：
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk01.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true)
 
 为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk02.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true)
 
 ## 配置邮件通知
 
 这里特别注意的是密码应该填qq邮箱的授权码，填写完毕测试一下邮件发送成功即可
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk03.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true)
 
 ## 安装插件robot-framework
 
@@ -49,7 +49,7 @@ docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/loc
 
 pipeline流程图：
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk09.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk09.png?raw=true)
 
 ```
 pipeline {
@@ -114,19 +114,19 @@ curl JENKINS_URL/job/wise2c-robot/build?token=TOKEN_NAME
 
 
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk05.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk05.png?raw=true)
 
 # 测试结果报告展示
 
 job首页测试结果展示，失败了1条case，同时收到了一封关于api测试失败的邮件通知：
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk04.png?raw=true)
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk07.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk04.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk07.png?raw=true)
 
 测试结果详情页面展示，点击log.html链接可以直接查看日志；
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk06.png?raw=true)
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk08.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk06.png?raw=true)
+![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk08.png?raw=true)
 
 注：如果到打开失败，可以参考这个解决办法。https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed
 管理jenkins–>脚本命令行输入如下脚本:

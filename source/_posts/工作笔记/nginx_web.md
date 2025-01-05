@@ -18,7 +18,7 @@ tags:
 
 ## 容器运行nginx，端口映射到本机8080
 
-![6.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx6.png?raw=true)
+![6.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx6.png?raw=true)
 
 ## 查看静态资源文件和nginx.conf
 
@@ -141,12 +141,12 @@ addfae34988b        nginx               "nginx -g 'daemon of…"   About an hour
 # 访问静态资源
 
 1、域名:8080访问根目录，成功访问nginx默认web页面
-![8.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx8.png?raw=true)
+![8.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx8.png?raw=true)
 2、域名:8080访问/img/，成功访问目录下的所有图片
-![9.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx9.png?raw=true)
+![9.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx9.png?raw=true)
 3、域名:8080访问/robot-log/，成功访问目录下的归档日志
-![10.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx10.png?raw=true)
-![11.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx11.png?raw=true)
+![10.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx10.png?raw=true)
+![11.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx11.png?raw=true)
 
 ## gzip配置详解
 
@@ -174,7 +174,7 @@ gzip_disable      "MSIE [1-6]\.";
 
 ## 压缩效果对比
 
-![14.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx14.png?raw=true)
+![14.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx14.png?raw=true)
 curl命令直接对比查看：
 
 第一次curl请求头未带’Accept-Encoding: gzip,deflate’时，服务器不会压缩，直接返回html，从Content-Length也可以看出report.html的size是233340，也就是228kb大小。
@@ -182,7 +182,7 @@ curl命令直接对比查看：
 第二次curl请求头带了’Accept-Encoding: gzip,deflate’时，服务器则会进行压缩数据后再返回content，同时response字段也会出现Content-Encoding: gzip，这就证明gzip压缩配置生效了。不过这次的response看不见Content-Length，怎么确定压缩成多少了呢？
 
 这也很容易，结合着浏览器访问同个web页面查看size就清楚了，压缩后是77.1kb。
-![12.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx12.png?raw=true)
+![12.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx12.png?raw=true)
 
 参考文档：
 https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html

@@ -20,7 +20,7 @@ tags:
 （3）对客户端访问授权，上网进行认证
 （4）代理可以记录用户访问记录（上网行为管理），对外隐藏用户信息
 
-![1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx1.png?raw=true)
+![1.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx1.png?raw=true)
 
 ## 反向代理
 
@@ -28,9 +28,9 @@ tags:
 反向代理的作用：
 （1）保证内网的安全，可以使用反向代理提供WAF功能，阻止web攻击
 （2）负载均衡，通过反向代理服务器来优化网站的负载
-![2.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx2.png?raw=true)
+![2.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx2.png?raw=true)
 两者区别，看图说话：
-![3.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx3.png?raw=true)
+![3.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx3.png?raw=true)
 
 ## 负载均衡
 
@@ -45,9 +45,9 @@ tags:
 Nginx提供的负载均衡策略有2种：内置策略和扩展策略。内置策略为轮询，加权轮询，Ip hash。
 扩展策略，就天马行空，只有你想不到的没有他做不到的啦，你可以参照所有的负载均衡算法，给他一一找出来做下实现。
 上2个图，理解这三种负载均衡算法的实现
-![4.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx4.png?raw=true)
+![4.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx4.png?raw=true)
 
-![5.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/nginx5.png?raw=true)
+![5.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx5.png?raw=true)
 Ip hash算法，对客户端请求的ip进行hash操作，然后根据hash结果将同一个客户端ip的请求分发给同一台服务器进行处理，可以解决session不共享的问题。
 
 # Nginx配置文件详解
