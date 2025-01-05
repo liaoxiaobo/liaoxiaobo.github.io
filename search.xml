@@ -1,235 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Linux命令总结</title>
-    <url>/2017/07/05/linux/linux_cmd/</url>
-    <content><![CDATA[<h1 id="文件和目录管理"><a href="#文件和目录管理" class="headerlink" title="文件和目录管理"></a>文件和目录管理</h1><h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">根据正则表达式查找相关内容并打印对应的数据</span><br><span class="line"></span><br><span class="line">-A 除了显示符合范本样式的那一行之外，并显示该行之后的内容。</span><br><span class="line">-B 在显示符合范本样式的那一行之外，并显示该行之前的内容。</span><br><span class="line">-C 除了显示符合范本样式的那一列之外，并显示该列之前后的内容。</span><br><span class="line">-c 计算符合范本样式的列数。</span><br><span class="line">-i 忽略字符大小写的差别。</span><br><span class="line">-v 反转查找</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日志里面有 error 关键字的日志记录，与这个记录前后三行的日志信息</span></span><br><span class="line"><span class="built_in">cat</span> log-fail.txt |grep error -C 3</span><br></pre></td></tr></table></figure>
-
-<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">localhost% <span class="built_in">cat</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文件的第一列和第五列</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $1,$5&#125;&#x27;</span> test.txt</span><br><span class="line">NAME VERSION</span><br><span class="line">k8s01 v1.16.4</span><br><span class="line">k8s02 v1.16.4</span><br><span class="line">k8s03 v1.16.4</span><br><span class="line">k8s04 v1.16.4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印最后一列字段</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span> test.txt</span><br><span class="line">CONTAINER-RUNTIME</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印倒数第二列字段：</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $(NF-1)&#125;&#x27;</span> test.txt</span><br><span class="line">KERNEL-VERSION</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本文件的总行数</span></span><br><span class="line">localhost% awk <span class="string">&#x27;END&#123;print NR&#125;&#x27;</span> test.txt</span><br><span class="line">5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本第1行数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR==1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本大于第1行的数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR&gt;1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br></pre></td></tr></table></figure>
-
-<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>定位到数据行并对数据进行增删改查操作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换文本中的字符串：</span></span><br><span class="line">sed <span class="string">&#x27;s/book/books/&#x27;</span> file</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用后缀/g标记会替换每一行中的所有匹配：</span></span><br><span class="line">[root@harbor image_pull_push]# <span class="built_in">cat</span> img-list.txt |sed <span class="string">&#x27;s/registry.cn-hangzhou.aliyuncs.com/192.168.0.11/g&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当需要从第N处匹配配开始替换时，可以使用 /Ng：</span></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">&#x27;s/sk/SK/3g&#x27;</span></span><br><span class="line">skskSKSKSKSK</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换某目录下所有文件的某字符串</span></span><br><span class="line">oldip=172.22.12.241</span><br><span class="line">newip=172.22.12.242</span><br><span class="line"><span class="comment"># 查看之前包含oldip的文件</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$oldip</span></span><br><span class="line"><span class="comment"># 替换IP地址</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs sed -i <span class="string">&quot;s/<span class="variable">$oldip</span>/<span class="variable">$newip</span>/&quot;</span></span><br><span class="line"><span class="comment"># 检查更新后的</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$newip</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="find-指定目录查找文件"><a href="#find-指定目录查找文件" class="headerlink" title="find 指定目录查找文件"></a>find 指定目录查找文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 当前目录搜索所有文件，文件内容 包含 “140.206.111.111” 的内容</span></span><br><span class="line">find . -<span class="built_in">type</span> f -name <span class="string">&quot;*&quot;</span> | xargs grep <span class="string">&quot;140.206.111.111&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找当前目录下是否存在README.md </span></span><br><span class="line">find . -name README.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找根目录/是否存在nginx.conf</span></span><br><span class="line">find / -name nginx.conf </span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定目录查找大于1G的文件</span></span><br><span class="line">find /data -size +1024M </span><br></pre></td></tr></table></figure>
-
-<h2 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建带有内容的文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello &gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line"><span class="comment"># 追加写入文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello-test &gt;&gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line">hello-test</span><br></pre></td></tr></table></figure>
-
-<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">wc</span> -l 统计文本行数</span><br><span class="line"><span class="built_in">wc</span> -w 统计文本字数</span><br><span class="line"><span class="built_in">wc</span> -c 统计文本字节数</span><br></pre></td></tr></table></figure>
-
-<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个50M的文件，文件名为out.txt</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=out.txt bs=10M count=1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份 /dev/hdb 全盘数据，并利用 gzip 工具进行压缩，保存到指定路径</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb | gzip &gt; /root/image.gz</span><br></pre></td></tr></table></figure>
-
-<h2 id="tar-文件归档"><a href="#tar-文件归档" class="headerlink" title="tar 文件归档"></a>tar 文件归档</h2><p>tar参数介绍</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-c：创建一个包</span><br><span class="line">-v：显示所有过程</span><br><span class="line">-f：指定包的文件名</span><br><span class="line">-z：有gzip属性的</span><br><span class="line">-j：有bz2属性的</span><br><span class="line">-x：从包中解压</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 仅打包，不压缩！将 /home/vivek/bin/ 目录打包</span></span><br><span class="line">tar -cvf /tmp/bin-backup.tar /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 bzip2 算法压缩压缩</span></span><br><span class="line">tar -jcvf /tmp/bin-backup.tar.bz2 /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 gzip 算法压缩压缩</span></span><br><span class="line">tar -zcvf /tmp/bin-backup.tar.gz /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩</span></span><br><span class="line">tar -zxvf bin-backup.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细列举包里的所有文件</span></span><br><span class="line">tar -tvf /opt/extra.tgz</span><br></pre></td></tr></table></figure>
-
-<h2 id="vi-纯文本编辑器"><a href="#vi-纯文本编辑器" class="headerlink" title="vi 纯文本编辑器"></a>vi 纯文本编辑器</h2><p>vi编辑器提供了丰富的内置命令，有些内置命令使用键盘组合键即可完成，有些内置命令则需要以冒号“：”开头输入。常用内置命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">上下翻页：Ctrl+f、Ctrl+b</span><br><span class="line">跳到当前行最后字符处：Fn+右键</span><br><span class="line">跳到当前行最前面字符处：Fn+左键、0</span><br><span class="line"></span><br><span class="line">查找字符串：/字符串  n继续查找</span><br><span class="line">字符全局替换：:%s/foo/bar/g  :&#123;作用范围&#125;s/&#123;目标&#125;/&#123;替换&#125;/&#123;替换标志&#125;</span><br><span class="line"></span><br><span class="line">x或X：删除一个字符，x删除光标后的，而X删除光标前的；</span><br><span class="line">D：删除从当前光标到光标所在行尾的全部字符；</span><br><span class="line">删除行：<span class="built_in">dd</span> ndd（n代表删除或复制的行数）</span><br><span class="line">复制行：yy  nyy</span><br><span class="line">粘贴行：p、P</span><br><span class="line"></span><br><span class="line">复原前一个操作：u</span><br><span class="line">重做上一个操作：ctrl+r</span><br><span class="line">显示行号：:<span class="built_in">set</span> nu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Ctrl+u：向文件首翻半屏；</span><br><span class="line">Ctrl+d：向文件尾翻半屏；</span><br><span class="line">Ctrl+f：向文件尾翻一屏；</span><br><span class="line">Ctrl+b：向文件首翻一屏；</span><br><span class="line">Esc：从编辑模式切换到命令模式；</span><br><span class="line">ZZ：命令模式下保存当前文件所做的修改后退出vi；</span><br><span class="line">:行号：光标跳转到指定行的行首；</span><br><span class="line">:$：光标跳转到最后一行的行首；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="scp-加密方式远程复制文件"><a href="#scp-加密方式远程复制文件" class="headerlink" title="scp 加密方式远程复制文件"></a>scp 加密方式远程复制文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程拷贝目录到本地</span></span><br><span class="line">scp -r root@10.10.10.10:/opt/soft/mongodb /opt/soft/ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传本地目录到远程机器指定目录</span></span><br><span class="line">scp -r /opt/soft/mongodb root@10.10.10.10:/opt/soft/scptest</span><br></pre></td></tr></table></figure>
-
-<h2 id="ln-创建文件链接"><a href="#ln-创建文件链接" class="headerlink" title="ln 创建文件链接"></a>ln 创建文件链接</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建软链接（类似于Windows的快捷方式）</span></span><br><span class="line"><span class="built_in">ln</span> -sf /etc/hostname /usr/share/nginx/html/index.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建硬链接，两个文件的inode号相同,inode信息中的“链接数”会+1。当链接数减到0，即表明文件已删除</span></span><br><span class="line">[root@master01 wh_log]# <span class="built_in">ln</span> wh_test.sh link001.sh</span><br><span class="line">[root@master01 wh_log]# ll -li</span><br><span class="line">总用量 1800</span><br><span class="line">17293406 -rw-r--r-- 1 root root 187963 12月 18 10:13 es-1.log</span><br><span class="line">17293408 -rw-r--r-- 1 root root 223798 12月 18 10:13 es-2.log</span><br><span class="line">17293409 -rw-r--r-- 1 root root 214475 12月 18 10:13 es-3.log</span><br><span class="line">17293557 -rw-r--r-- 2 root root    201 12月 19 08:46 link001.sh</span><br><span class="line">17293554 -rw-r--r-- 1 root root 186335 12月 18 15:13 pgsql-1.log</span><br><span class="line">17293555 -rw-r--r-- 1 root root 435966 12月 18 15:13 pgsql-2.log</span><br><span class="line">17293556 -rw-r--r-- 1 root root 546363 12月 18 15:13 pgsql-3.log</span><br><span class="line">17293407 -rw-r--r-- 1 root root    225 12月 18 10:12 test.sh</span><br><span class="line">17293557 -rw-r--r-- 2 root root    201 12月 19 08:46 wh_test.sh</span><br></pre></td></tr></table></figure>
-
-<h1 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h1><h2 id="df-显示磁盘信息"><a href="#df-显示磁盘信息" class="headerlink" title="df  显示磁盘信息"></a>df  显示磁盘信息</h2><p>df -h 打印设备上挂载了多少磁盘，以及磁盘里还有多少可用空间。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@harbor ~]# <span class="built_in">df</span> -h</span><br><span class="line">文件系统        容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/vda1        50G   23G   24G   50% /</span><br><span class="line">devtmpfs        7.8G     0  7.8G    0% /dev</span><br><span class="line">tmpfs           7.8G     0  7.8G    0% /dev/shm</span><br><span class="line">tmpfs           7.8G  2.9M  7.8G    1% /run</span><br><span class="line">tmpfs           7.8G     0  7.8G    0% /sys/fs/cgroup</span><br><span class="line">/dev/vdc1       197G  157G   31G   84% /var/lib/docker</span><br><span class="line">/dev/vdd1        99G   68G   26G   73% /data</span><br></pre></td></tr></table></figure>
-
-<h2 id="du-显示每个文件和目录的磁盘使用空间"><a href="#du-显示每个文件和目录的磁盘使用空间" class="headerlink" title="du 显示每个文件和目录的磁盘使用空间"></a>du 显示每个文件和目录的磁盘使用空间</h2><p>du -sh 对文件和目录磁盘使用的空间总量的查看</p>
-<h1 id="网络管理"><a href="#网络管理" class="headerlink" title="网络管理"></a>网络管理</h1><h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><p>有时进程之间需要通信，需要开启一个socket，socket就是对外建立连接的一个窗口，然后借助TCP协议进行通信。但进行通信之前首先需要进程开启一个端口，这时就可以通过netstat命令查看开启的端口以及由哪个进程开启</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netstat -a     <span class="comment">#列出所有端口</span></span><br><span class="line">netstat -at    <span class="comment">#列出所有tcp端口</span></span><br><span class="line">netstat -au    <span class="comment">#列出所有udp端口</span></span><br><span class="line"></span><br><span class="line">netstat -l        <span class="comment">#只显示监听端口</span></span><br><span class="line">netstat -lt       <span class="comment">#只列出所有监听 tcp 端口</span></span><br><span class="line">netstat -lu       <span class="comment">#只列出所有监听 udp 端口</span></span><br><span class="line"></span><br><span class="line">-t或--tcp：显示TCP传输协议的连线状况；</span><br><span class="line">-u或--udp：显示UDP传输协议的连线状况；</span><br><span class="line">-n或--numeric：直接使用ip地址，而不通过域名服务器；</span><br><span class="line">-l或--listening：显示监控中的服务器的Socket</span><br><span class="line">-p或--programs：显示正在使用Socket的程序识别码和程序名称；</span><br></pre></td></tr></table></figure>
-
-<h2 id="ss"><a href="#ss" class="headerlink" title="ss"></a>ss</h2><p>ss 可以用来获取socket统计信息，它可以显示和netstat类似的内容。但ss的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效</p>
-<h1 id="系统管理命令"><a href="#系统管理命令" class="headerlink" title="系统管理命令"></a>系统管理命令</h1><h2 id="ps-查看进程"><a href="#ps-查看进程" class="headerlink" title="ps 查看进程"></a>ps 查看进程</h2><p>ps -efww  报告当前系统的进程状态。加上ww可以完整展示进程的信息<br>ps -auxf | sort -nr -k 4 | head -10 找出占用内存资源最多的前 10 个进程<br>ps -auxf | sort -nr -k 3 | head -10 找出占用cpu资源最多的前 10 个进程</p>
-<h2 id="journalctl-查看服务启动日志"><a href="#journalctl-查看服务启动日志" class="headerlink" title="journalctl 查看服务启动日志"></a>journalctl 查看服务启动日志</h2><p>journalctl -u kubelet.service</p>
-<p>journalctl -u etcd.service -f -n 100   </p>
-<blockquote>
-<p>如果不知道服务名称，可以使用<code>systemctl list-units --type=service</code>命令来列出系统中的 systemd 服务。</p>
-</blockquote>
-<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">watch -d -n 60 &quot;free -h&quot; 每分钟动态监测主机内存的使用情况</span><br></pre></td></tr></table></figure>
-
-<h2 id="rpm-安装rpm包"><a href="#rpm-安装rpm包" class="headerlink" title="rpm 安装rpm包"></a>rpm 安装rpm包</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 列出所有安装过的包</span></span><br><span class="line">rpm -qa </span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装rpm软件包</span></span><br><span class="line">rpm -ivh your-package.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取rpm包中的文件安装路径</span></span><br><span class="line">rpm -ql nfs-utils-1.3.0-0.54.el7.x86_64 </span><br></pre></td></tr></table></figure>
-
-<h2 id="nohup-后台运行命令"><a href="#nohup-后台运行命令" class="headerlink" title="nohup 后台运行命令"></a>nohup 后台运行命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nohup sh install.sh &gt; output.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
-
-<p>stderr和stdout重定向输出到output.log</p>
-<p>2&gt;&amp;1说明： </p>
-<p>1 表示stdout标准输出，系统默认值是1 </p>
-<p>2 表示stderr标准错误，系统默认值是2 </p>
-<p>2&gt; 表示标准错误重定向 </p>
-<p>&amp; 表示等同于的意思 </p>
-<p>2&gt;&amp;1 表示2的输出重定向等同于1，即标准错误重定向到标准输出</p>
-<h2 id="script-记录终端会话的所有操作"><a href="#script-记录终端会话的所有操作" class="headerlink" title="script 记录终端会话的所有操作"></a>script 记录终端会话的所有操作</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">script -q myfile 静默模式记录，<span class="built_in">exit</span> 退出记录</span><br></pre></td></tr></table></figure>
-
-<h2 id="crontab-管理周期性执行任务"><a href="#crontab-管理周期性执行任务" class="headerlink" title="crontab 管理周期性执行任务"></a>crontab 管理周期性执行任务</h2><p> crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：minute   hour   day   month   week   command</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# <span class="built_in">cat</span> /var/spool/cron/root</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@master01 ~]# crontab -l</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux主机端口相关问题</title>
-    <url>/2017/11/26/linux/linux_port/</url>
-    <content><![CDATA[<h2 id="排查端口占用问题"><a href="#排查端口占用问题" class="headerlink" title="排查端口占用问题"></a>排查端口占用问题</h2><p>1、安装net-tools命令行工具 yum install -y net-tools<br>2、执行命令查看被占用端口的pid netstat -anlp | grep port<br>如下图，发现本机8083端口被22980的程序wisecloud-met所占用</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port04.png?raw=true" alt="1.png"></p>
-<p>3、进一步使用命令：ps -aux | grep wisecloud-met，或者直接：ps -aux | grep pid 查看，就可以明确知道8083端口是被哪个程序占用了！然后判断是否使用KILL命令干掉！</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port05.png?raw=true" alt="2.png"></p>
-<p>知识拓展：<a href="https://www.cnblogs.com/wonux/p/6268134.html">Linux网络管理常用命令：net-tools VS iproute2</a></p>
-<h2 id="测试端口连通性"><a href="#测试端口连通性" class="headerlink" title="测试端口连通性"></a>测试端口连通性</h2><h3 id="方法一：telnet"><a href="#方法一：telnet" class="headerlink" title="方法一：telnet"></a>方法一：telnet</h3><p>预置条件：安装telnet<br>step 1、rpm -qa telnet-server（无输出表示telnet-server未安装，则执行step2；否则执行step3）<br>step 2、yum -y install telnet-server（安装telnet-server）<br>step 3、rpm -qa telnet（无输出表示telnet未安装，则执行step4，否则执行step5）<br>step 4、yum -y install telnet（安装）</p>
-<p>telnet为用户提供了在本地计算机上完成远程主机工作的能力，因此可以通过telnet来测试端口的连通性，具体用法格式：telnet ip port<br>如果telnet连接不存在的端口，那会显示Connecttion refused<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port01.png?raw=true" alt="示例1.png"></p>
-<h3 id="方法二：curl"><a href="#方法二：curl" class="headerlink" title="方法二：curl"></a>方法二：curl</h3><p>预置条件：安装curl<br>curl 的官网下载地址：<a href="http://curl.haxx.se/download/">http://curl.haxx.se/download/</a><br>下载地址如下： <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>1.wget <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>如果使用 wget下载https开头的网址域名 时报错，你可能需要加上 –no-check-certificate 选项<br>2.tar -xzvf curl-7.38.0.tar.gz<br>3.cd curl-7.38.0<br>.&#x2F;configure<br>make<br>make install</p>
-<p>curl是利用URL语法在命令行方式下工作的开源文件传输工具。也可以用来测试端口的连通性，具体用法:curl ip:port<br>说明：如果远程主机开通了相应的端口，都会输出信息，如果没有开通相应的端口，则没有任何提示，需要CTRL+C断开。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port02.png?raw=true" alt="示例2.png"></p>
-<h3 id="方法三：wget"><a href="#方法三：wget" class="headerlink" title="方法三：wget"></a>方法三：wget</h3><p>预置条件：安装wget</p>
-<p>debian 或者 ubuntu : sudo apt-get install wget</p>
-<p>centos : sudo yum -y install wget</p>
-<p>wget是一个从网络上自动下载文件的自由工具，支持通过HTTP、HTTPS、FTP三个最常见的TCP&#x2F;IP协议下载，并可以使用HTTP代理。wget名称的由来是“World Wide Web”与“get”的结合，它也可以用来测试端口的连通性具体用法:wget ip:port，如果远程主机不存在端口则会一直提示连接主机。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port03.png?raw=true" alt="示例3.png"></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>自动化测试实战总结-Robot Framework</title>
-    <url>/2019/12/20/testing/autotest_by_rf/</url>
-    <content><![CDATA[<p>自动化测试跟其它任何一种测试类型（比如异常测试、稳定性测试、性能测试等）都是类似的，它也是一种测试类型而已。在开展测试之前，我们首先必须要明确自动化测试的需求是什么，要解决什么样的问题。<span id="more"></span></p>
-<h2 id="一、明确需求"><a href="#一、明确需求" class="headerlink" title="一、明确需求"></a>一、明确需求</h2><p>核心需求：“自动化”代替“手动”，提高测试效率</p>
-<p>核心理念：</p>
-<p>1、明确自动化收益。即每完成一条自动化用例，就减少了一条手工用例的执行时间。</p>
-<p>2、每次回归或上线验证必须执行的用例优先自动化，让自动化收益最大化</p>
-<p>3、确保新增用例是稳定100%通过前提下才被增加至用例集</p>
-<p>4、自动化不可能完全代替手动</p>
-<p>5、不要让环境问题成为瓶颈</p>
-<h2 id="二、技术选型"><a href="#二、技术选型" class="headerlink" title="二、技术选型"></a>二、技术选型</h2><p>1、首先要分析项目的架构和状况</p>
-<p>2、对于后端的服务，它如果是纯粹以接口的形式提供给其它组件去调用，那可以采取“接口自动化”</p>
-<p>3、对于Web产品，如果前后端都在测试的保障范围，而且前端页面相对比较稳定，可以考虑采用“UI自动化”</p>
-<p>4、最后测试技术栈选择python还是java，必须考虑团队成员的语言偏好和熟练程度</p>
-<h2 id="三、自动化实施过程"><a href="#三、自动化实施过程" class="headerlink" title="三、自动化实施过程"></a>三、自动化实施过程</h2><h3 id="实施目标"><a href="#实施目标" class="headerlink" title="实施目标"></a>实施目标</h3><ul>
-<li>同一份代码可以在多个集群执行</li>
-<li>各个集群的测试数据相互独立，不会互相影响</li>
-<li>可以方便地与数据库进行交互</li>
-<li>当用例执行出错时，有详细的日志帮助定位</li>
-<li>较好的可维护性和集群扩展性</li>
-</ul>
-<p>目前我跟的项目已经实现自动化的内容如下：</p>
-<ul>
-<li>基于接口的场景回归自动化测试</li>
-<li>编译部署过程自动化</li>
-<li>接入CICD平台跑自动化冒烟测试</li>
-</ul>
-<p>有计划未来要实现的自动化如下：</p>
-<ul>
-<li>接入CR平台（代码变更分析平台）的自动化</li>
-<li>对外&#x2F;上线打包发布的自动化</li>
-</ul>
-<h3 id="具体工作"><a href="#具体工作" class="headerlink" title="具体工作"></a>具体工作</h3><p>框架搭建时，主要用了以下工具：</p>
-<ul>
-<li>gitee：管理多分支代码</li>
-<li>Robot Framework：作为测试框架</li>
-<li>docker：打包测试脚本和python包依赖，构建测试镜像</li>
-</ul>
-<p>配置数据管理</p>
-<ul>
-<li>目前是把不同的测试集群信息放在wisecloud.yaml文件里管理，另外basedata.py文件管理其它配置数据。比如公共登录账号、harbor地址账号等。</li>
-<li>配置读取：单独创建一个Rest类，并继承REST父类。get_baseurl实例方法会根据env_type变量值，去动态获取目标集群的访问地址、集群ip地址,并调用BuiltIn().set_global_variable方法去设为全局变量。供用例执行过程中使用</li>
-</ul>
-<p>分层设计与解耦</p>
-<ul>
-<li><p>用例、方法（关键字）、测试库分层</p>
-</li>
-<li><p>用例按模块划分成多个测试用例文件，集中放进测试套件Suites</p>
-</li>
-<li><p>方法按模块划分成多个资源文件，集中放进资源文件夹Resource</p>
-</li>
-<li><p>自定义创建测试库和方法，集中放进Library。以关键字的形式以供调用</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">├── Library</span><br><span class="line">│   ├── Basedata.py</span><br><span class="line">│   ├── Rest.py</span><br><span class="line">│   ├── ServiceAdd.py</span><br><span class="line">│   └── wisecloud.yaml</span><br><span class="line">├── Resource</span><br><span class="line">│   ├── BackupRestore.robot</span><br><span class="line">│   ├── Common.robot</span><br><span class="line">│   ├── Configcenter.robot</span><br><span class="line">│   ├── Dashboard.robot</span><br><span class="line">│   ├── Monitor.robot</span><br><span class="line">│   ├── Orche_App.robot</span><br><span class="line">│   ├── Orche_Stack.robot</span><br><span class="line">│   ├── Resource_Manager.robot</span><br><span class="line">│   ├── Workflow.robot</span><br><span class="line">│   └── pipeline_workflow.robot</span><br><span class="line">├── Suites</span><br><span class="line">│   ├── backuprestore.robot</span><br><span class="line">│   ├── configcenter.robot</span><br><span class="line">│   ├── dashboard.robot</span><br><span class="line">│   ├── ingress</span><br><span class="line">│   │   └── ingress.robot</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h3 id="改进与提升"><a href="#改进与提升" class="headerlink" title="改进与提升"></a>改进与提升</h3><ul>
-<li>用例并发执行，解决用例耗时问题</li>
-<li>统一配置数据文件，放在资源文件夹里</li>
-<li>单例模式，解决用例频繁依赖登录接口组装header的问题</li>
-<li>解决一切脚本不稳定问题</li>
-</ul>
-<h2 id="四、自动化在研发阶段的应用"><a href="#四、自动化在研发阶段的应用" class="headerlink" title="四、自动化在研发阶段的应用"></a>四、自动化在研发阶段的应用</h2><h3 id="持续集成自动化测试"><a href="#持续集成自动化测试" class="headerlink" title="持续集成自动化测试"></a>持续集成自动化测试</h3><p>狭义的理解是每次开发提交代码，自动触发构建和测试。</p>
-<p>但是在实际项目中并不是这样玩的，实际落地的CI测试可能是每日1次或者每周1次，这完全取决于产品形态和团队的研发流程而定。</p>
-<h3 id="作为开发冒烟的一部分（未完成）"><a href="#作为开发冒烟的一部分（未完成）" class="headerlink" title="作为开发冒烟的一部分（未完成）"></a>作为开发冒烟的一部分（未完成）</h3><p>目前已经跟开发达成一致，开发非常欢迎将自动化用例接入到开发环境，用于他们每次变更时的环境正确性验证，可以尽早帮助他们发现研发过程中出现的问题。并且在提测前，只有100%通过自动化测试才可以进行提测。</p>
-<h2 id="五、自动化在测试阶段的应用"><a href="#五、自动化在测试阶段的应用" class="headerlink" title="五、自动化在测试阶段的应用"></a>五、自动化在测试阶段的应用</h2><h3 id="版本提测后的自动化回归验收"><a href="#版本提测后的自动化回归验收" class="headerlink" title="版本提测后的自动化回归验收"></a>版本提测后的自动化回归验收</h3><p>在开发提测后，我会自动化地完成以下事情：</p>
-<ul>
-<li>流水线拉取测试代码</li>
-<li>构建测试镜像</li>
-<li>执行自动化测试</li>
-<li>查看测试结果报告</li>
-</ul>
-<p>当自动化用例全部执行通过时，说明系统的核心功能回归没有问题，然后开始版本的细粒度功能的测试。</p>
-<h3 id="版本Bug修复后的回归验收"><a href="#版本Bug修复后的回归验收" class="headerlink" title="版本Bug修复后的回归验收"></a>版本Bug修复后的回归验收</h3><p>在测试过程中，开发肯定会经常修复bug重新提交代码，每次有代码重新提交时，我都可以自动编译部署pr镜像。</p>
-<h2 id="六、成效"><a href="#六、成效" class="headerlink" title="六、成效"></a>六、成效</h2><p>已实现的成效如下</p>
-<ul>
-<li>自动编译部署：测试过程中开发修复bug提交代码是非常频繁的，每次的手动编译部署可能都会耗费十几分钟，并且测试人员的关注点还不能离开。</li>
-<li>自动化回归测试：以前一次回归测试，需要QA持续地投入超过30分钟。现在通过一键执行，程序会自动地执行，时间控制在5分钟以内。且QA可以将注意力放到其它事情上。</li>
-</ul>
-<p>正在计划、可预见的成效：</p>
-<ul>
-<li>自动打包发布：目前都是人工利用shell脚本retag&amp;push版本镜像到发布仓库中，还必须把注意力投入其中去检查是否有遗漏。计划利用流水线job去做好这件事</li>
-</ul>
-]]></content>
-      <categories>
-        <category>测试自动化</category>
-      </categories>
-      <tags>
-        <tag>Robot Framework</tag>
-        <tag>DevOps</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>使用Jenkins工具集成自动化测试</title>
-    <url>/2019/03/29/testing/jenkins-ci-autotest/</url>
-    <content><![CDATA[<h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试<br>2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台</p>
-<h1 id="安装和配置Jenkins"><a href="#安装和配置Jenkins" class="headerlink" title="安装和配置Jenkins"></a>安装和配置Jenkins</h1><h2 id="jenkins容器安装"><a href="#jenkins容器安装" class="headerlink" title="jenkins容器安装"></a>jenkins容器安装</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 在docker主机上执行命令：</span><br><span class="line">docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可。<br>docker run参数的具体说明请看官方文档，介绍得很详细。<a href="https://jenkins.io/zh/doc/book/installing/">https://jenkins.io/zh/doc/book/installing/</a></p>
-</blockquote>
-<p>执行命令截图：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk01.png?raw=true" alt="jk.png"></p>
-<p>为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk02.png?raw=true" alt="jk.png"></p>
-<h2 id="配置邮件通知"><a href="#配置邮件通知" class="headerlink" title="配置邮件通知"></a>配置邮件通知</h2><p>这里特别注意的是密码应该填qq邮箱的授权码，填写完毕测试一下邮件发送成功即可<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk03.png?raw=true" alt="jk.png"></p>
-<h2 id="安装插件robot-framework"><a href="#安装插件robot-framework" class="headerlink" title="安装插件robot-framework"></a>安装插件robot-framework</h2><p>由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装这个插件。该插件在Jenkins中收集并发布Robot Framework测试结果。bfyrjbqkzqvaibjd<br>至此，jenkins的基本配置工作就算完了，接下来最核心就是编写pipeline脚本。</p>
-<h1 id="编写Pipeline脚本"><a href="#编写Pipeline脚本" class="headerlink" title="编写Pipeline脚本"></a>编写Pipeline脚本</h1><p>直接贴脚本，pipeline支持的语法请查看官方手册。</p>
-<p>pipeline流程图：</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk09.png?raw=true" alt="jk.png"></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    options &#123;</span><br><span class="line">        // 添加日志打印时间</span><br><span class="line">        timestamps()</span><br><span class="line">        // 设置全局超时间</span><br><span class="line">        // timeout(time:10,unit:&#x27;MINUTES&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">    environment &#123;</span><br><span class="line">        // GIT_BRANCH = &#x27;master&#x27; # 已设置全局变量</span><br><span class="line">        GIT_USER_ID = &#x27;76f84542-2dba-4128-8651-bed7a849eddd&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(&#x27;Git Clone&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                // sh  &#x27;printenv |sort&#x27;</span><br><span class="line">                git branch: &quot;$&#123;GIT_BRANCH&#125;&quot;, credentialsId: &quot;$&#123;GIT_USER_ID&#125;&quot;, url: &#x27;https://gitee.com/wisecloud/wise2c-robot.git&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(&#x27;Build Image&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh &#x27;docker build -t $&#123;JOB_NAME&#125;:$&#123;GIT_BRANCH&#125; .&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(&#x27;API Test&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                script&#123;</span><br><span class="line">                    sh &#x27;ls -a&#x27;</span><br><span class="line">                    sh &#x27;docker run --rm -v jenkins-data:/robot-results --name $&#123;JOB_NAME&#125; $&#123;JOB_NAME&#125;:$&#123;GIT_BRANCH&#125; robot --outputdir /robot-results /wise2c-robot/Project/Suites/resource_manager.robot&#x27;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    post &#123;</span><br><span class="line">        always &#123;</span><br><span class="line">            echo &#x27;Publish Test Report&#x27;</span><br><span class="line">            robot logFileName: &#x27;log.html&#x27;, outputFileName: &#x27;output.xml&#x27;, outputPath: &#x27;/var/jenkins_home/&#x27;, passThreshold: 100.0, reportFileName: &#x27;report.html&#x27;, unstableThreshold: 90.0</span><br><span class="line">            // deleteDir() /* clean up our workspace */</span><br><span class="line">        &#125;</span><br><span class="line">        success &#123;</span><br><span class="line">            mail bcc: &#x27;&#x27;, body: &quot;API自动化测试通过\n测试版本分支：$&#123;GIT_BRANCH&#125;\n测试报告地址：$&#123;BUILD_URL&#125;&quot;, cc: &#x27;&#x27;, from: &#x27;1219199895@qq.com&#x27;, replyTo: &#x27;&#x27;, subject: &quot;$&#123;JOB_NAME&#125;测试报告&quot;, to: &#x27;liaoxb@wise2c.com&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">        failure &#123;</span><br><span class="line">            mail bcc: &#x27;&#x27;, body: &quot;API自动化测试未通过，请相关模块的同事分析定位问题，谢谢大家。\n测试版本分支：$&#123;GIT_BRANCH&#125;\n测试报告地址：$&#123;BUILD_URL&#125;&quot;, cc: &#x27;&#x27;, from: &#x27;1219199895@qq.com&#x27;, replyTo: &#x27;&#x27;, subject: &quot;$&#123;JOB_NAME&#125;测试报告&quot;, to: &#x27;liaoxb@wise2c.com&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="webhook自动触发Jenkins-pipeline"><a href="#webhook自动触发Jenkins-pipeline" class="headerlink" title="webhook自动触发Jenkins pipeline"></a>webhook自动触发Jenkins pipeline</h1><p>1、新建pipeline时，构建触发器选择‘触发远程构建’这项，输入token name。比如apitest<br>这时就可以获得一个webhhok地址，提供给维护CICD平台的同事即可。<br>2、把pipeline脚本内容粘贴到流水线里，检查下有没有语法错误，最后点击保存<br>3、现在可以用curl模拟发送一次webhhok请求，不过记得临时把全局安全配置里的授权策略给放开，改成没有任何限制。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl JENKINS_URL/job/wise2c-robot/build?token=TOKEN_NAME</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk05.png?raw=true" alt="jk.png"></p>
-<h1 id="测试结果报告展示"><a href="#测试结果报告展示" class="headerlink" title="测试结果报告展示"></a>测试结果报告展示</h1><p>job首页测试结果展示，失败了1条case，同时收到了一封关于api测试失败的邮件通知：</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk04.png?raw=true" alt="jk.png"><br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk07.png?raw=true" alt="jk.png"></p>
-<p>测试结果详情页面展示，点击log.html链接可以直接查看日志；</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk06.png?raw=true" alt="jk.png"><br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk08.png?raw=true" alt="jk.png"></p>
-<p>注：如果到打开失败，可以参考这个解决办法。<a href="https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed">https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed</a><br>管理jenkins–&gt;脚本命令行输入如下脚本:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">System.setProperty(&quot;hudson.model.DirectoryBrowserSupport.CSP&quot;,&quot;sandbox allow-scripts; default-src &#x27;none&#x27;; img-src &#x27;self&#x27; data: ; style-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; data: ; script-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; ;&quot;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="持续改进"><a href="#持续改进" class="headerlink" title="持续改进"></a>持续改进</h1><p>1、目前创建的wise2c-robot任务脚本数量500+，全部跑完至少需要2个小时，后期打算按模块拆分成多个子任务job，并行执行测试。</p>
-<p>2、邮件通知的正文内容过于简单，希望能把每条case的执行结果直接展示出来</p>
-]]></content>
-      <categories>
-        <category>测试自动化</category>
-      </categories>
-      <tags>
-        <tag>Robot Framework</tag>
-        <tag>DevOps</tag>
-        <tag>Jenkins</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用kubeadm部署K8S集群v1.16.4</title>
     <url>/2019/12/01/cloud/kubernetes_deploy/</url>
     <content><![CDATA[<h1 id="环境准备工作"><a href="#环境准备工作" class="headerlink" title="环境准备工作"></a>环境准备工作</h1><h2 id="环境角色"><a href="#环境角色" class="headerlink" title="环境角色"></a>环境角色</h2><table>
@@ -697,6 +468,235 @@
       </categories>
       <tags>
         <tag>Nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令总结</title>
+    <url>/2017/07/05/linux/linux_cmd/</url>
+    <content><![CDATA[<h1 id="文件和目录管理"><a href="#文件和目录管理" class="headerlink" title="文件和目录管理"></a>文件和目录管理</h1><h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">根据正则表达式查找相关内容并打印对应的数据</span><br><span class="line"></span><br><span class="line">-A 除了显示符合范本样式的那一行之外，并显示该行之后的内容。</span><br><span class="line">-B 在显示符合范本样式的那一行之外，并显示该行之前的内容。</span><br><span class="line">-C 除了显示符合范本样式的那一列之外，并显示该列之前后的内容。</span><br><span class="line">-c 计算符合范本样式的列数。</span><br><span class="line">-i 忽略字符大小写的差别。</span><br><span class="line">-v 反转查找</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看日志里面有 error 关键字的日志记录，与这个记录前后三行的日志信息</span></span><br><span class="line"><span class="built_in">cat</span> log-fail.txt |grep error -C 3</span><br></pre></td></tr></table></figure>
+
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">localhost% <span class="built_in">cat</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文件的第一列和第五列</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $1,$5&#125;&#x27;</span> test.txt</span><br><span class="line">NAME VERSION</span><br><span class="line">k8s01 v1.16.4</span><br><span class="line">k8s02 v1.16.4</span><br><span class="line">k8s03 v1.16.4</span><br><span class="line">k8s04 v1.16.4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印最后一列字段</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span> test.txt</span><br><span class="line">CONTAINER-RUNTIME</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印倒数第二列字段：</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $(NF-1)&#125;&#x27;</span> test.txt</span><br><span class="line">KERNEL-VERSION</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本文件的总行数</span></span><br><span class="line">localhost% awk <span class="string">&#x27;END&#123;print NR&#125;&#x27;</span> test.txt</span><br><span class="line">5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本第1行数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR==1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本大于第1行的数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR&gt;1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br></pre></td></tr></table></figure>
+
+<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>定位到数据行并对数据进行增删改查操作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换文本中的字符串：</span></span><br><span class="line">sed <span class="string">&#x27;s/book/books/&#x27;</span> file</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用后缀/g标记会替换每一行中的所有匹配：</span></span><br><span class="line">[root@harbor image_pull_push]# <span class="built_in">cat</span> img-list.txt |sed <span class="string">&#x27;s/registry.cn-hangzhou.aliyuncs.com/192.168.0.11/g&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当需要从第N处匹配配开始替换时，可以使用 /Ng：</span></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">&#x27;s/sk/SK/3g&#x27;</span></span><br><span class="line">skskSKSKSKSK</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换某目录下所有文件的某字符串</span></span><br><span class="line">oldip=172.22.12.241</span><br><span class="line">newip=172.22.12.242</span><br><span class="line"><span class="comment"># 查看之前包含oldip的文件</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$oldip</span></span><br><span class="line"><span class="comment"># 替换IP地址</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs sed -i <span class="string">&quot;s/<span class="variable">$oldip</span>/<span class="variable">$newip</span>/&quot;</span></span><br><span class="line"><span class="comment"># 检查更新后的</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$newip</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="find-指定目录查找文件"><a href="#find-指定目录查找文件" class="headerlink" title="find 指定目录查找文件"></a>find 指定目录查找文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 当前目录搜索所有文件，文件内容 包含 “140.206.111.111” 的内容</span></span><br><span class="line">find . -<span class="built_in">type</span> f -name <span class="string">&quot;*&quot;</span> | xargs grep <span class="string">&quot;140.206.111.111&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找当前目录下是否存在README.md </span></span><br><span class="line">find . -name README.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找根目录/是否存在nginx.conf</span></span><br><span class="line">find / -name nginx.conf </span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定目录查找大于1G的文件</span></span><br><span class="line">find /data -size +1024M </span><br></pre></td></tr></table></figure>
+
+<h2 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建带有内容的文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello &gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line"><span class="comment"># 追加写入文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello-test &gt;&gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line">hello-test</span><br></pre></td></tr></table></figure>
+
+<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">wc</span> -l 统计文本行数</span><br><span class="line"><span class="built_in">wc</span> -w 统计文本字数</span><br><span class="line"><span class="built_in">wc</span> -c 统计文本字节数</span><br></pre></td></tr></table></figure>
+
+<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个50M的文件，文件名为out.txt</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=out.txt bs=10M count=1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 备份 /dev/hdb 全盘数据，并利用 gzip 工具进行压缩，保存到指定路径</span></span><br><span class="line"><span class="built_in">dd</span> <span class="keyword">if</span>=/dev/hdb | gzip &gt; /root/image.gz</span><br></pre></td></tr></table></figure>
+
+<h2 id="tar-文件归档"><a href="#tar-文件归档" class="headerlink" title="tar 文件归档"></a>tar 文件归档</h2><p>tar参数介绍</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">-c：创建一个包</span><br><span class="line">-v：显示所有过程</span><br><span class="line">-f：指定包的文件名</span><br><span class="line">-z：有gzip属性的</span><br><span class="line">-j：有bz2属性的</span><br><span class="line">-x：从包中解压</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 仅打包，不压缩！将 /home/vivek/bin/ 目录打包</span></span><br><span class="line">tar -cvf /tmp/bin-backup.tar /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 bzip2 算法压缩压缩</span></span><br><span class="line">tar -jcvf /tmp/bin-backup.tar.bz2 /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 gzip 算法压缩压缩</span></span><br><span class="line">tar -zcvf /tmp/bin-backup.tar.gz /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩</span></span><br><span class="line">tar -zxvf bin-backup.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细列举包里的所有文件</span></span><br><span class="line">tar -tvf /opt/extra.tgz</span><br></pre></td></tr></table></figure>
+
+<h2 id="vi-纯文本编辑器"><a href="#vi-纯文本编辑器" class="headerlink" title="vi 纯文本编辑器"></a>vi 纯文本编辑器</h2><p>vi编辑器提供了丰富的内置命令，有些内置命令使用键盘组合键即可完成，有些内置命令则需要以冒号“：”开头输入。常用内置命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">上下翻页：Ctrl+f、Ctrl+b</span><br><span class="line">跳到当前行最后字符处：Fn+右键</span><br><span class="line">跳到当前行最前面字符处：Fn+左键、0</span><br><span class="line"></span><br><span class="line">查找字符串：/字符串  n继续查找</span><br><span class="line">字符全局替换：:%s/foo/bar/g  :&#123;作用范围&#125;s/&#123;目标&#125;/&#123;替换&#125;/&#123;替换标志&#125;</span><br><span class="line"></span><br><span class="line">x或X：删除一个字符，x删除光标后的，而X删除光标前的；</span><br><span class="line">D：删除从当前光标到光标所在行尾的全部字符；</span><br><span class="line">删除行：<span class="built_in">dd</span> ndd（n代表删除或复制的行数）</span><br><span class="line">复制行：yy  nyy</span><br><span class="line">粘贴行：p、P</span><br><span class="line"></span><br><span class="line">复原前一个操作：u</span><br><span class="line">重做上一个操作：ctrl+r</span><br><span class="line">显示行号：:<span class="built_in">set</span> nu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Ctrl+u：向文件首翻半屏；</span><br><span class="line">Ctrl+d：向文件尾翻半屏；</span><br><span class="line">Ctrl+f：向文件尾翻一屏；</span><br><span class="line">Ctrl+b：向文件首翻一屏；</span><br><span class="line">Esc：从编辑模式切换到命令模式；</span><br><span class="line">ZZ：命令模式下保存当前文件所做的修改后退出vi；</span><br><span class="line">:行号：光标跳转到指定行的行首；</span><br><span class="line">:$：光标跳转到最后一行的行首；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="scp-加密方式远程复制文件"><a href="#scp-加密方式远程复制文件" class="headerlink" title="scp 加密方式远程复制文件"></a>scp 加密方式远程复制文件</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程拷贝目录到本地</span></span><br><span class="line">scp -r root@10.10.10.10:/opt/soft/mongodb /opt/soft/ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传本地目录到远程机器指定目录</span></span><br><span class="line">scp -r /opt/soft/mongodb root@10.10.10.10:/opt/soft/scptest</span><br></pre></td></tr></table></figure>
+
+<h2 id="ln-创建文件链接"><a href="#ln-创建文件链接" class="headerlink" title="ln 创建文件链接"></a>ln 创建文件链接</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建软链接（类似于Windows的快捷方式）</span></span><br><span class="line"><span class="built_in">ln</span> -sf /etc/hostname /usr/share/nginx/html/index.html</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建硬链接，两个文件的inode号相同,inode信息中的“链接数”会+1。当链接数减到0，即表明文件已删除</span></span><br><span class="line">[root@master01 wh_log]# <span class="built_in">ln</span> wh_test.sh link001.sh</span><br><span class="line">[root@master01 wh_log]# ll -li</span><br><span class="line">总用量 1800</span><br><span class="line">17293406 -rw-r--r-- 1 root root 187963 12月 18 10:13 es-1.log</span><br><span class="line">17293408 -rw-r--r-- 1 root root 223798 12月 18 10:13 es-2.log</span><br><span class="line">17293409 -rw-r--r-- 1 root root 214475 12月 18 10:13 es-3.log</span><br><span class="line">17293557 -rw-r--r-- 2 root root    201 12月 19 08:46 link001.sh</span><br><span class="line">17293554 -rw-r--r-- 1 root root 186335 12月 18 15:13 pgsql-1.log</span><br><span class="line">17293555 -rw-r--r-- 1 root root 435966 12月 18 15:13 pgsql-2.log</span><br><span class="line">17293556 -rw-r--r-- 1 root root 546363 12月 18 15:13 pgsql-3.log</span><br><span class="line">17293407 -rw-r--r-- 1 root root    225 12月 18 10:12 test.sh</span><br><span class="line">17293557 -rw-r--r-- 2 root root    201 12月 19 08:46 wh_test.sh</span><br></pre></td></tr></table></figure>
+
+<h1 id="磁盘管理"><a href="#磁盘管理" class="headerlink" title="磁盘管理"></a>磁盘管理</h1><h2 id="df-显示磁盘信息"><a href="#df-显示磁盘信息" class="headerlink" title="df  显示磁盘信息"></a>df  显示磁盘信息</h2><p>df -h 打印设备上挂载了多少磁盘，以及磁盘里还有多少可用空间。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@harbor ~]# <span class="built_in">df</span> -h</span><br><span class="line">文件系统        容量  已用  可用 已用% 挂载点</span><br><span class="line">/dev/vda1        50G   23G   24G   50% /</span><br><span class="line">devtmpfs        7.8G     0  7.8G    0% /dev</span><br><span class="line">tmpfs           7.8G     0  7.8G    0% /dev/shm</span><br><span class="line">tmpfs           7.8G  2.9M  7.8G    1% /run</span><br><span class="line">tmpfs           7.8G     0  7.8G    0% /sys/fs/cgroup</span><br><span class="line">/dev/vdc1       197G  157G   31G   84% /var/lib/docker</span><br><span class="line">/dev/vdd1        99G   68G   26G   73% /data</span><br></pre></td></tr></table></figure>
+
+<h2 id="du-显示每个文件和目录的磁盘使用空间"><a href="#du-显示每个文件和目录的磁盘使用空间" class="headerlink" title="du 显示每个文件和目录的磁盘使用空间"></a>du 显示每个文件和目录的磁盘使用空间</h2><p>du -sh 对文件和目录磁盘使用的空间总量的查看</p>
+<h1 id="网络管理"><a href="#网络管理" class="headerlink" title="网络管理"></a>网络管理</h1><h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><p>有时进程之间需要通信，需要开启一个socket，socket就是对外建立连接的一个窗口，然后借助TCP协议进行通信。但进行通信之前首先需要进程开启一个端口，这时就可以通过netstat命令查看开启的端口以及由哪个进程开启</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">netstat -a     <span class="comment">#列出所有端口</span></span><br><span class="line">netstat -at    <span class="comment">#列出所有tcp端口</span></span><br><span class="line">netstat -au    <span class="comment">#列出所有udp端口</span></span><br><span class="line"></span><br><span class="line">netstat -l        <span class="comment">#只显示监听端口</span></span><br><span class="line">netstat -lt       <span class="comment">#只列出所有监听 tcp 端口</span></span><br><span class="line">netstat -lu       <span class="comment">#只列出所有监听 udp 端口</span></span><br><span class="line"></span><br><span class="line">-t或--tcp：显示TCP传输协议的连线状况；</span><br><span class="line">-u或--udp：显示UDP传输协议的连线状况；</span><br><span class="line">-n或--numeric：直接使用ip地址，而不通过域名服务器；</span><br><span class="line">-l或--listening：显示监控中的服务器的Socket</span><br><span class="line">-p或--programs：显示正在使用Socket的程序识别码和程序名称；</span><br></pre></td></tr></table></figure>
+
+<h2 id="ss"><a href="#ss" class="headerlink" title="ss"></a>ss</h2><p>ss 可以用来获取socket统计信息，它可以显示和netstat类似的内容。但ss的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效</p>
+<h1 id="系统管理命令"><a href="#系统管理命令" class="headerlink" title="系统管理命令"></a>系统管理命令</h1><h2 id="ps-查看进程"><a href="#ps-查看进程" class="headerlink" title="ps 查看进程"></a>ps 查看进程</h2><p>ps -efww  报告当前系统的进程状态。加上ww可以完整展示进程的信息<br>ps -auxf | sort -nr -k 4 | head -10 找出占用内存资源最多的前 10 个进程<br>ps -auxf | sort -nr -k 3 | head -10 找出占用cpu资源最多的前 10 个进程</p>
+<h2 id="journalctl-查看服务启动日志"><a href="#journalctl-查看服务启动日志" class="headerlink" title="journalctl 查看服务启动日志"></a>journalctl 查看服务启动日志</h2><p>journalctl -u kubelet.service</p>
+<p>journalctl -u etcd.service -f -n 100   </p>
+<blockquote>
+<p>如果不知道服务名称，可以使用<code>systemctl list-units --type=service</code>命令来列出系统中的 systemd 服务。</p>
+</blockquote>
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">watch -d -n 60 &quot;free -h&quot; 每分钟动态监测主机内存的使用情况</span><br></pre></td></tr></table></figure>
+
+<h2 id="rpm-安装rpm包"><a href="#rpm-安装rpm包" class="headerlink" title="rpm 安装rpm包"></a>rpm 安装rpm包</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 列出所有安装过的包</span></span><br><span class="line">rpm -qa </span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装rpm软件包</span></span><br><span class="line">rpm -ivh your-package.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取rpm包中的文件安装路径</span></span><br><span class="line">rpm -ql nfs-utils-1.3.0-0.54.el7.x86_64 </span><br></pre></td></tr></table></figure>
+
+<h2 id="nohup-后台运行命令"><a href="#nohup-后台运行命令" class="headerlink" title="nohup 后台运行命令"></a>nohup 后台运行命令</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">nohup sh install.sh &gt; output.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<p>stderr和stdout重定向输出到output.log</p>
+<p>2&gt;&amp;1说明： </p>
+<p>1 表示stdout标准输出，系统默认值是1 </p>
+<p>2 表示stderr标准错误，系统默认值是2 </p>
+<p>2&gt; 表示标准错误重定向 </p>
+<p>&amp; 表示等同于的意思 </p>
+<p>2&gt;&amp;1 表示2的输出重定向等同于1，即标准错误重定向到标准输出</p>
+<h2 id="script-记录终端会话的所有操作"><a href="#script-记录终端会话的所有操作" class="headerlink" title="script 记录终端会话的所有操作"></a>script 记录终端会话的所有操作</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">script -q myfile 静默模式记录，<span class="built_in">exit</span> 退出记录</span><br></pre></td></tr></table></figure>
+
+<h2 id="crontab-管理周期性执行任务"><a href="#crontab-管理周期性执行任务" class="headerlink" title="crontab 管理周期性执行任务"></a>crontab 管理周期性执行任务</h2><p> crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：minute   hour   day   month   week   command</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# <span class="built_in">cat</span> /var/spool/cron/root</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[root@master01 ~]# crontab -l</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux主机端口相关问题</title>
+    <url>/2017/11/26/linux/linux_port/</url>
+    <content><![CDATA[<h2 id="排查端口占用问题"><a href="#排查端口占用问题" class="headerlink" title="排查端口占用问题"></a>排查端口占用问题</h2><p>1、安装net-tools命令行工具 yum install -y net-tools<br>2、执行命令查看被占用端口的pid netstat -anlp | grep port<br>如下图，发现本机8083端口被22980的程序wisecloud-met所占用</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port04.png?raw=true" alt="1.png"></p>
+<p>3、进一步使用命令：ps -aux | grep wisecloud-met，或者直接：ps -aux | grep pid 查看，就可以明确知道8083端口是被哪个程序占用了！然后判断是否使用KILL命令干掉！</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port05.png?raw=true" alt="2.png"></p>
+<p>知识拓展：<a href="https://www.cnblogs.com/wonux/p/6268134.html">Linux网络管理常用命令：net-tools VS iproute2</a></p>
+<h2 id="测试端口连通性"><a href="#测试端口连通性" class="headerlink" title="测试端口连通性"></a>测试端口连通性</h2><h3 id="方法一：telnet"><a href="#方法一：telnet" class="headerlink" title="方法一：telnet"></a>方法一：telnet</h3><p>预置条件：安装telnet<br>step 1、rpm -qa telnet-server（无输出表示telnet-server未安装，则执行step2；否则执行step3）<br>step 2、yum -y install telnet-server（安装telnet-server）<br>step 3、rpm -qa telnet（无输出表示telnet未安装，则执行step4，否则执行step5）<br>step 4、yum -y install telnet（安装）</p>
+<p>telnet为用户提供了在本地计算机上完成远程主机工作的能力，因此可以通过telnet来测试端口的连通性，具体用法格式：telnet ip port<br>如果telnet连接不存在的端口，那会显示Connecttion refused<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port01.png?raw=true" alt="示例1.png"></p>
+<h3 id="方法二：curl"><a href="#方法二：curl" class="headerlink" title="方法二：curl"></a>方法二：curl</h3><p>预置条件：安装curl<br>curl 的官网下载地址：<a href="http://curl.haxx.se/download/">http://curl.haxx.se/download/</a><br>下载地址如下： <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>1.wget <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>如果使用 wget下载https开头的网址域名 时报错，你可能需要加上 –no-check-certificate 选项<br>2.tar -xzvf curl-7.38.0.tar.gz<br>3.cd curl-7.38.0<br>.&#x2F;configure<br>make<br>make install</p>
+<p>curl是利用URL语法在命令行方式下工作的开源文件传输工具。也可以用来测试端口的连通性，具体用法:curl ip:port<br>说明：如果远程主机开通了相应的端口，都会输出信息，如果没有开通相应的端口，则没有任何提示，需要CTRL+C断开。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port02.png?raw=true" alt="示例2.png"></p>
+<h3 id="方法三：wget"><a href="#方法三：wget" class="headerlink" title="方法三：wget"></a>方法三：wget</h3><p>预置条件：安装wget</p>
+<p>debian 或者 ubuntu : sudo apt-get install wget</p>
+<p>centos : sudo yum -y install wget</p>
+<p>wget是一个从网络上自动下载文件的自由工具，支持通过HTTP、HTTPS、FTP三个最常见的TCP&#x2F;IP协议下载，并可以使用HTTP代理。wget名称的由来是“World Wide Web”与“get”的结合，它也可以用来测试端口的连通性具体用法:wget ip:port，如果远程主机不存在端口则会一直提示连接主机。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/linux/port03.png?raw=true" alt="示例3.png"></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>自动化测试实战总结-Robot Framework</title>
+    <url>/2019/12/20/testing/autotest_by_rf/</url>
+    <content><![CDATA[<p>自动化测试跟其它任何一种测试类型（比如异常测试、稳定性测试、性能测试等）都是类似的，它也是一种测试类型而已。在开展测试之前，我们首先必须要明确自动化测试的需求是什么，要解决什么样的问题。<span id="more"></span></p>
+<h2 id="一、明确需求"><a href="#一、明确需求" class="headerlink" title="一、明确需求"></a>一、明确需求</h2><p>核心需求：“自动化”代替“手动”，提高测试效率</p>
+<p>核心理念：</p>
+<p>1、明确自动化收益。即每完成一条自动化用例，就减少了一条手工用例的执行时间。</p>
+<p>2、每次回归或上线验证必须执行的用例优先自动化，让自动化收益最大化</p>
+<p>3、确保新增用例是稳定100%通过前提下才被增加至用例集</p>
+<p>4、自动化不可能完全代替手动</p>
+<p>5、不要让环境问题成为瓶颈</p>
+<h2 id="二、技术选型"><a href="#二、技术选型" class="headerlink" title="二、技术选型"></a>二、技术选型</h2><p>1、首先要分析项目的架构和状况</p>
+<p>2、对于后端的服务，它如果是纯粹以接口的形式提供给其它组件去调用，那可以采取“接口自动化”</p>
+<p>3、对于Web产品，如果前后端都在测试的保障范围，而且前端页面相对比较稳定，可以考虑采用“UI自动化”</p>
+<p>4、最后测试技术栈选择python还是java，必须考虑团队成员的语言偏好和熟练程度</p>
+<h2 id="三、自动化实施过程"><a href="#三、自动化实施过程" class="headerlink" title="三、自动化实施过程"></a>三、自动化实施过程</h2><h3 id="实施目标"><a href="#实施目标" class="headerlink" title="实施目标"></a>实施目标</h3><ul>
+<li>同一份代码可以在多个集群执行</li>
+<li>各个集群的测试数据相互独立，不会互相影响</li>
+<li>可以方便地与数据库进行交互</li>
+<li>当用例执行出错时，有详细的日志帮助定位</li>
+<li>较好的可维护性和集群扩展性</li>
+</ul>
+<p>目前我跟的项目已经实现自动化的内容如下：</p>
+<ul>
+<li>基于接口的场景回归自动化测试</li>
+<li>编译部署过程自动化</li>
+<li>接入CICD平台跑自动化冒烟测试</li>
+</ul>
+<p>有计划未来要实现的自动化如下：</p>
+<ul>
+<li>接入CR平台（代码变更分析平台）的自动化</li>
+<li>对外&#x2F;上线打包发布的自动化</li>
+</ul>
+<h3 id="具体工作"><a href="#具体工作" class="headerlink" title="具体工作"></a>具体工作</h3><p>框架搭建时，主要用了以下工具：</p>
+<ul>
+<li>gitee：管理多分支代码</li>
+<li>Robot Framework：作为测试框架</li>
+<li>docker：打包测试脚本和python包依赖，构建测试镜像</li>
+</ul>
+<p>配置数据管理</p>
+<ul>
+<li>目前是把不同的测试集群信息放在wisecloud.yaml文件里管理，另外basedata.py文件管理其它配置数据。比如公共登录账号、harbor地址账号等。</li>
+<li>配置读取：单独创建一个Rest类，并继承REST父类。get_baseurl实例方法会根据env_type变量值，去动态获取目标集群的访问地址、集群ip地址,并调用BuiltIn().set_global_variable方法去设为全局变量。供用例执行过程中使用</li>
+</ul>
+<p>分层设计与解耦</p>
+<ul>
+<li><p>用例、方法（关键字）、测试库分层</p>
+</li>
+<li><p>用例按模块划分成多个测试用例文件，集中放进测试套件Suites</p>
+</li>
+<li><p>方法按模块划分成多个资源文件，集中放进资源文件夹Resource</p>
+</li>
+<li><p>自定义创建测试库和方法，集中放进Library。以关键字的形式以供调用</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">├── Library</span><br><span class="line">│   ├── Basedata.py</span><br><span class="line">│   ├── Rest.py</span><br><span class="line">│   ├── ServiceAdd.py</span><br><span class="line">│   └── wisecloud.yaml</span><br><span class="line">├── Resource</span><br><span class="line">│   ├── BackupRestore.robot</span><br><span class="line">│   ├── Common.robot</span><br><span class="line">│   ├── Configcenter.robot</span><br><span class="line">│   ├── Dashboard.robot</span><br><span class="line">│   ├── Monitor.robot</span><br><span class="line">│   ├── Orche_App.robot</span><br><span class="line">│   ├── Orche_Stack.robot</span><br><span class="line">│   ├── Resource_Manager.robot</span><br><span class="line">│   ├── Workflow.robot</span><br><span class="line">│   └── pipeline_workflow.robot</span><br><span class="line">├── Suites</span><br><span class="line">│   ├── backuprestore.robot</span><br><span class="line">│   ├── configcenter.robot</span><br><span class="line">│   ├── dashboard.robot</span><br><span class="line">│   ├── ingress</span><br><span class="line">│   │   └── ingress.robot</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="改进与提升"><a href="#改进与提升" class="headerlink" title="改进与提升"></a>改进与提升</h3><ul>
+<li>用例并发执行，解决用例耗时问题</li>
+<li>统一配置数据文件，放在资源文件夹里</li>
+<li>单例模式，解决用例频繁依赖登录接口组装header的问题</li>
+<li>解决一切脚本不稳定问题</li>
+</ul>
+<h2 id="四、自动化在研发阶段的应用"><a href="#四、自动化在研发阶段的应用" class="headerlink" title="四、自动化在研发阶段的应用"></a>四、自动化在研发阶段的应用</h2><h3 id="持续集成自动化测试"><a href="#持续集成自动化测试" class="headerlink" title="持续集成自动化测试"></a>持续集成自动化测试</h3><p>狭义的理解是每次开发提交代码，自动触发构建和测试。</p>
+<p>但是在实际项目中并不是这样玩的，实际落地的CI测试可能是每日1次或者每周1次，这完全取决于产品形态和团队的研发流程而定。</p>
+<h3 id="作为开发冒烟的一部分（未完成）"><a href="#作为开发冒烟的一部分（未完成）" class="headerlink" title="作为开发冒烟的一部分（未完成）"></a>作为开发冒烟的一部分（未完成）</h3><p>目前已经跟开发达成一致，开发非常欢迎将自动化用例接入到开发环境，用于他们每次变更时的环境正确性验证，可以尽早帮助他们发现研发过程中出现的问题。并且在提测前，只有100%通过自动化测试才可以进行提测。</p>
+<h2 id="五、自动化在测试阶段的应用"><a href="#五、自动化在测试阶段的应用" class="headerlink" title="五、自动化在测试阶段的应用"></a>五、自动化在测试阶段的应用</h2><h3 id="版本提测后的自动化回归验收"><a href="#版本提测后的自动化回归验收" class="headerlink" title="版本提测后的自动化回归验收"></a>版本提测后的自动化回归验收</h3><p>在开发提测后，我会自动化地完成以下事情：</p>
+<ul>
+<li>流水线拉取测试代码</li>
+<li>构建测试镜像</li>
+<li>执行自动化测试</li>
+<li>查看测试结果报告</li>
+</ul>
+<p>当自动化用例全部执行通过时，说明系统的核心功能回归没有问题，然后开始版本的细粒度功能的测试。</p>
+<h3 id="版本Bug修复后的回归验收"><a href="#版本Bug修复后的回归验收" class="headerlink" title="版本Bug修复后的回归验收"></a>版本Bug修复后的回归验收</h3><p>在测试过程中，开发肯定会经常修复bug重新提交代码，每次有代码重新提交时，我都可以自动编译部署pr镜像。</p>
+<h2 id="六、成效"><a href="#六、成效" class="headerlink" title="六、成效"></a>六、成效</h2><p>已实现的成效如下</p>
+<ul>
+<li>自动编译部署：测试过程中开发修复bug提交代码是非常频繁的，每次的手动编译部署可能都会耗费十几分钟，并且测试人员的关注点还不能离开。</li>
+<li>自动化回归测试：以前一次回归测试，需要QA持续地投入超过30分钟。现在通过一键执行，程序会自动地执行，时间控制在5分钟以内。且QA可以将注意力放到其它事情上。</li>
+</ul>
+<p>正在计划、可预见的成效：</p>
+<ul>
+<li>自动打包发布：目前都是人工利用shell脚本retag&amp;push版本镜像到发布仓库中，还必须把注意力投入其中去检查是否有遗漏。计划利用流水线job去做好这件事</li>
+</ul>
+]]></content>
+      <categories>
+        <category>测试自动化</category>
+      </categories>
+      <tags>
+        <tag>Robot Framework</tag>
+        <tag>DevOps</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>使用Jenkins工具集成自动化测试</title>
+    <url>/2019/03/29/testing/jenkins-ci-autotest/</url>
+    <content><![CDATA[<h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试<br>2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台</p>
+<h1 id="安装和配置Jenkins"><a href="#安装和配置Jenkins" class="headerlink" title="安装和配置Jenkins"></a>安装和配置Jenkins</h1><h2 id="jenkins容器安装"><a href="#jenkins容器安装" class="headerlink" title="jenkins容器安装"></a>jenkins容器安装</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 在docker主机上执行命令：</span><br><span class="line">docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可。<br>docker run参数的具体说明请看官方文档，介绍得很详细。<a href="https://jenkins.io/zh/doc/book/installing/">https://jenkins.io/zh/doc/book/installing/</a></p>
+</blockquote>
+<p>执行命令截图：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk01.png?raw=true" alt="jk.png"></p>
+<p>为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk02.png?raw=true" alt="jk.png"></p>
+<h2 id="配置邮件通知"><a href="#配置邮件通知" class="headerlink" title="配置邮件通知"></a>配置邮件通知</h2><p>这里特别注意的是密码应该填qq邮箱的授权码，填写完毕测试一下邮件发送成功即可<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk03.png?raw=true" alt="jk.png"></p>
+<h2 id="安装插件robot-framework"><a href="#安装插件robot-framework" class="headerlink" title="安装插件robot-framework"></a>安装插件robot-framework</h2><p>由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装这个插件。该插件在Jenkins中收集并发布Robot Framework测试结果。bfyrjbqkzqvaibjd<br>至此，jenkins的基本配置工作就算完了，接下来最核心就是编写pipeline脚本。</p>
+<h1 id="编写Pipeline脚本"><a href="#编写Pipeline脚本" class="headerlink" title="编写Pipeline脚本"></a>编写Pipeline脚本</h1><p>直接贴脚本，pipeline支持的语法请查看官方手册。</p>
+<p>pipeline流程图：</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk09.png?raw=true" alt="jk.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pipeline &#123;</span><br><span class="line">    agent any</span><br><span class="line">    options &#123;</span><br><span class="line">        // 添加日志打印时间</span><br><span class="line">        timestamps()</span><br><span class="line">        // 设置全局超时间</span><br><span class="line">        // timeout(time:10,unit:&#x27;MINUTES&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">    environment &#123;</span><br><span class="line">        // GIT_BRANCH = &#x27;master&#x27; # 已设置全局变量</span><br><span class="line">        GIT_USER_ID = &#x27;76f84542-2dba-4128-8651-bed7a849eddd&#x27;</span><br><span class="line">    &#125;</span><br><span class="line">    stages &#123;</span><br><span class="line">        stage(&#x27;Git Clone&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                // sh  &#x27;printenv |sort&#x27;</span><br><span class="line">                git branch: &quot;$&#123;GIT_BRANCH&#125;&quot;, credentialsId: &quot;$&#123;GIT_USER_ID&#125;&quot;, url: &#x27;https://gitee.com/wisecloud/wise2c-robot.git&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(&#x27;Build Image&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                sh &#x27;docker build -t $&#123;JOB_NAME&#125;:$&#123;GIT_BRANCH&#125; .&#x27;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        stage(&#x27;API Test&#x27;) &#123;</span><br><span class="line">            steps &#123;</span><br><span class="line">                script&#123;</span><br><span class="line">                    sh &#x27;ls -a&#x27;</span><br><span class="line">                    sh &#x27;docker run --rm -v jenkins-data:/robot-results --name $&#123;JOB_NAME&#125; $&#123;JOB_NAME&#125;:$&#123;GIT_BRANCH&#125; robot --outputdir /robot-results /wise2c-robot/Project/Suites/resource_manager.robot&#x27;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    post &#123;</span><br><span class="line">        always &#123;</span><br><span class="line">            echo &#x27;Publish Test Report&#x27;</span><br><span class="line">            robot logFileName: &#x27;log.html&#x27;, outputFileName: &#x27;output.xml&#x27;, outputPath: &#x27;/var/jenkins_home/&#x27;, passThreshold: 100.0, reportFileName: &#x27;report.html&#x27;, unstableThreshold: 90.0</span><br><span class="line">            // deleteDir() /* clean up our workspace */</span><br><span class="line">        &#125;</span><br><span class="line">        success &#123;</span><br><span class="line">            mail bcc: &#x27;&#x27;, body: &quot;API自动化测试通过\n测试版本分支：$&#123;GIT_BRANCH&#125;\n测试报告地址：$&#123;BUILD_URL&#125;&quot;, cc: &#x27;&#x27;, from: &#x27;1219199895@qq.com&#x27;, replyTo: &#x27;&#x27;, subject: &quot;$&#123;JOB_NAME&#125;测试报告&quot;, to: &#x27;liaoxb@wise2c.com&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">        failure &#123;</span><br><span class="line">            mail bcc: &#x27;&#x27;, body: &quot;API自动化测试未通过，请相关模块的同事分析定位问题，谢谢大家。\n测试版本分支：$&#123;GIT_BRANCH&#125;\n测试报告地址：$&#123;BUILD_URL&#125;&quot;, cc: &#x27;&#x27;, from: &#x27;1219199895@qq.com&#x27;, replyTo: &#x27;&#x27;, subject: &quot;$&#123;JOB_NAME&#125;测试报告&quot;, to: &#x27;liaoxb@wise2c.com&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="webhook自动触发Jenkins-pipeline"><a href="#webhook自动触发Jenkins-pipeline" class="headerlink" title="webhook自动触发Jenkins pipeline"></a>webhook自动触发Jenkins pipeline</h1><p>1、新建pipeline时，构建触发器选择‘触发远程构建’这项，输入token name。比如apitest<br>这时就可以获得一个webhhok地址，提供给维护CICD平台的同事即可。<br>2、把pipeline脚本内容粘贴到流水线里，检查下有没有语法错误，最后点击保存<br>3、现在可以用curl模拟发送一次webhhok请求，不过记得临时把全局安全配置里的授权策略给放开，改成没有任何限制。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl JENKINS_URL/job/wise2c-robot/build?token=TOKEN_NAME</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk05.png?raw=true" alt="jk.png"></p>
+<h1 id="测试结果报告展示"><a href="#测试结果报告展示" class="headerlink" title="测试结果报告展示"></a>测试结果报告展示</h1><p>job首页测试结果展示，失败了1条case，同时收到了一封关于api测试失败的邮件通知：</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk04.png?raw=true" alt="jk.png"><br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk07.png?raw=true" alt="jk.png"></p>
+<p>测试结果详情页面展示，点击log.html链接可以直接查看日志；</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk06.png?raw=true" alt="jk.png"><br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/master/img/jenkins/jk08.png?raw=true" alt="jk.png"></p>
+<p>注：如果到打开失败，可以参考这个解决办法。<a href="https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed">https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed</a><br>管理jenkins–&gt;脚本命令行输入如下脚本:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">System.setProperty(&quot;hudson.model.DirectoryBrowserSupport.CSP&quot;,&quot;sandbox allow-scripts; default-src &#x27;none&#x27;; img-src &#x27;self&#x27; data: ; style-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; data: ; script-src &#x27;self&#x27; &#x27;unsafe-inline&#x27; &#x27;unsafe-eval&#x27; ;&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="持续改进"><a href="#持续改进" class="headerlink" title="持续改进"></a>持续改进</h1><p>1、目前创建的wise2c-robot任务脚本数量500+，全部跑完至少需要2个小时，后期打算按模块拆分成多个子任务job，并行执行测试。</p>
+<p>2、邮件通知的正文内容过于简单，希望能把每条case的执行结果直接展示出来</p>
+]]></content>
+      <categories>
+        <category>测试自动化</category>
+      </categories>
+      <tags>
+        <tag>Robot Framework</tag>
+        <tag>DevOps</tag>
+        <tag>Jenkins</tag>
       </tags>
   </entry>
 </search>
