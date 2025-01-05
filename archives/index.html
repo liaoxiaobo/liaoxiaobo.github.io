@@ -57,6 +57,9 @@
       <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
     </div>
   </div>
 
@@ -77,6 +80,10 @@
 
 
 
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
 
 
 
@@ -116,12 +123,14 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
-        <span class="site-state-item-count">1</span>
-        <span class="site-state-item-name">分类</span>
+          <a href="/categories/">
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">标签</span>
+          <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
@@ -164,7 +173,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2020/05/20/paas_design/" itemprop="url">
+          <a class="post-title-link" href="/2020/05/20/cloud/paas_design/" itemprop="url">
             <span itemprop="name">基于K8s的容器云PaaS平台设计</span>
           </a>
       </div>
@@ -187,7 +196,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/12/20/autotest_by_rf/" itemprop="url">
+          <a class="post-title-link" href="/2019/12/20/testing/autotest_by_rf/" itemprop="url">
             <span itemprop="name">自动化测试实战总结-Robot Framework</span>
           </a>
       </div>
@@ -207,7 +216,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/12/01/kubernetes_deploy/" itemprop="url">
+          <a class="post-title-link" href="/2019/12/01/cloud/kubernetes_deploy/" itemprop="url">
             <span itemprop="name">使用kubeadm部署K8S集群v1.16.4</span>
           </a>
       </div>
@@ -227,7 +236,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/11/15/git_tool_note/" itemprop="url">
+          <a class="post-title-link" href="/2019/11/15/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/git_tool_note/" itemprop="url">
             <span itemprop="name">Git工具-基础使用</span>
           </a>
       </div>
@@ -247,7 +256,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/03/29/jenkins-ci-autotest/" itemprop="url">
+          <a class="post-title-link" href="/2019/03/29/testing/jenkins-ci-autotest/" itemprop="url">
             <span itemprop="name">使用Jenkins工具集成自动化测试</span>
           </a>
       </div>
@@ -267,7 +276,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/03/04/kubernetes_monitor/" itemprop="url">
+          <a class="post-title-link" href="/2019/03/04/cloud/kubernetes_monitor/" itemprop="url">
             <span itemprop="name">Kubernetes集群监控</span>
           </a>
       </div>
@@ -287,7 +296,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/01/24/nginx-note-proxy/" itemprop="url">
+          <a class="post-title-link" href="/2019/01/24/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/nginx_proxy/" itemprop="url">
             <span itemprop="name">nginx实战笔记：配置反向代理访问监控系统</span>
           </a>
       </div>
@@ -307,7 +316,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/01/17/nginx-note-web/" itemprop="url">
+          <a class="post-title-link" href="/2019/01/17/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/nginx_web/" itemprop="url">
             <span itemprop="name">nginx实战笔记：搭建静态文件服务器</span>
           </a>
       </div>
@@ -327,7 +336,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2019/01/10/nginx-note-basic/" itemprop="url">
+          <a class="post-title-link" href="/2019/01/10/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/nginx_basic/" itemprop="url">
             <span itemprop="name">nginx实战笔记：常用功能</span>
           </a>
       </div>
@@ -350,7 +359,7 @@
       </div>
 
       <div class="post-title">
-          <a class="post-title-link" href="/2018/05/26/nfs_server_install/" itemprop="url">
+          <a class="post-title-link" href="/2018/05/26/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/nfs_server_install/" itemprop="url">
             <span itemprop="name">NFS服务器搭建和挂载</span>
           </a>
       </div>
