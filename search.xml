@@ -92,45 +92,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Git工具-基础使用</title>
-    <url>/2019/11/15/git_tool_note/</url>
-    <content><![CDATA[<h3 id="代码拉取到本地"><a href="#代码拉取到本地" class="headerlink" title="代码拉取到本地"></a>代码拉取到本地</h3><h4 id="与主分支保持同步"><a href="#与主分支保持同步" class="headerlink" title="与主分支保持同步"></a>与主分支保持同步</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git pull origin main</span><br><span class="line">git checkout feature/my-new-feature</span><br><span class="line">git merge main</span><br></pre></td></tr></table></figure>
-<h4 id="代码拉取冲突处理"><a href="#代码拉取冲突处理" class="headerlink" title="代码拉取冲突处理"></a>代码拉取冲突处理</h4><p><strong>1、保留并继续合并代码</strong></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">error: Your local changes to the following files would be overwritten by merge:</span><br><span class="line">	test.txt</span><br><span class="line">Please commit your changes or stash them before you merge.</span><br><span class="line">Aborting</span><br><span class="line">localhost:bookstore liaoxb$</span><br><span class="line">localhost:bookstore liaoxb$ echo &#x27;local change test&#x27; &gt; test.txt</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">error: Your local changes to the following files would be overwritten by merge:</span><br><span class="line">	test.txt</span><br><span class="line">Please commit your changes or stash them before you merge.</span><br><span class="line">Aborting</span><br></pre></td></tr></table></figure>
-
-<p>git stash 暂存本地的代码修改<br>git pull 拉取远端最新代码<br>git stash pop 合并暂存的本地代码，解决已冲突的文件</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git stash</span><br><span class="line">Saved working directory and index state WIP on master: d369e85 update</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br><span class="line">localhost:bookstore liaoxb$ git stash pop</span><br><span class="line">Auto-merging test.txt</span><br><span class="line">CONFLICT (content): Merge conflict in test.txt</span><br></pre></td></tr></table></figure>
-
-<p><strong>2、远端覆盖本地代码</strong></p>
-<p>git reset –hard 回滚到上个版本<br>git pull</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git reset --hard</span><br><span class="line">HEAD is now at d369e85 update</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br></pre></td></tr></table></figure>
-
-<h3 id="创建分支并推送到远端"><a href="#创建分支并推送到远端" class="headerlink" title="创建分支并推送到远端"></a>创建分支并推送到远端</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建新分支,同时切换到bugfix1</span></span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Already up to <span class="built_in">date</span>.</span><br><span class="line">localhost:bookstore liaoxb$ git checkout -b bugfix1</span><br><span class="line">Switched to a new branch <span class="string">&#x27;bugfix1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改并提交代码</span></span><br><span class="line">localhost:bookstore liaoxb$ <span class="built_in">echo</span> <span class="string">&#x27;bugfix test&#x27;</span> &gt; test.txt</span><br><span class="line">localhost:bookstore liaoxb$ git add .</span><br><span class="line">localhost:bookstore liaoxb$ git commit -m <span class="string">&quot;bugfix test&quot;</span></span><br><span class="line">[bugfix1 2eafe98] bugfix <span class="built_in">test</span></span><br><span class="line"> 1 file changed, 1 insertion(+), 3 deletions(-)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 新分支push到远端</span></span><br><span class="line">localhost:bookstore liaoxb$ git push --set-upstream origin bugfix1</span><br><span class="line">Counting objects: 3, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 8 threads.</span><br><span class="line">Compressing objects: 100% (2/2), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (3/3), 259 bytes | 259.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 3 (delta 1), reused 0 (delta 0)</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">remote: Create a pull request <span class="keyword">for</span> <span class="string">&#x27;bugfix1&#x27;</span> on Gitee by visiting:</span><br><span class="line">remote:     https://gitee.com/wisecloud/bookstore/pull/new/wisecloud:bugfix1...wisecloud:master</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line"> * [new branch]      bugfix1 -&gt; bugfix1</span><br><span class="line">Branch <span class="string">&#x27;bugfix1&#x27;</span> <span class="built_in">set</span> up to track remote branch <span class="string">&#x27;bugfix1&#x27;</span> from <span class="string">&#x27;origin&#x27;</span>.</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码合并到主分支"><a href="#代码合并到主分支" class="headerlink" title="代码合并到主分支"></a>代码合并到主分支</h3><h4 id="方法一：git-merge"><a href="#方法一：git-merge" class="headerlink" title="方法一：git merge"></a>方法一：git merge</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 切至合并分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git branch</span><br><span class="line">* bugfix1</span><br><span class="line">  master</span><br><span class="line">localhost:bookstore liaoxb$ git checkout master</span><br><span class="line">Switched to branch <span class="string">&#x27;master&#x27;</span></span><br><span class="line">Your branch is up to <span class="built_in">date</span> with <span class="string">&#x27;origin/master&#x27;</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行合并操作</span></span><br><span class="line">localhost:bookstore liaoxb$ git merge bugfix1</span><br><span class="line">Updating d369e85..2eafe98</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 4 +---</span><br><span class="line"> 1 file changed, 1 insertion(+), 3 deletions(-)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># git push到远端</span></span><br><span class="line">localhost:bookstore liaoxb$ git push</span><br><span class="line">Total 0 (delta 0), reused 0 (delta 0)</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line">   d369e85..2eafe98  master -&gt; master</span><br></pre></td></tr></table></figure>
-
-<h4 id="方法二：git-cherry-pick"><a href="#方法二：git-cherry-pick" class="headerlink" title="方法二：git cherry-pick"></a>方法二：git cherry-pick</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 切换到master分支</span></span><br><span class="line">git checkout master</span><br><span class="line"></span><br><span class="line"><span class="comment"># Cherry pick 操作</span></span><br><span class="line">git cherry-pick &lt;commit_1&gt; &lt;commit_2&gt; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>执行合并操作期间，若遇到代码冲突，需要先解决后，才能继续合并提交</p>
-</blockquote>
-<h4 id="代码合并冲突处理"><a href="#代码合并冲突处理" class="headerlink" title="代码合并冲突处理"></a>代码合并冲突处理</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决完冲突后，将修改的文件重新加入暂存区</span></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 继续剩余的提交</span></span><br><span class="line">git cherry-pick --<span class="built_in">continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 遇到冲突，放弃合并，回到操作前的样子</span></span><br><span class="line">git cherry-pick --abort</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遇到冲突，放弃合并，不回到操作前的样子</span></span><br><span class="line">git cherry-pick --quit</span><br></pre></td></tr></table></figure>
-
-<h3 id="本地和远端删除已废弃分支"><a href="#本地和远端删除已废弃分支" class="headerlink" title="本地和远端删除已废弃分支"></a>本地和远端删除已废弃分支</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除远端分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/bugfix1</span><br><span class="line">  origin/master</span><br><span class="line">localhost:bookstore liaoxb$ git branch -d origin/bugfix1</span><br><span class="line">Deleted remote-tracking branch origin/bugfix1 (was 2eafe98).</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除本地分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git push origin --delete origin/bugfix1</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line"> - [deleted]         bugfix1</span><br><span class="line">localhost:bookstore liaoxb$ git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/master</span><br></pre></td></tr></table></figure>
-
-<h3 id="分支引入错误代码，需要回滚"><a href="#分支引入错误代码，需要回滚" class="headerlink" title="分支引入错误代码，需要回滚"></a>分支引入错误代码，需要回滚</h3><p>回滚至某次commit，之后的所有commit全部会丢失</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git reset --hard &lt;commit_id&gt;</span><br><span class="line">git push --force</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>工作笔记</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>使用Jenkins工具集成自动化测试</title>
     <url>/2019/03/29/jenkins-ci-autotest/</url>
     <content><![CDATA[<h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试<br>2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台</p>
@@ -173,6 +134,45 @@
         <tag>Robot Framework</tag>
         <tag>DevOps</tag>
         <tag>Jenkins</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git工具-基础使用</title>
+    <url>/2019/11/15/git_tool_note/</url>
+    <content><![CDATA[<h3 id="代码拉取到本地"><a href="#代码拉取到本地" class="headerlink" title="代码拉取到本地"></a>代码拉取到本地</h3><h4 id="与主分支保持同步"><a href="#与主分支保持同步" class="headerlink" title="与主分支保持同步"></a>与主分支保持同步</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git pull origin main</span><br><span class="line">git checkout feature/my-new-feature</span><br><span class="line">git merge main</span><br></pre></td></tr></table></figure>
+<h4 id="代码拉取冲突处理"><a href="#代码拉取冲突处理" class="headerlink" title="代码拉取冲突处理"></a>代码拉取冲突处理</h4><p><strong>1、保留并继续合并代码</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">error: Your local changes to the following files would be overwritten by merge:</span><br><span class="line">	test.txt</span><br><span class="line">Please commit your changes or stash them before you merge.</span><br><span class="line">Aborting</span><br><span class="line">localhost:bookstore liaoxb$</span><br><span class="line">localhost:bookstore liaoxb$ echo &#x27;local change test&#x27; &gt; test.txt</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">error: Your local changes to the following files would be overwritten by merge:</span><br><span class="line">	test.txt</span><br><span class="line">Please commit your changes or stash them before you merge.</span><br><span class="line">Aborting</span><br></pre></td></tr></table></figure>
+
+<p>git stash 暂存本地的代码修改<br>git pull 拉取远端最新代码<br>git stash pop 合并暂存的本地代码，解决已冲突的文件</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git stash</span><br><span class="line">Saved working directory and index state WIP on master: d369e85 update</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br><span class="line">localhost:bookstore liaoxb$ git stash pop</span><br><span class="line">Auto-merging test.txt</span><br><span class="line">CONFLICT (content): Merge conflict in test.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、远端覆盖本地代码</strong></p>
+<p>git reset –hard 回滚到上个版本<br>git pull</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">localhost:bookstore liaoxb$ git reset --hard</span><br><span class="line">HEAD is now at d369e85 update</span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Updating d369e85..67e8e8a</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建分支并推送到远端"><a href="#创建分支并推送到远端" class="headerlink" title="创建分支并推送到远端"></a>创建分支并推送到远端</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建新分支,同时切换到bugfix1</span></span><br><span class="line">localhost:bookstore liaoxb$ git pull</span><br><span class="line">Already up to <span class="built_in">date</span>.</span><br><span class="line">localhost:bookstore liaoxb$ git checkout -b bugfix1</span><br><span class="line">Switched to a new branch <span class="string">&#x27;bugfix1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改并提交代码</span></span><br><span class="line">localhost:bookstore liaoxb$ <span class="built_in">echo</span> <span class="string">&#x27;bugfix test&#x27;</span> &gt; test.txt</span><br><span class="line">localhost:bookstore liaoxb$ git add .</span><br><span class="line">localhost:bookstore liaoxb$ git commit -m <span class="string">&quot;bugfix test&quot;</span></span><br><span class="line">[bugfix1 2eafe98] bugfix <span class="built_in">test</span></span><br><span class="line"> 1 file changed, 1 insertion(+), 3 deletions(-)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 新分支push到远端</span></span><br><span class="line">localhost:bookstore liaoxb$ git push --set-upstream origin bugfix1</span><br><span class="line">Counting objects: 3, <span class="keyword">done</span>.</span><br><span class="line">Delta compression using up to 8 threads.</span><br><span class="line">Compressing objects: 100% (2/2), <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (3/3), 259 bytes | 259.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 3 (delta 1), reused 0 (delta 0)</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">remote: Create a pull request <span class="keyword">for</span> <span class="string">&#x27;bugfix1&#x27;</span> on Gitee by visiting:</span><br><span class="line">remote:     https://gitee.com/wisecloud/bookstore/pull/new/wisecloud:bugfix1...wisecloud:master</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line"> * [new branch]      bugfix1 -&gt; bugfix1</span><br><span class="line">Branch <span class="string">&#x27;bugfix1&#x27;</span> <span class="built_in">set</span> up to track remote branch <span class="string">&#x27;bugfix1&#x27;</span> from <span class="string">&#x27;origin&#x27;</span>.</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码合并到主分支"><a href="#代码合并到主分支" class="headerlink" title="代码合并到主分支"></a>代码合并到主分支</h3><h4 id="方法一：git-merge"><a href="#方法一：git-merge" class="headerlink" title="方法一：git merge"></a>方法一：git merge</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 切至合并分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git branch</span><br><span class="line">* bugfix1</span><br><span class="line">  master</span><br><span class="line">localhost:bookstore liaoxb$ git checkout master</span><br><span class="line">Switched to branch <span class="string">&#x27;master&#x27;</span></span><br><span class="line">Your branch is up to <span class="built_in">date</span> with <span class="string">&#x27;origin/master&#x27;</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行合并操作</span></span><br><span class="line">localhost:bookstore liaoxb$ git merge bugfix1</span><br><span class="line">Updating d369e85..2eafe98</span><br><span class="line">Fast-forward</span><br><span class="line"> test.txt | 4 +---</span><br><span class="line"> 1 file changed, 1 insertion(+), 3 deletions(-)</span><br><span class="line"> </span><br><span class="line"><span class="comment"># git push到远端</span></span><br><span class="line">localhost:bookstore liaoxb$ git push</span><br><span class="line">Total 0 (delta 0), reused 0 (delta 0)</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line">   d369e85..2eafe98  master -&gt; master</span><br></pre></td></tr></table></figure>
+
+<h4 id="方法二：git-cherry-pick"><a href="#方法二：git-cherry-pick" class="headerlink" title="方法二：git cherry-pick"></a>方法二：git cherry-pick</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 切换到master分支</span></span><br><span class="line">git checkout master</span><br><span class="line"></span><br><span class="line"><span class="comment"># Cherry pick 操作</span></span><br><span class="line">git cherry-pick &lt;commit_1&gt; &lt;commit_2&gt; </span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>执行合并操作期间，若遇到代码冲突，需要先解决后，才能继续合并提交</p>
+</blockquote>
+<h4 id="代码合并冲突处理"><a href="#代码合并冲突处理" class="headerlink" title="代码合并冲突处理"></a>代码合并冲突处理</h4><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 解决完冲突后，将修改的文件重新加入暂存区</span></span><br><span class="line">git add .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 继续剩余的提交</span></span><br><span class="line">git cherry-pick --<span class="built_in">continue</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 遇到冲突，放弃合并，回到操作前的样子</span></span><br><span class="line">git cherry-pick --abort</span><br><span class="line"></span><br><span class="line"><span class="comment"># 遇到冲突，放弃合并，不回到操作前的样子</span></span><br><span class="line">git cherry-pick --quit</span><br></pre></td></tr></table></figure>
+
+<h3 id="本地和远端删除已废弃分支"><a href="#本地和远端删除已废弃分支" class="headerlink" title="本地和远端删除已废弃分支"></a>本地和远端删除已废弃分支</h3><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 删除远端分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/bugfix1</span><br><span class="line">  origin/master</span><br><span class="line">localhost:bookstore liaoxb$ git branch -d origin/bugfix1</span><br><span class="line">Deleted remote-tracking branch origin/bugfix1 (was 2eafe98).</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除本地分支</span></span><br><span class="line">localhost:bookstore liaoxb$ git push origin --delete origin/bugfix1</span><br><span class="line">remote: Powered by GITEE.COM [GNK-3.0]</span><br><span class="line">To https://gitee.com/wisecloud/bookstore.git</span><br><span class="line"> - [deleted]         bugfix1</span><br><span class="line">localhost:bookstore liaoxb$ git branch -r</span><br><span class="line">  origin/HEAD -&gt; origin/master</span><br><span class="line">  origin/master</span><br></pre></td></tr></table></figure>
+
+<h3 id="分支引入错误代码，需要回滚"><a href="#分支引入错误代码，需要回滚" class="headerlink" title="分支引入错误代码，需要回滚"></a>分支引入错误代码，需要回滚</h3><p>回滚至某次commit，之后的所有commit全部会丢失</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">git reset --hard &lt;commit_id&gt;</span><br><span class="line">git push --force</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>工作笔记</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -661,9 +661,17 @@
     <title>基于K8s的容器云PaaS平台设计</title>
     <url>/2020/05/20/paas_design/</url>
     <content><![CDATA[<h1 id="为什么需要PaaS平台"><a href="#为什么需要PaaS平台" class="headerlink" title="为什么需要PaaS平台"></a>为什么需要PaaS平台</h1><p>PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas1.jpg?raw=true" alt="示例1.png"></p>
-<h1 id="如何建设PaaS平台"><a href="#如何建设PaaS平台" class="headerlink" title="如何建设PaaS平台"></a>如何建设PaaS平台</h1><p>功能模块：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas3.jpg?raw=true" alt="示例1.png"></p>
-<p>平台技术<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas4.jpg?raw=true" alt="示例1.png"></p>
+<img src="/2020/05/20/paas_design/paas1.jpg" class="" title="示例1.png">
+
+<h1 id="如何建设PaaS平台"><a href="#如何建设PaaS平台" class="headerlink" title="如何建设PaaS平台"></a>如何建设PaaS平台</h1><p>PAAS设计</p>
+<img src="/2020/05/20/paas_design/paas2.png" class="" title="paas2">
+
+<p>功能模块</p>
+<img src="/2020/05/20/paas_design/paas3.jpg" class="" title="示例1.png">
+
+<p>平台技术</p>
+<img src="/2020/05/20/paas_design/paas4.jpg" class="" title="示例1.png">
+
 <h2 id="应用管理"><a href="#应用管理" class="headerlink" title="应用管理"></a>应用管理</h2><p>PaaS平台最核心的功能就是应用全生命周期管理。应用通常是一个独立完整的业务功能，一个应用可能由多个服务组件组成，对于微服务而言每个组件都可以独立于其他组件部署、启动、运行和治理。PaaS平台需要提高对应用的一键式部署、健康检查、弹性扩缩、升级发布、资源管理、访问管理、监控管理等功能，从而保证应用的整体服务能力。</p>
 <p>一键式部署：一般支持通过镜像、应用模板和 YAML等方式部署应用，让用户可通过多种应用交付物快速便捷的部署。</p>
 <p>健康检查：由于容器启动后应用还需要较长时间才能接受请求，容器正常运行但容器中的应用服务异常等原因。需要支持应用健康状态的检查，健康检查结果会指导负载均衡、滚动发布和弹性伸缩，实现更平滑的过程 。</p>
@@ -699,12 +707,5 @@
       <tags>
         <tag>PaaS</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>test</title>
-    <url>/2025/01/07/test/</url>
-    <content><![CDATA[<p><img src="/images/linux/nginx2.png" alt="图片"></p>
-<img src="/2025/01/07/test/m852fgjqzm-20250107231010251.png" class="" title="img">
-]]></content>
   </entry>
 </search>
