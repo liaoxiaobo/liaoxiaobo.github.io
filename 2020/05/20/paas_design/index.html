@@ -19,18 +19,18 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="为什么需要PaaS平台PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。 如何建设PaaS平台功能模块： 平台技术 应用管理PaaS平台最核心的功">
+    <meta name="description" content="为什么需要PaaS平台PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。  如何建设PaaS平台功能模块： 平台技术 应用管理PaaS平台最核心的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="基于K8s的容器云PaaS平台设计">
 <meta property="og:url" content="http://example.com/2020/05/20/paas_design/index.html">
 <meta property="og:site_name" content="liaoxb&#39;s blog">
-<meta property="og:description" content="为什么需要PaaS平台PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。 如何建设PaaS平台功能模块： 平台技术 应用管理PaaS平台最核心的功">
+<meta property="og:description" content="为什么需要PaaS平台PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。  如何建设PaaS平台功能模块： 平台技术 应用管理PaaS平台最核心的">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas1.jpg?raw=true">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas3.jpg?raw=true">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas4.jpg?raw=true">
 <meta property="article:published_time" content="2020-05-19T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-01-05T17:06:25.505Z">
+<meta property="article:modified_time" content="2025-01-07T14:12:58.611Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="PaaS">
 <meta name="twitter:card" content="summary">
@@ -128,7 +128,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">12</span>
+          <span class="site-state-item-count">13</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -216,7 +216,8 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="为什么需要PaaS平台"><a href="#为什么需要PaaS平台" class="headerlink" title="为什么需要PaaS平台"></a>为什么需要PaaS平台</h1><p>PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas1.jpg?raw=true" alt="示例1.png"></p>
+    <div class="post-body" itemprop="articleBody"><h1 id="为什么需要PaaS平台"><a href="#为什么需要PaaS平台" class="headerlink" title="为什么需要PaaS平台"></a>为什么需要PaaS平台</h1><p>PaaS（平台即服务）给用户提供的平台化能力是建立在IaaS服务上层，它给用户提供的核心价值就围绕在Application和Data两方面。PaaS用户（一般指开发人员）只需专注于业务逻辑和应用本身研发，无需管理底层的基础设施，包括网络、服务器，操作系统或者存储，同时大大简化了研发运维间的沟通协作难度。</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas1.jpg?raw=true" alt="示例1.png"></p>
 <h1 id="如何建设PaaS平台"><a href="#如何建设PaaS平台" class="headerlink" title="如何建设PaaS平台"></a>如何建设PaaS平台</h1><p>功能模块：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas3.jpg?raw=true" alt="示例1.png"></p>
 <p>平台技术<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/paas/paas4.jpg?raw=true" alt="示例1.png"></p>
 <h2 id="应用管理"><a href="#应用管理" class="headerlink" title="应用管理"></a>应用管理</h2><p>PaaS平台最核心的功能就是应用全生命周期管理。应用通常是一个独立完整的业务功能，一个应用可能由多个服务组件组成，对于微服务而言每个组件都可以独立于其他组件部署、启动、运行和治理。PaaS平台需要提高对应用的一键式部署、健康检查、弹性扩缩、升级发布、资源管理、访问管理、监控管理等功能，从而保证应用的整体服务能力。</p>
@@ -268,6 +269,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2025/01/07/test/" rel="next" title="test">
+                  test <i class="fa fa-angle-right"></i>
+                </a>
             </div>
           </div>
     </footer>
