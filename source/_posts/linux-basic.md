@@ -1,11 +1,12 @@
 ---
 title: Linux知识总结
-date: 2019/7/1 20:36:25
-categories:
-  - Linux
 tags:
   - Linux
+categories:
+  - Linux
+date: 2019-07-01 20:36:25
 ---
+
 
 # Linux 操作系统
 
