@@ -182,6 +182,124 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/17/nginx_web/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/01/17/nginx_web/" class="post-title-link" itemprop="url">nginx实战笔记：搭建静态文件服务器</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-01-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-17T00:00:00+08:00">2019-01-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">工作笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>上次了解到nginx相关基础知识，这次就趁热打铁，学习亲手搭建一个静态资源的文件服务器。其中会涉及到gzip功能的配置。</p>
+<h1 id="搭建目标"><a href="#搭建目标" class="headerlink" title="搭建目标"></a>搭建目标</h1><p>1、可以成功访问一些静态资源文件（图片、日志文件html等）<br>2、服务器会以gzip压缩的形式返回数据</p>
+<h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><h2 id="容器运行nginx，端口映射到本机8080"><a href="#容器运行nginx，端口映射到本机8080" class="headerlink" title="容器运行nginx，端口映射到本机8080"></a>容器运行nginx，端口映射到本机8080</h2><p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx6.png?raw=true" alt="6.png"></p>
+<h2 id="查看静态资源文件和nginx-conf"><a href="#查看静态资源文件和nginx-conf" class="headerlink" title="查看静态资源文件和nginx.conf"></a>查看静态资源文件和nginx.conf</h2><p>本地机器上，静态资源全部放在static-web目录下。<br>子目录img存放的是图片jpg、png，子目录robot-log存放的是每天归档的测试日志报告html。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">localhost:nginx-test liaoxb$ tree</span><br><span class="line">.</span><br><span class="line">├── nginx.conf</span><br><span class="line">└── static-web</span><br><span class="line">    ├── img</span><br><span class="line">    │   ├── test01.jpg</span><br><span class="line">    │   └── test02.png</span><br><span class="line">    └── robot-log</span><br><span class="line">        ├── 2019-01-16</span><br><span class="line">        │   ├── log.html</span><br><span class="line">        │   ├── output.xml</span><br><span class="line">        │   └── report.html</span><br><span class="line">        └── 2019-01-17</span><br><span class="line">            ├── log.html</span><br><span class="line">            ├── output.xml</span><br><span class="line">            └── report.html</span><br></pre></td></tr></table></figure>
+
+
+
+<p>相比nginx容器内的默认配置文件，本地对nginx.conf做了如下改动(重要)：<br>1、开启了gzip功能，并配置了相关参数（后面会详细介绍参数）<br>2、server块里追加了两个location块（&#x2F;img&#x2F;、&#x2F;robot-log&#x2F;），将对应请求路由到root所指向的目录或index文件<br>3、修改了server_name，记得在本地主机&#x2F;etc&#x2F;hosts文件下写入static.web.com<br>4、注释了include参数，不过根目录依然是可以访问到nginx默认欢迎页面的。</p>
+<p>完整配置内容如下：</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">user</span>  nginx;</span><br><span class="line"><span class="attribute">worker_processes</span>  <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="attribute">error_log</span>  /var/log/nginx/<span class="literal">error</span>.log <span class="literal">warn</span>;</span><br><span class="line"><span class="attribute">pid</span>        /var/run/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">events</span> &#123;</span><br><span class="line">    <span class="attribute">worker_connections</span>  <span class="number">1024</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    <span class="attribute">include</span>       /etc/nginx/mime.types;</span><br><span class="line">    <span class="attribute">default_type</span>  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">log_format</span>  main  <span class="string">&#x27;<span class="variable">$remote_addr</span> - <span class="variable">$remote_user</span> [<span class="variable">$time_local</span>] &quot;<span class="variable">$request</span>&quot; &#x27;</span></span><br><span class="line">                      <span class="string">&#x27;<span class="variable">$status</span> <span class="variable">$body_bytes_sent</span> &quot;<span class="variable">$http_referer</span>&quot; &#x27;</span></span><br><span class="line">                      <span class="string">&#x27;&quot;<span class="variable">$http_user_agent</span>&quot; &quot;<span class="variable">$http_x_forwarded_for</span>&quot;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">access_log</span>  /var/log/nginx/access.log  main;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">sendfile</span>        <span class="literal">on</span>;</span><br><span class="line">    <span class="comment">#tcp_nopush     on;</span></span><br><span class="line"></span><br><span class="line">    <span class="attribute">keepalive_timeout</span>  <span class="number">65</span>;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">gzip</span>              <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">gzip_min_length</span>   <span class="number">1k</span>;</span><br><span class="line">    <span class="attribute">gzip_buffers</span>      <span class="number">4</span> <span class="number">16k</span>;</span><br><span class="line">    <span class="attribute">gzip_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">    <span class="attribute">gzip_comp_level</span>   <span class="number">3</span>;</span><br><span class="line">    <span class="attribute">gzip_types</span>        text/plain application/x-javascript text/css application/xml text/javascript application/javascript image/jpeg image/jpg image/png;</span><br><span class="line">    <span class="attribute">gzip_proxied</span>      any;</span><br><span class="line">    <span class="attribute">gzip_vary</span>         <span class="literal">on</span>;</span><br><span class="line">    <span class="attribute">gzip_disable</span>      <span class="string">&quot;MSIE [1-6]\.&quot;</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">server_name</span>  static.web.com;</span><br><span class="line"></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line">            <span class="attribute">root</span> /usr/share/nginx/html;</span><br><span class="line">            <span class="attribute">index</span> index.html;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="section">location</span> /img/ &#123;</span><br><span class="line">            <span class="attribute">root</span> /usr/share/static-web;</span><br><span class="line">            <span class="attribute">autoindex</span> <span class="literal">on</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="section">location</span> /robot-log/ &#123;</span><br><span class="line">            <span class="attribute">root</span> /usr/share/static-web;</span><br><span class="line">            <span class="attribute">autoindex</span> <span class="literal">on</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#include /etc/nginx/conf.d/*.conf;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="动态配置nginx容器"><a href="#动态配置nginx容器" class="headerlink" title="动态配置nginx容器"></a>动态配置nginx容器</h2><p>动态配置nginx容器，需执行以下三步操作：<br>1、替换容器内的&#x2F;etc&#x2F;nginx&#x2F;nginx.conf<br>2、拷贝静态资源目录static-web到指定的容器目录&#x2F;usr&#x2F;share&#x2F;<br>3、重启nginx容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">localhost:nginx-test liaoxb$ ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x   4 liaoxb  staff   128  3  2 22:56 ./</span><br><span class="line">drwxr-xr-x  10 liaoxb  staff   320  3  1 23:28 ../</span><br><span class="line">-rw-r--r--@  1 liaoxb  staff  1404  1 16  2019 nginx.conf</span><br><span class="line">drwxr-xr-x   5 liaoxb  staff   160  1 16  2019 static-web/</span><br><span class="line">localhost:nginx-test liaoxb$ docker <span class="built_in">cp</span> nginx.conf nginx-test:/etc/nginx/</span><br><span class="line">localhost:nginx-test liaoxb$ docker <span class="built_in">cp</span> static-web nginx-test:/usr/share/</span><br><span class="line">localhost:nginx-test liaoxb$ docker restart nginx-test</span><br><span class="line">nginx-test</span><br><span class="line">localhost:nginx-test liaoxb$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES</span><br><span class="line">addfae34988b        nginx               <span class="string">&quot;nginx -g &#x27;daemon of…&quot;</span>   About an hour ago   Up 7 seconds        0.0.0.0:8080-&gt;80/tcp   nginx-test</span><br></pre></td></tr></table></figure>
+
+<h1 id="访问静态资源"><a href="#访问静态资源" class="headerlink" title="访问静态资源"></a>访问静态资源</h1><p>1、域名:8080访问根目录，成功访问nginx默认web页面<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx8.png?raw=true" alt="8.png"><br>2、域名:8080访问&#x2F;img&#x2F;，成功访问目录下的所有图片<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx9.png?raw=true" alt="9.png"><br>3、域名:8080访问&#x2F;robot-log&#x2F;，成功访问目录下的归档日志<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx10.png?raw=true" alt="10.png"><br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx11.png?raw=true" alt="11.png"></p>
+<h2 id="gzip配置详解"><a href="#gzip配置详解" class="headerlink" title="gzip配置详解"></a>gzip配置详解</h2><blockquote>
+<p>Nginx实现资源压缩的原理是通过ngx_http_gzip_module模块拦截请求，并对需要做gzip的类型做gzip，ngx_http_gzip_module是Nginx默认集成的，不需要重新编译，直接开启即可。</p>
+</blockquote>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启gzip</span></span><br><span class="line">gzip              on;</span><br><span class="line"><span class="comment"># 启用gzip压缩的最小文件，小于设置值的文件将不会压缩</span></span><br><span class="line">gzip_min_length   1k;</span><br><span class="line"><span class="comment"># 设置压缩所需要的缓冲区大小</span></span><br><span class="line">gzip_buffers      4 16k;</span><br><span class="line"><span class="comment"># 设置gzip压缩针对的HTTP协议版本</span></span><br><span class="line">gzip_http_version 1.1;</span><br><span class="line"><span class="comment"># gzip 压缩级别，1-9，数字越大压缩的越好，也越占用CPU时间，后面会有详细说明</span></span><br><span class="line">gzip_comp_level   3;</span><br><span class="line"><span class="comment"># 进行压缩的文件类型。javascript有多种形式。其中的值可以在 mime.types 文件中找到</span></span><br><span class="line">gzip_types        text/plain application/x-javascript text/css application/xml text/javascript application/javascript image/jpeg image/jpg image/png;</span><br><span class="line">gzip_proxied      any;</span><br><span class="line"><span class="comment"># 是否在http header中添加Vary: Accept-Encoding，建议开启</span></span><br><span class="line">gzip_vary         on;</span><br><span class="line"><span class="comment"># 禁用IE 6 gzip</span></span><br><span class="line">gzip_disable      <span class="string">&quot;MSIE [1-6]\.&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="压缩效果对比"><a href="#压缩效果对比" class="headerlink" title="压缩效果对比"></a>压缩效果对比</h2><p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx14.png?raw=true" alt="14.png"><br>curl命令直接对比查看：</p>
+<p>第一次curl请求头未带’Accept-Encoding: gzip,deflate’时，服务器不会压缩，直接返回html，从Content-Length也可以看出report.html的size是233340，也就是228kb大小。</p>
+<p>第二次curl请求头带了’Accept-Encoding: gzip,deflate’时，服务器则会进行压缩数据后再返回content，同时response字段也会出现Content-Encoding: gzip，这就证明gzip压缩配置生效了。不过这次的response看不见Content-Length，怎么确定压缩成多少了呢？</p>
+<p>这也很容易，结合着浏览器访问同个web页面查看size就清楚了，压缩后是77.1kb。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx12.png?raw=true" alt="12.png"></p>
+<p>参考文档：<br><a target="_blank" rel="noopener" href="https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html">https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/10/nginx_basic/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -274,156 +392,6 @@
 
 
 <p>参考文档：<br><a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/nginx-setup-intro.html">https://www.runoob.com/w3cnote/nginx-setup-intro.html</a><br><a target="_blank" rel="noopener" href="https://www.runoob.com/w3cnote/nginx-setup-intro.html">https://www.runoob.com/w3cnote/nginx-setup-intro.html</a><br><a target="_blank" rel="noopener" href="https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html">https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/06/python-decorator/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="liaoxb">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="liaoxb's blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | liaoxb's blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/01/06/python-decorator/" class="post-title-link" itemprop="url">Python编程进阶：装饰器的使用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2019-01-06 22:36:00" itemprop="dateCreated datePublished" datetime="2019-01-06T22:36:00+08:00">2019-01-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="本文字数">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">本文字数：</span>
-      <span>3.9k</span>
-    </span>
-    <span class="post-meta-item" title="阅读时长">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>在Python开发中，装饰器（Decorator）是一种强大而优雅的语法特性，它允许在<strong>不修改原函数代码</strong>的前提下，动态地为函数添加额外功能（如日志记录、性能分析、参数校验等）。本文将从闭包的基础概念出发，深入解析装饰器的实现原理，并通过实际示例展示其应用场景。</p>
-<hr>
-<h3 id="闭包：装饰器的基石"><a href="#闭包：装饰器的基石" class="headerlink" title="闭包：装饰器的基石"></a>闭包：装饰器的基石</h3><p>在理解装饰器之前，必须先了解<strong>闭包（Closure）</strong>的概念。闭包是指在函数内部定义的函数（嵌套函数），该函数可以访问外层函数的变量，即使外层函数已经执行完毕。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">outer</span>():</span><br><span class="line">    x = <span class="number">10</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;通过闭包访问外层变量x的值: <span class="subst">&#123;x&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> inner	<span class="comment"># 返回闭包</span></span><br><span class="line"></span><br><span class="line">closure = outer()</span><br><span class="line">closure()  <span class="comment"># 输出: 通过闭包访问外层变量x的值: 10</span></span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>outer</code> 返回 <code>inner</code>，后者可以访问并使用 <code>outer</code> 中的变量 <code>x</code></p>
-<h3 id="装饰器的实现"><a href="#装饰器的实现" class="headerlink" title="装饰器的实现"></a>装饰器的实现</h3><p>装饰器的本质是一个接收函数作为参数的外层函数，其内部定义一个闭包（通常命名为<code>wrapper</code>），用于包裹原函数并增强其功能。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 装饰器模版</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):          <span class="comment"># 外层函数（装饰器）</span></span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):  <span class="comment"># 内层函数（闭包）</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        result = func(*args, **kwargs)	<span class="comment"># 访问外层函数的参数 `func`</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
-<p>在上面的例子中，<code>decorator</code>就是一个装饰器。它接受一个函数<code>func</code>作为参数，并返回一个包裹原函数的新函数<code>wrapper</code>。</p>
-<p><strong>代码解析</strong></p>
-<ol>
-<li><code>@wraps(func)</code> ：保留原函数的元数据（如函数名、文档信息）</li>
-<li><code>*args, **kwargs</code>：接受任意、不定数量的参数，增强装饰器的通用性。</li>
-<li>外层<code>return wrapper</code>：确保装饰器返回包装后的函数，其实就是一个闭包函数。</li>
-<li>内层<code>return result</code>：确保原函数的返回值不被丢弃</li>
-</ol>
-<h3 id="装饰器应用场景"><a href="#装饰器应用场景" class="headerlink" title="装饰器应用场景"></a>装饰器应用场景</h3><p>1.日志记录：在大型项目中，使用装饰器可以轻松地为多个函数添加日志功能，而无需在每个函数中重复编写日志代码。</p>
-<p>2.性能分析：通过装饰器可以方便地测量函数的执行时间，帮助开发者识别性能瓶颈。</p>
-<p>3.访问控制：在Web应用中，装饰器可以用于实现用户认证和授权，确保只有具有特定权限的用户才能访问某些功能。</p>
-<p>4.缓存机制：对于计算密集型函数，使用缓存装饰器可以显著提高程序的执行效率，避免重复计算。</p>
-<p>5.输入验证：在数据处理应用中，装饰器可以用于检查函数输入的有效性，提高代码的健壮性。</p>
-<h3 id="装饰器函数示例"><a href="#装饰器函数示例" class="headerlink" title="装饰器函数示例"></a>装饰器函数示例</h3><h4 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">log_decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="comment"># logging.getLogger().setLevel(logging.INFO)</span></span><br><span class="line">        logging.info(<span class="string">f&quot;调用函数: <span class="subst">&#123;func.__name__&#125;</span>, 参数: <span class="subst">&#123;args&#125;</span>, <span class="subst">&#123;kwargs&#125;</span>&quot;</span>)</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        logging.info(<span class="string">f&quot;函数返回: <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@log_decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;两数相加&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>)  <span class="comment"># 自动记录日志</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>代码解析</strong></p>
-<ol>
-<li><code>@log_decorator</code>是装饰器的应用方式，相当于：<code>add = log_decorator(add)</code></li>
-<li>装饰器返回的<code>wrapper</code>函数能够访问外部函数<code>log_decorator</code>的作用域，因此可以在原函数执行前后插入自己的逻辑。</li>
-</ol>
-<h4 id="函数计时"><a href="#函数计时" class="headerlink" title="函数计时"></a>函数计时</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timer</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kw</span>):</span><br><span class="line">        t1=time.time()</span><br><span class="line">        <span class="comment"># 这是函数真正执行的地方</span></span><br><span class="line">        func(*args, **kw)</span><br><span class="line">        t2=time.time()</span><br><span class="line">        <span class="comment"># 计算下时长</span></span><br><span class="line">        cost_time = t2-t1 </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;花费时间：&#123;&#125;秒&quot;</span>.<span class="built_in">format</span>(cost_time))</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@timer</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">want_sleep</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line">want_sleep(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
-
-<h4 id="函数重试"><a href="#函数重试" class="headerlink" title="函数重试"></a>函数重试</h4><p>若需要为装饰器传递参数（如重试次数），需定义一个<strong>装饰器工厂函数</strong>，它可以根据参数“生产”出不同的装饰器。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">repeat</span>(<span class="params">num_times</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">        @wraps(<span class="params">func</span>)</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_times):</span><br><span class="line">                result = func(*args, **kwargs)</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="meta">@repeat(<span class="params">num_times=<span class="number">3</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Hello <span class="subst">&#123;name&#125;</span>!&quot;</span>)</span><br><span class="line"></span><br><span class="line">greet(<span class="string">&quot;Alice&quot;</span>)  <span class="comment"># 输出3次&quot;Hello Alice!&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>从以上例子中可以看到，在带参数的装饰器函数中一共有三层函数嵌套，其实剥离出最外面的一层，我们可以发现和简单（不带参数）的装饰器是一样的。</p>
-<p><strong>代码解析</strong>：</p>
-<ul>
-<li><code>repeat</code>是一个装饰器工厂函数，负责“生产”返回一个实际的装饰器<code>decorator</code>。</li>
-<li><code>@repeat(num_times=3)</code>等价于<code>greet = repeat(3)(greet)</code>。</li>
-</ul>
-<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><p>绝大多数装饰器都是基于函数和闭包实现的，但这并非制造装饰器的唯一方式。事实上，Python 对某个对象是否能通过装饰器（<code>@decorator</code>）形式使用只有一个要求：<strong>decorator 必须是一个“可被调用（callable）的对象</strong>。</p>
-<p>基于类装饰器的实现，必须实现 <code>__call__</code> 和 <code>__init__</code>两个内置函数。</p>
-<h4 id="不带参数的类装饰器"><a href="#不带参数的类装饰器" class="headerlink" title="不带参数的类装饰器"></a>不带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Decorator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func</span>):	<span class="comment"># 接收被装饰函数</span></span><br><span class="line">        <span class="variable language_">self</span>.func = func</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):	<span class="comment"># 实现装饰逻辑。</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;函数 <span class="subst">&#123;self.func.__name__&#125;</span> 被调用&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello!&quot;</span>)</span><br><span class="line"></span><br><span class="line">say_hello()  <span class="comment"># 输出: 函数 say_hello 被调用 → Hello!</span></span><br></pre></td></tr></table></figure>
-
-<p>在不带参数的类装饰器中，等价于 <code>func = class(func)</code>，此时函数作为了类的实例参数。</p>
-<h4 id="带参数的类装饰器"><a href="#带参数的类装饰器" class="headerlink" title="带参数的类装饰器"></a>带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">logger</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, level=<span class="string">&#x27;INFO&#x27;</span></span>):	<span class="comment"># 接受装饰器参数</span></span><br><span class="line">        <span class="variable language_">self</span>.level = level</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, func</span>): <span class="comment"># 接受被装饰函数</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[&#123;level&#125;]: the function &#123;func&#125;() is running...&quot;</span>\</span><br><span class="line">                .<span class="built_in">format</span>(level=<span class="variable language_">self</span>.level, func=func.__name__))</span><br><span class="line">            func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapper  <span class="comment">#返回函数</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@logger(<span class="params">level=<span class="string">&#x27;WARNING&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say</span>(<span class="params">something</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;say &#123;&#125;!&quot;</span>.<span class="built_in">format</span>(something))</span><br><span class="line"></span><br><span class="line">say(<span class="string">&quot;hello&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在带参数的类装饰器中，等价于<code>func = class(para)(func)</code>。也就是说，此时函数并不是实例化参数，而变成了callable 的参数，这也就是为什么需要在__call__() 中传入func。</p>
-<h3 id="内置装饰器"><a href="#内置装饰器" class="headerlink" title="内置装饰器"></a>内置装饰器</h3><p>Python还提供了一些常用的内置装饰器。例如：</p>
-<ul>
-<li><code>@property</code>：用于将一个方法转换为属性。广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查。</li>
-<li><code>@staticmethod</code> 和 <code>@classmethod</code>：用于定义静态方法和类方法。</li>
-</ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li>装饰器是闭包的一种应用，闭包为装饰器提供了“记住外部函数参数（如被装饰函数 <code>func</code>）”的能力。</li>
-<li>一切 callable 的对象都可以被用来实现装饰器，比如函数、类。</li>
-<li>装饰器会改变原函数的原始签名，需要使用 <code>functools.wraps</code></li>
-<li>在内层函数修改外层函数的变量时，需要使用 <code>nonlocal</code> 关键字。</li>
-<li>“装饰器”并没有提供某种无法替代的功能，等同于<code>func = decorator(func)</code>。它只是一颗“语法糖”而已，就像乐高积木，可以自由组合各种功能模块，在某些特定场景里可以使代码更简洁易维护。</li>
-</ol>
 
       
     </div>
