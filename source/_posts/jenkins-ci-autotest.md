@@ -15,17 +15,17 @@ tags:
 1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试
 2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台
 
-# 安装和配置Jenkins
+# 安装Jenkins
 
-## jenkins容器安装
-
-```
-# 在docker主机上执行命令：
-docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock  jenkinsci/blueocean
+```sh
+docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker jenkinsci/blueocean
 ```
 
-> 如果宿主机不存在timezone文件，自己手动创建并写入Asia/Shanghai即可。
-> docker run参数的具体说明请看官方文档，介绍得很详细。https://jenkins.io/zh/doc/book/installing/
+命令说明：
+
+1、通过 `-v $(which docker):/usr/bin/docker` 和 `-v /var/run/docker.sock:/var/run/docker.sock`，容器内可以直接调用宿主机的 Docker命令，从而实现构建、测试等任务。即DooD（Docker-outside-of-Docker）方案
+
+2、如果宿主机不存在timezone文件，自己手动创建并写入Asia/Shanghai即可
 
 执行命令截图：
 ![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true)
@@ -33,15 +33,36 @@ docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/loc
 为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：
 ![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true)
 
-## 配置邮件通知
+# 配置Jenkins
 
-这里特别注意的是密码应该填qq邮箱的授权码，填写完毕测试一下邮件发送成功即可
+## **配置gitlab仓库拉取权限**
+
+1、jenkins容器内生成SSH密钥对
+
+![image-20250310002536286](./jenkins-ci-autotest/image-20250310002536286.png)
+
+2、拷贝SSH公钥至gitlab账号
+
+![image-20250310002536300](./jenkins-ci-autotest/image-20250310002536300.png)
+
+3、Jenkins容器内验证SSH密钥是否已正确添加，参考以下文档
+
+![image](./jenkins-ci-autotest/image.png)
+
+## 配置邮件服务器
+
+1、配置发件人邮箱
+
+![image-20250309233827675](./jenkins-ci-autotest/image-20250309233827675.png)
+
+2、jenkins配置smtp服务器
+
+以配置qq邮箱服务器为例（密码填qq邮箱的授权码），测试配置如果发送成功，说明邮件配置成功
 ![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true)
 
-## 安装插件robot-framework
+## 安装报告插件
 
-由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装这个插件。该插件在Jenkins中收集并发布Robot Framework测试结果。bfyrjbqkzqvaibjd
-至此，jenkins的基本配置工作就算完了，接下来最核心就是编写pipeline脚本。
+由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装robot-framework插件。该插件在Jenkins中收集并发布Robot Framework测试结果。
 
 # 编写Pipeline脚本
 
