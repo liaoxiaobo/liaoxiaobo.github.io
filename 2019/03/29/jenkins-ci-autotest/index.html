@@ -19,15 +19,19 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="需求背景1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台 安装和配置Jenkinsjenkins容器安装12# 在docker主机上执行命令：do">
+    <meta name="description" content="需求背景1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台 安装Jenkins1docker run -u root -d  --name jenk">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用Jenkins工具集成自动化测试">
 <meta property="og:url" content="http://example.com/2019/03/29/jenkins-ci-autotest/index.html">
 <meta property="og:site_name" content="liaoxb&#39;s blog">
-<meta property="og:description" content="需求背景1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台 安装和配置Jenkinsjenkins容器安装12# 在docker主机上执行命令：do">
+<meta property="og:description" content="需求背景1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台 安装Jenkins1docker run -u root -d  --name jenk">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true">
+<meta property="og:image" content="http://example.com/2019/03/29/jenkins-ci-autotest/image-20250310002536286.png">
+<meta property="og:image" content="http://example.com/2019/03/29/jenkins-ci-autotest/image-20250310002536300.png">
+<meta property="og:image" content="http://example.com/2019/03/29/jenkins-ci-autotest/image.png">
+<meta property="og:image" content="http://example.com/2019/03/29/jenkins-ci-autotest/image-20250309233827675.png">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk09.png?raw=true">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk05.png?raw=true">
@@ -36,7 +40,7 @@
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk06.png?raw=true">
 <meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk08.png?raw=true">
 <meta property="article:published_time" content="2019-03-28T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-02-26T14:26:59.239Z">
+<meta property="article:modified_time" content="2025-03-09T16:56:58.226Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="Robot Framework">
 <meta property="article:tag" content="DevOps">
@@ -150,7 +154,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">需求背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%92%8C%E9%85%8D%E7%BD%AEJenkins"><span class="nav-number">2.</span> <span class="nav-text">安装和配置Jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jenkins%E5%AE%B9%E5%99%A8%E5%AE%89%E8%A3%85"><span class="nav-number">2.1.</span> <span class="nav-text">jenkins容器安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%82%AE%E4%BB%B6%E9%80%9A%E7%9F%A5"><span class="nav-number">2.2.</span> <span class="nav-text">配置邮件通知</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6robot-framework"><span class="nav-number">2.3.</span> <span class="nav-text">安装插件robot-framework</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E5%86%99Pipeline%E8%84%9A%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">编写Pipeline脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#webhook%E8%87%AA%E5%8A%A8%E8%A7%A6%E5%8F%91Jenkins-pipeline"><span class="nav-number">4.</span> <span class="nav-text">webhook自动触发Jenkins pipeline</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E6%8A%A5%E5%91%8A%E5%B1%95%E7%A4%BA"><span class="nav-number">5.</span> <span class="nav-text">测试结果报告展示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E6%94%B9%E8%BF%9B"><span class="nav-number">6.</span> <span class="nav-text">持续改进</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">需求背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Jenkins"><span class="nav-number">2.</span> <span class="nav-text">安装Jenkins</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEJenkins"><span class="nav-number">3.</span> <span class="nav-text">配置Jenkins</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEgitlab%E4%BB%93%E5%BA%93%E6%8B%89%E5%8F%96%E6%9D%83%E9%99%90"><span class="nav-number">3.1.</span> <span class="nav-text">配置gitlab仓库拉取权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%82%AE%E4%BB%B6%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text">配置邮件服务器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%8A%A5%E5%91%8A%E6%8F%92%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text">安装报告插件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E5%86%99Pipeline%E8%84%9A%E6%9C%AC"><span class="nav-number">4.</span> <span class="nav-text">编写Pipeline脚本</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#webhook%E8%87%AA%E5%8A%A8%E8%A7%A6%E5%8F%91Jenkins-pipeline"><span class="nav-number">5.</span> <span class="nav-text">webhook自动触发Jenkins pipeline</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C%E6%8A%A5%E5%91%8A%E5%B1%95%E7%A4%BA"><span class="nav-number">6.</span> <span class="nav-text">测试结果报告展示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E6%94%B9%E8%BF%9B"><span class="nav-number">7.</span> <span class="nav-text">持续改进</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -163,18 +167,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-count">14</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -249,7 +253,7 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>3.6k</span>
+      <span>3.8k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
@@ -267,15 +271,28 @@
     
     
     <div class="post-body" itemprop="articleBody"><h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试<br>2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台</p>
-<h1 id="安装和配置Jenkins"><a href="#安装和配置Jenkins" class="headerlink" title="安装和配置Jenkins"></a>安装和配置Jenkins</h1><h2 id="jenkins容器安装"><a href="#jenkins容器安装" class="headerlink" title="jenkins容器安装"></a>jenkins容器安装</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 在docker主机上执行命令：</span><br><span class="line">docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+<h1 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(<span class="built_in">which</span> docker):/usr/bin/docker jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可。<br>docker run参数的具体说明请看官方文档，介绍得很详细。<a target="_blank" rel="noopener" href="https://jenkins.io/zh/doc/book/installing/">https://jenkins.io/zh/doc/book/installing/</a></p>
-</blockquote>
+<p>命令说明：</p>
+<p>1、通过 <code>-v $(which docker):/usr/bin/docker</code> 和 <code>-v /var/run/docker.sock:/var/run/docker.sock</code>，容器内可以直接调用宿主机的 Docker命令，从而实现构建、测试等任务。即DooD（Docker-outside-of-Docker）方案</p>
+<p>2、如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可</p>
 <p>执行命令截图：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true" alt="jk.png"></p>
 <p>为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true" alt="jk.png"></p>
-<h2 id="配置邮件通知"><a href="#配置邮件通知" class="headerlink" title="配置邮件通知"></a>配置邮件通知</h2><p>这里特别注意的是密码应该填qq邮箱的授权码，填写完毕测试一下邮件发送成功即可<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true" alt="jk.png"></p>
-<h2 id="安装插件robot-framework"><a href="#安装插件robot-framework" class="headerlink" title="安装插件robot-framework"></a>安装插件robot-framework</h2><p>由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装这个插件。该插件在Jenkins中收集并发布Robot Framework测试结果。bfyrjbqkzqvaibjd<br>至此，jenkins的基本配置工作就算完了，接下来最核心就是编写pipeline脚本。</p>
+<h1 id="配置Jenkins"><a href="#配置Jenkins" class="headerlink" title="配置Jenkins"></a>配置Jenkins</h1><h2 id="配置gitlab仓库拉取权限"><a href="#配置gitlab仓库拉取权限" class="headerlink" title="配置gitlab仓库拉取权限"></a><strong>配置gitlab仓库拉取权限</strong></h2><p>1、jenkins容器内生成SSH密钥对</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image-20250310002536286.png" class="" title="image-20250310002536286">
+
+<p>2、拷贝SSH公钥至gitlab账号</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image-20250310002536300.png" class="" title="image-20250310002536300">
+
+<p>3、Jenkins容器内验证SSH密钥是否已正确添加，参考以下文档</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image.png" class="" title="image">
+
+<h2 id="配置邮件服务器"><a href="#配置邮件服务器" class="headerlink" title="配置邮件服务器"></a>配置邮件服务器</h2><p>1、配置发件人邮箱</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image-20250309233827675.png" class="" title="image-20250309233827675">
+
+<p>2、jenkins配置smtp服务器</p>
+<p>以配置qq邮箱服务器为例（密码填qq邮箱的授权码），测试配置如果发送成功，说明邮件配置成功<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true" alt="jk.png"></p>
+<h2 id="安装报告插件"><a href="#安装报告插件" class="headerlink" title="安装报告插件"></a>安装报告插件</h2><p>由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装robot-framework插件。该插件在Jenkins中收集并发布Robot Framework测试结果。</p>
 <h1 id="编写Pipeline脚本"><a href="#编写Pipeline脚本" class="headerlink" title="编写Pipeline脚本"></a>编写Pipeline脚本</h1><p>直接贴脚本，pipeline支持的语法请查看官方手册。</p>
 <p>pipeline流程图：</p>
 <p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk09.png?raw=true" alt="jk.png"></p>
@@ -355,14 +372,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">89k</span>
+    <span title="站点总字数">93k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:21</span>
+    <span title="站点阅读时长">1:25</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动

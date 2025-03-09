@@ -134,15 +134,28 @@
     <title>使用Jenkins工具集成自动化测试</title>
     <url>/2019/03/29/jenkins-ci-autotest/</url>
     <content><![CDATA[<h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试<br>2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台</p>
-<h1 id="安装和配置Jenkins"><a href="#安装和配置Jenkins" class="headerlink" title="安装和配置Jenkins"></a>安装和配置Jenkins</h1><h2 id="jenkins容器安装"><a href="#jenkins容器安装" class="headerlink" title="jenkins容器安装"></a>jenkins容器安装</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 在docker主机上执行命令：</span><br><span class="line">docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock  jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
+<h1 id="安装Jenkins"><a href="#安装Jenkins" class="headerlink" title="安装Jenkins"></a>安装Jenkins</h1><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/localtime:/etc/localtime -v /etc/timezone:/etc/timezone -v jenkins-data:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(<span class="built_in">which</span> docker):/usr/bin/docker jenkinsci/blueocean</span><br></pre></td></tr></table></figure>
 
-<blockquote>
-<p>如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可。<br>docker run参数的具体说明请看官方文档，介绍得很详细。<a href="https://jenkins.io/zh/doc/book/installing/">https://jenkins.io/zh/doc/book/installing/</a></p>
-</blockquote>
+<p>命令说明：</p>
+<p>1、通过 <code>-v $(which docker):/usr/bin/docker</code> 和 <code>-v /var/run/docker.sock:/var/run/docker.sock</code>，容器内可以直接调用宿主机的 Docker命令，从而实现构建、测试等任务。即DooD（Docker-outside-of-Docker）方案</p>
+<p>2、如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可</p>
 <p>执行命令截图：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true" alt="jk.png"></p>
 <p>为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true" alt="jk.png"></p>
-<h2 id="配置邮件通知"><a href="#配置邮件通知" class="headerlink" title="配置邮件通知"></a>配置邮件通知</h2><p>这里特别注意的是密码应该填qq邮箱的授权码，填写完毕测试一下邮件发送成功即可<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true" alt="jk.png"></p>
-<h2 id="安装插件robot-framework"><a href="#安装插件robot-framework" class="headerlink" title="安装插件robot-framework"></a>安装插件robot-framework</h2><p>由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装这个插件。该插件在Jenkins中收集并发布Robot Framework测试结果。bfyrjbqkzqvaibjd<br>至此，jenkins的基本配置工作就算完了，接下来最核心就是编写pipeline脚本。</p>
+<h1 id="配置Jenkins"><a href="#配置Jenkins" class="headerlink" title="配置Jenkins"></a>配置Jenkins</h1><h2 id="配置gitlab仓库拉取权限"><a href="#配置gitlab仓库拉取权限" class="headerlink" title="配置gitlab仓库拉取权限"></a><strong>配置gitlab仓库拉取权限</strong></h2><p>1、jenkins容器内生成SSH密钥对</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image-20250310002536286.png" class="" title="image-20250310002536286">
+
+<p>2、拷贝SSH公钥至gitlab账号</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image-20250310002536300.png" class="" title="image-20250310002536300">
+
+<p>3、Jenkins容器内验证SSH密钥是否已正确添加，参考以下文档</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image.png" class="" title="image">
+
+<h2 id="配置邮件服务器"><a href="#配置邮件服务器" class="headerlink" title="配置邮件服务器"></a>配置邮件服务器</h2><p>1、配置发件人邮箱</p>
+<img src="/2019/03/29/jenkins-ci-autotest/image-20250309233827675.png" class="" title="image-20250309233827675">
+
+<p>2、jenkins配置smtp服务器</p>
+<p>以配置qq邮箱服务器为例（密码填qq邮箱的授权码），测试配置如果发送成功，说明邮件配置成功<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true" alt="jk.png"></p>
+<h2 id="安装报告插件"><a href="#安装报告插件" class="headerlink" title="安装报告插件"></a>安装报告插件</h2><p>由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装robot-framework插件。该插件在Jenkins中收集并发布Robot Framework测试结果。</p>
 <h1 id="编写Pipeline脚本"><a href="#编写Pipeline脚本" class="headerlink" title="编写Pipeline脚本"></a>编写Pipeline脚本</h1><p>直接贴脚本，pipeline支持的语法请查看官方手册。</p>
 <p>pipeline流程图：</p>
 <p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk09.png?raw=true" alt="jk.png"></p>
@@ -410,6 +423,438 @@
         <tag>Kubernetes</tag>
         <tag>Prometheus</tag>
         <tag>Grafana</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux命令速查</title>
+    <url>/2017/07/05/linux_cmd/</url>
+    <content><![CDATA[<h1 id="文件目录管理"><a href="#文件目录管理" class="headerlink" title="文件目录管理"></a>文件目录管理</h1><h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>grep命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-b</td>
+<td>将可执行文件(binary)当作文本文件（text）来搜索</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>仅显示找到的行数</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>反向选择——仅列出没有“关键词”的行。</td>
+</tr>
+<tr>
+<td>-A</td>
+<td>除了显示符合范本样式的那一行之外，并显示该行之后的内容。</td>
+</tr>
+<tr>
+<td>-B</td>
+<td>在显示符合范本样式的那一行之外，并显示该行之前的内容。</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>除了显示符合范本样式的那一列之外，并显示该列之前后的内容。</td>
+</tr>
+</tbody></table>
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">localhost% <span class="built_in">cat</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文件的第一列和第五列</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $1,$5&#125;&#x27;</span> test.txt</span><br><span class="line">NAME VERSION</span><br><span class="line">k8s01 v1.16.4</span><br><span class="line">k8s02 v1.16.4</span><br><span class="line">k8s03 v1.16.4</span><br><span class="line">k8s04 v1.16.4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印最后一列字段</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span> test.txt</span><br><span class="line">CONTAINER-RUNTIME</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印倒数第二列字段：</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $(NF-1)&#125;&#x27;</span> test.txt</span><br><span class="line">KERNEL-VERSION</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本文件的总行数</span></span><br><span class="line">localhost% awk <span class="string">&#x27;END&#123;print NR&#125;&#x27;</span> test.txt</span><br><span class="line">5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本第1行数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR==1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本大于第1行的数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR&gt;1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br></pre></td></tr></table></figure>
+
+<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>定位到数据行并对数据进行增删改查操作</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换文本中的字符串：</span></span><br><span class="line">sed <span class="string">&#x27;s/book/books/&#x27;</span> file</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用后缀/g标记会替换每一行中的所有匹配：</span></span><br><span class="line">[root@harbor image_pull_push]# <span class="built_in">cat</span> img-list.txt |sed <span class="string">&#x27;s/registry.cn-hangzhou.aliyuncs.com/192.168.0.11/g&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当需要从第N处匹配配开始替换时，可以使用 /Ng：</span></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">&#x27;s/sk/SK/3g&#x27;</span></span><br><span class="line">skskSKSKSKSK</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换某目录下所有文件的某字符串</span></span><br><span class="line">oldip=172.22.12.241</span><br><span class="line">newip=172.22.12.242</span><br><span class="line"><span class="comment"># 查看之前包含oldip的文件</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$oldip</span></span><br><span class="line"><span class="comment"># 替换IP地址</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs sed -i <span class="string">&quot;s/<span class="variable">$oldip</span>/<span class="variable">$newip</span>/&quot;</span></span><br><span class="line"><span class="comment"># 检查更新后的</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$newip</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>find命令用于按照指定条件来查找文件，格式为“find [查找路径] 寻找条件 操作”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-name</td>
+<td>匹配名称</td>
+</tr>
+<tr>
+<td>-perm</td>
+<td>匹配权限（mode为完全匹配，-mode为包含即可）</td>
+</tr>
+<tr>
+<td>-user</td>
+<td>匹配所有者</td>
+</tr>
+<tr>
+<td>-group</td>
+<td>匹配所有组</td>
+</tr>
+<tr>
+<td>-mtime -n +n</td>
+<td>匹配修改内容的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td>-atime -n +n</td>
+<td>匹配访问文件的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td>-ctime -n +n</td>
+<td>匹配修改文件权限的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td>-nouser</td>
+<td>匹配无所有者的文件</td>
+</tr>
+<tr>
+<td>-nogroup</td>
+<td>匹配无所有组的文件</td>
+</tr>
+<tr>
+<td>-newer f1 !f2</td>
+<td>匹配比文件f1新但比f2旧的文件</td>
+</tr>
+<tr>
+<td>-type b&#x2F;d&#x2F;c&#x2F;p&#x2F;l&#x2F;f</td>
+<td>匹配文件类型（后面的字幕字母依次表示块设备、目录、字符设备、管道、链接文件、文本文件）</td>
+</tr>
+<tr>
+<td>-size</td>
+<td>匹配文件的大小（+50KB为查找超过50KB的文件，而-50KB为查找小于50KB的文件）</td>
+</tr>
+<tr>
+<td>-prune</td>
+<td>忽略某个目录</td>
+</tr>
+<tr>
+<td>-exec …… {};</td>
+<td>后面可跟用于进一步处理搜索结果的命令（下文会有演示）</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查找当前目录下是否存在README.md </span></span><br><span class="line">find . -name README.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找etc目录是否存在以host开头的文件</span></span><br><span class="line">find /etc -name host* </span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定目录查找大于1G的文件</span></span><br><span class="line">find / -size +1024M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前目录搜索所有文件，文件内容 包含 “140.206.111.111” 的内容</span></span><br><span class="line">find . -<span class="built_in">type</span> f -name <span class="string">&quot;*&quot;</span> | xargs grep <span class="string">&quot;140.206.111.111&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建带有内容的文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello &gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line"><span class="comment"># 追加写入文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello-test &gt;&gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line">hello-test</span><br></pre></td></tr></table></figure>
+
+<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><p>dd命令用于按照指定大小和个数的数据块来复制文件或转换文件，格式为“dd [参数]”。</p>
+<p>Linux系统中有一个名为&#x2F;dev&#x2F;zero的设备文件，这个文件不会占用系统存储空间，但却可以提供无穷无尽的数据，因此可以使用它作为dd命令的输入文件，来生成一个指定大小的文件。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>if</td>
+<td>输入的文件名称，如果不指定if，默认就会从stdin中读取输入。</td>
+</tr>
+<tr>
+<td>of</td>
+<td>输出的文件名称，如果不指定of，默认就会将stdout作为默认输出。</td>
+</tr>
+<tr>
+<td>bs</td>
+<td>设置每个“块”的大小</td>
+</tr>
+<tr>
+<td>count</td>
+<td>设置要复制“块”的个数</td>
+</tr>
+</tbody></table>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从/dev/zero设备文件中取出一个大小为100M的数据块</span></span><br><span class="line">[root@master01 ~]# <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=sun.txt bs=100M count=1</span><br><span class="line">1+0 records <span class="keyword">in</span></span><br><span class="line">1+0 records out</span><br><span class="line">104857600 bytes (105 MB, 100 MiB) copied, 0.0580656 s, 1.8 GB/s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试磁盘写入速度</span></span><br><span class="line">[root@localhost ~]# dd if=/dev/zero of=/tmp/testfile bs=1G count=1 oflag=direct</span><br><span class="line">1+0 records in</span><br><span class="line">1+0 records out</span><br><span class="line">1073741824 bytes (1.1 GB) copied, 7.10845 s, 151 MB/s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试磁盘读取速度</span></span><br><span class="line">[root@localhost ~]# dd if=/tmp/testfile of=/dev/null bs=1G count=1 iflag=direct</span><br><span class="line">1+0 records in</span><br><span class="line">1+0 records out</span><br><span class="line">1073741824 bytes (1.1 GB) copied, 6.53009 s, 164 MB/s</span><br></pre></td></tr></table></figure>
+
+<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><p>tar命令用于对文件进行打包压缩或解压，格式为“tar [选项] [文件]”。在Linux系统中，常见的文件格式比较多，其中主要使用的是.tar或.tar.gz或.tar.bz2格式。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>创建压缩文件</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>解开压缩文件</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>查看压缩包内有哪些文件</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>用Gzip压缩或解压</td>
+</tr>
+<tr>
+<td>-j</td>
+<td>用bzip2压缩或解压</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示压缩或解压的过程</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>目标文件名</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>保留原始的权限与属性</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>使用绝对路径来压缩</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>指定解压到的目录</td>
+</tr>
+</tbody></table>
+<p>命令示例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 仅打包，不压缩！将 /home/vivek/bin/ 目录打包</span></span><br><span class="line">tar -cvf /tmp/bin-backup.tar /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 bzip2 算法压缩压缩</span></span><br><span class="line">tar -jcvf /tmp/bin-backup.tar.bz2 /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 gzip 算法压缩压缩</span></span><br><span class="line">tar -zcvf /tmp/bin-backup.tar.gz /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩</span></span><br><span class="line">tar -zxvf bin-backup.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细列举包里的所有文件</span></span><br><span class="line">tar -tvf /opt/extra.tgz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">上下翻页：Ctrl+f、Ctrl+b</span><br><span class="line">跳到当前行最后字符处：Fn+右键</span><br><span class="line">跳到当前行最前面字符处：Fn+左键、0</span><br><span class="line"></span><br><span class="line">查找字符串：/字符串  n继续查找</span><br><span class="line">字符全局替换：:%s/foo/bar/g  :&#123;作用范围&#125;s/&#123;目标&#125;/&#123;替换&#125;/&#123;替换标志&#125;</span><br><span class="line"></span><br><span class="line">x或X：删除一个字符，x删除光标后的，而X删除光标前的；</span><br><span class="line">D：删除从当前光标到光标所在行尾的全部字符；</span><br><span class="line">删除行：<span class="built_in">dd</span> ndd（n代表删除或复制的行数）</span><br><span class="line">复制行：yy  nyy</span><br><span class="line">粘贴行：p、P</span><br><span class="line"></span><br><span class="line">复原前一个操作：u</span><br><span class="line">重做上一个操作：ctrl+r</span><br><span class="line">显示行号：:<span class="built_in">set</span> nu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Ctrl+u：向文件首翻半屏；</span><br><span class="line">Ctrl+d：向文件尾翻半屏；</span><br><span class="line">Ctrl+f：向文件尾翻一屏；</span><br><span class="line">Ctrl+b：向文件首翻一屏；</span><br><span class="line">Esc：从编辑模式切换到命令模式；</span><br><span class="line">ZZ：命令模式下保存当前文件所做的修改后退出vi；</span><br><span class="line">:行号：光标跳转到指定行的行首；</span><br><span class="line">:$：光标跳转到最后一行的行首；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p><strong>scp命令</strong> 用于在Linux下进行远程拷贝文件的命令，和它类似的命令有cp，不过cp只是在本机进行拷贝不能跨服务器，而且scp传输是加密的。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程拷贝目录到本地</span></span><br><span class="line">scp -r root@10.10.10.10:/opt/soft/mongodb /opt/soft/ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传本地目录到远程机器指定目录</span></span><br><span class="line">scp -r /opt/soft/mongodb root@10.10.10.10:/opt/soft/scptest</span><br></pre></td></tr></table></figure>
+
+<h2 id="vi"><a href="#vi" class="headerlink" title="vi"></a>vi</h2><p>vi编辑器提供了丰富的内置命令，有些内置命令使用键盘组合键即可完成，有些内置命令则需要以冒号“：”开头输入。</p>
+<p>常用内置命令如下：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dd</td>
+<td>删除（剪切）光标所在整行</td>
+</tr>
+<tr>
+<td>5dd</td>
+<td>删除（剪切）从光标处开始的5行</td>
+</tr>
+<tr>
+<td>yy</td>
+<td>复制光标所在整行</td>
+</tr>
+<tr>
+<td>5yy</td>
+<td>复制从光标处开始的5行</td>
+</tr>
+<tr>
+<td>u</td>
+<td>撤销上一步的操作</td>
+</tr>
+<tr>
+<td>p</td>
+<td>将之前删除（dd）或复制（yy）过的数据粘贴到光标后面</td>
+</tr>
+<tr>
+<td>D</td>
+<td>删除光标处所在行尾的全部字符</td>
+</tr>
+<tr>
+<td>x</td>
+<td>删除光标处的一个字符</td>
+</tr>
+<tr>
+<td>:set nu</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>&#x2F;string、?string</td>
+<td>查找字符串，常结合n&#x2F;N可以继续查找上一个、下一个字符串</td>
+</tr>
+<tr>
+<td>:s&#x2F;foo&#x2F;bar&#x2F;g</td>
+<td>将当前光标所在行的所有foo替换成bar</td>
+</tr>
+<tr>
+<td>:%s&#x2F;foo&#x2F;bar&#x2F;g</td>
+<td>将全文中的所有foo替换成bar</td>
+</tr>
+<tr>
+<td>Fn+右键</td>
+<td>光标跳到当前行最后一个字符</td>
+</tr>
+<tr>
+<td>Fn+右键、0</td>
+<td>光标跳到当前行第一个字符</td>
+</tr>
+<tr>
+<td>Ctrl+f、Ctrl+b</td>
+<td>上下翻页</td>
+</tr>
+</tbody></table>
+<h2 id="file"><a href="#file" class="headerlink" title="file"></a>file</h2><p>file命令用于查看文件的类型，格式为“file 文件名”。</p>
+<p>在Linux系统中，由于文本、目录、设备等所有这些一切都统称为文件，而我们又不能单凭后缀就知道具体的文件类型，这时就需要使用file命令来查看文件类型了。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# file admin-openrc.sh</span><br><span class="line">admin-openrc.sh: ASCII text</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# file /dev/sda</span><br><span class="line">/dev/sda: block special (8/0)</span><br></pre></td></tr></table></figure>
+
+<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><p><code>wc</code> 命令用于统计指定文本的行数、字数、字节数，格式为“<code>wc [参数]</code> 文本”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-l</code></td>
+<td>只显示行数</td>
+</tr>
+<tr>
+<td><code>-w</code></td>
+<td>只显示单词数</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>只显示字节数</td>
+</tr>
+</tbody></table>
+<h1 id="网络管理"><a href="#网络管理" class="headerlink" title="网络管理"></a>网络管理</h1><h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p><strong>ip命令</strong> 用来显示或操纵Linux主机的路由、网络设备、策略路由和隧道，是Linux下较新的功能强大的网络配置工具。</p>
+<p>网卡配置</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ip <span class="built_in">link</span>                          <span class="comment"># 显示网络接口信息</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 up              <span class="comment"># 开启网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 down            <span class="comment"># 关闭网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 promisc on      <span class="comment"># 开启网卡的混合模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 promisc offi    <span class="comment"># 关闭网卡的混合模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 txqueuelen 1200 <span class="comment"># 设置网卡队列长度</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 mtu 1400        <span class="comment"># 设置网卡最大传输单元</span></span><br><span class="line"></span><br><span class="line">ip a                             <span class="comment"># 显示网卡IP信息</span></span><br><span class="line">ip a a 192.168.0.1/24 dev eth0 <span class="comment"># 为eth0网卡添加IP地址192.168.0.1</span></span><br><span class="line">ip a d 192.168.0.1/24 dev eth0 <span class="comment"># 为eth0网卡删除一个IP地址192.168.0.1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ip命令配置网卡信息，在网卡或机器重启后配置会丢失。要想配置永久生效，那就要修改网卡配置文件。如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文件名对应网口名，CentOS 7\8 默认配置文件</span></span><br><span class="line">[Linux]# vi /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line">DEVICE=<span class="string">&quot;eth0&quot;</span></span><br><span class="line">BOOTPROTO=<span class="string">&quot;static&quot;</span></span><br><span class="line">BROADCAST=<span class="string">&quot;192.168.0.255&quot;</span></span><br><span class="line">HWADDR=<span class="string">&quot;00:16:36:1B:BB:74&quot;</span></span><br><span class="line">IPADDR=<span class="string">&quot;192.168.0.100&quot;</span></span><br><span class="line">NETMASK=<span class="string">&quot;255.255.255.0&quot;</span></span><br><span class="line">ONBOOT=<span class="string">&quot;yes&quot;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>路由配置</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ip r                         <span class="comment"># 显示系统路由</span></span><br><span class="line">ip r add default via 192.168.1.254   <span class="comment"># 设置系统默认路由</span></span><br><span class="line">ip r d default          <span class="comment"># 删除默认路由</span></span><br><span class="line"></span><br><span class="line">ip r a 192.168.4.0/24 via 192.168.0.254 dev eth0 <span class="comment"># 设置192.168.4.0网段的网关为192.168.0.254,数据走eth0接口</span></span><br><span class="line">ip r a default via 192.168.0.254 dev eth0        <span class="comment"># 设置默认网关为192.168.0.254</span></span><br><span class="line">ip r d 192.168.4.0/24   <span class="comment"># 删除192.168.4.0网段的网关</span></span><br><span class="line">ip r d 192.168.1.0/24 dev eth0 <span class="comment"># 删除路由</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><p>有时进程之间需要通信，需要开启一个socket，socket就是对外建立连接的一个窗口，然后借助TCP协议进行通信。但进行通信之前首先需要进程开启一个端口，这时就可以通过netstat命令查看开启的端口以及由哪个进程开启</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#列出所有端口</span></span><br><span class="line">netstat -a</span><br><span class="line"><span class="comment">#列出所有tcp端口</span></span><br><span class="line">netstat -at</span><br><span class="line"><span class="comment">#列出所有udp端口</span></span><br><span class="line">netstat -au</span><br><span class="line"><span class="comment">#只列出所有监听 udp 端口</span></span><br><span class="line">netstat -lu</span><br><span class="line"><span class="comment"># 通过端口找进程ID</span></span><br><span class="line">netstat -anp|grep 8081 | grep LISTEN|awk <span class="string">&#x27;&#123;printf $7&#125;&#x27;</span>|<span class="built_in">cut</span> -d/ -f1</span><br><span class="line"></span><br><span class="line">-n或--numeric：直接使用ip地址，而不通过域名服务器；</span><br><span class="line">-l或--listening：显示监控中的服务器的Socket</span><br><span class="line">-p或--programs：添加“PID/进程名称”到netstat输出中；</span><br></pre></td></tr></table></figure>
+
+<h2 id="ss"><a href="#ss" class="headerlink" title="ss"></a>ss</h2><p>ss 可以用来获取socket统计信息，它可以显示和netstat类似的内容。但ss的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ss -t -a    <span class="comment"># 显示TCP连接</span></span><br><span class="line">ss -u -a    <span class="comment"># 显示所有UDP Sockets</span></span><br><span class="line">ss -s       <span class="comment"># 显示 Sockets 摘要</span></span><br><span class="line">ss -l       <span class="comment"># 列出所有打开的网络连接端口</span></span><br><span class="line">ss -pl      <span class="comment"># 查看进程使用的socket</span></span><br><span class="line">ss -lp | grep 3306  <span class="comment"># 找出打开套接字/端口应用程序</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h1><h2 id="firewalld-cmd"><a href="#firewalld-cmd" class="headerlink" title="firewalld-cmd"></a>firewalld-cmd</h2><p>firewalld是centos7的一大特性，最大的好处有两个：支持动态更新，不用重启服务；第二个就是加入了防火墙的“zone”概念。</p>
+<p>firewalld自身并不具备防火墙的功能，而是和iptables一样需要通过内核的netfilter来实现，也就是说firewalld和 iptables一样，他们的作用都是用于维护规则，而真正使用规则干活的是内核的netfilter，只不过firewalld和iptables的结 构以及使用方法不一样罢了。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# firewall-cmd --zone=public --list-ports</span><br><span class="line">2121/tcp 3306/tcp 8081/tcp 30000/tcp 38060/tcp 40000/tcp 40001/tcp</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --permanent --add-port=3307/tcp --zone=public</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --reload</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --zone=public --list-ports</span><br><span class="line">2121/tcp 3306/tcp 3307/tcp 8081/tcp 30000/tcp 38060/tcp 40000/tcp 40001/tcp</span><br></pre></td></tr></table></figure>
+
+<p>firewalld中常见的zone（默认为public）以及相应的策略规则如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th align="left">默认规则策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>trusted</td>
+<td align="left">允许所有的数据包</td>
+</tr>
+<tr>
+<td>home</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>internal</td>
+<td align="left">等同于home区域</td>
+</tr>
+<tr>
+<td>work</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>public</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>external</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>dmz</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>block</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+<tr>
+<td>drop</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+</tbody></table>
+<h2 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h2><p><strong>ps命令</strong> 用于报告当前系统的进程状态。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a</td>
+<td>显示所有进程（包括其他用户的进程）</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>用户以及其他详细信息</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>显示没有控制终端的进程</td>
+</tr>
+</tbody></table>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 加上ww可以完整展示进程的信息</span></span><br><span class="line">ps -efww</span><br><span class="line"><span class="comment"># 找出占用内存资源最多的前 10 个进程</span></span><br><span class="line">ps -auxf | <span class="built_in">sort</span> -nr -k 4 | <span class="built_in">head</span> -10</span><br><span class="line"><span class="comment"># 找出占用cpu资源最多的前 10 个进程</span></span><br><span class="line">ps -auxf | <span class="built_in">sort</span> -nr -k 3 | <span class="built_in">head</span> -10 </span><br></pre></td></tr></table></figure>
+<h2 id="journalctl"><a href="#journalctl" class="headerlink" title="journalctl"></a>journalctl</h2><p>检索 systemd 日志，是 CentOS 7 才有的工具</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看服务启动日志</span></span><br><span class="line">journalctl -u kubelet.service</span><br><span class="line">journalctl -u etcd.service -f -n 100 </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果不知道服务名称，可以使用<code>systemctl list-units --type=service</code>命令来列出系统中的 systemd 服务。</p>
+</blockquote>
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p><strong>watch命令</strong> 以周期性的方式执行给定的指令，指令输出以全屏方式显示</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 每隔60s查看主机内存的使用情况</span></span><br><span class="line">watch -d -n 60 <span class="string">&quot;free -h&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="rpm"><a href="#rpm" class="headerlink" title="rpm"></a>rpm</h2><p><strong>rpm命令</strong> 是RPM软件包的管理工具</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 列出所有安装过的包</span></span><br><span class="line">rpm -qa </span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装rpm软件包</span></span><br><span class="line">rpm -ivh your-package.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取rpm包中的文件安装路径</span></span><br><span class="line">rpm -ql nfs-utils-1.3.0-0.54.el7.x86_64 </span><br></pre></td></tr></table></figure>
+
+<h2 id="crontab"><a href="#crontab" class="headerlink" title="crontab"></a>crontab</h2><p><strong>crontab命令</strong> 被用来提交和管理用户的需要周期性执行的任务</p>
+<p>用户可以使用 crontab 工具来定制自己的计划任务。所有用户定义的crontab文件都被保存在<code>/var/spool/cron</code>目录中。其文件名与用户名一致。</p>
+<p>crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">minute   hour   day   month   week   command     顺序：分 时 日 月 周</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# <span class="built_in">cat</span> /var/spool/cron/root</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出该用户的定时任务</span></span><br><span class="line">[root@master01 ~]# crontab -l</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br></pre></td></tr></table></figure>
+
+<h1 id="进阶操作"><a href="#进阶操作" class="headerlink" title="进阶操作"></a>进阶操作</h1><h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p><strong>nohup命令</strong> 可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 后台运行脚本，stderr和stdout重定向输出到output.log</span></span><br><span class="line"><span class="built_in">nohup</span> sh install.sh &gt; output.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<h2 id="script"><a href="#script" class="headerlink" title="script"></a>script</h2><p><strong>script</strong> 用于在终端会话中，记录用户的所有操作和命令的输出信息。</p>
+<p>使用命令<code>exit</code>或者快捷键<code>Ctrl + D</code>停止记录。</p>
+<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 静默模式记录</span></span><br><span class="line">script -q myfile</span><br></pre></td></tr></table></figure>
+
+<h2 id="chattr"><a href="#chattr" class="headerlink" title="chattr"></a>chattr</h2><p><strong>chattr命令</strong> 用来改变文件属性。这些属性共有以下8种模式：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a：让文件或目录仅供附加用途；</span><br><span class="line">b：不更新文件或目录的最后存取时间；</span><br><span class="line">c：将文件或目录压缩后存放；</span><br><span class="line">d：将文件或目录排除在倾倒操作之外；</span><br><span class="line">i：不得任意更动文件或目录；</span><br><span class="line">s：保密性删除文件或目录；</span><br><span class="line">S：即时更新文件或目录；</span><br><span class="line">u：预防意外删除。</span><br><span class="line"></span><br><span class="line">+&lt;属性&gt;：开启文件或目录的该项属性；</span><br><span class="line">-&lt;属性&gt;：关闭文件或目录的该项属性；</span><br><span class="line">=&lt;属性&gt;：指定文件或目录的该项属性。</span><br></pre></td></tr></table></figure>
+
+<p>用chattr命令防止系统中某个关键文件被修改：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chattr +i /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<p>然后试一下rm、mv、rename等命令操作于该文件，都是得到Operation not permitted的结果。</p>
+<p>让某个文件只能往里面追加内容，不能删除，一些日志文件适用于这种操作：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chattr +a /var/log/ansible.log</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1113,462 +1558,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Linux命令速查</title>
-    <url>/2017/07/05/linux_cmd/</url>
-    <content><![CDATA[<h1 id="文件目录管理"><a href="#文件目录管理" class="headerlink" title="文件目录管理"></a>文件目录管理</h1><h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>grep命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-b</td>
-<td>将可执行文件(binary)当作文本文件（text）来搜索</td>
-</tr>
-<tr>
-<td>-c</td>
-<td>仅显示找到的行数</td>
-</tr>
-<tr>
-<td>-i</td>
-<td>忽略大小写</td>
-</tr>
-<tr>
-<td>-n</td>
-<td>显示行号</td>
-</tr>
-<tr>
-<td>-v</td>
-<td>反向选择——仅列出没有“关键词”的行。</td>
-</tr>
-<tr>
-<td>-A</td>
-<td>除了显示符合范本样式的那一行之外，并显示该行之后的内容。</td>
-</tr>
-<tr>
-<td>-B</td>
-<td>在显示符合范本样式的那一行之外，并显示该行之前的内容。</td>
-</tr>
-<tr>
-<td>-C</td>
-<td>除了显示符合范本样式的那一列之外，并显示该列之前后的内容。</td>
-</tr>
-</tbody></table>
-<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">localhost% <span class="built_in">cat</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文件的第一列和第五列</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $1,$5&#125;&#x27;</span> test.txt</span><br><span class="line">NAME VERSION</span><br><span class="line">k8s01 v1.16.4</span><br><span class="line">k8s02 v1.16.4</span><br><span class="line">k8s03 v1.16.4</span><br><span class="line">k8s04 v1.16.4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印最后一列字段</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span> test.txt</span><br><span class="line">CONTAINER-RUNTIME</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印倒数第二列字段：</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $(NF-1)&#125;&#x27;</span> test.txt</span><br><span class="line">KERNEL-VERSION</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本文件的总行数</span></span><br><span class="line">localhost% awk <span class="string">&#x27;END&#123;print NR&#125;&#x27;</span> test.txt</span><br><span class="line">5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本第1行数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR==1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本大于第1行的数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR&gt;1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br></pre></td></tr></table></figure>
-
-<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>定位到数据行并对数据进行增删改查操作</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 替换文本中的字符串：</span></span><br><span class="line">sed <span class="string">&#x27;s/book/books/&#x27;</span> file</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用后缀/g标记会替换每一行中的所有匹配：</span></span><br><span class="line">[root@harbor image_pull_push]# <span class="built_in">cat</span> img-list.txt |sed <span class="string">&#x27;s/registry.cn-hangzhou.aliyuncs.com/192.168.0.11/g&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当需要从第N处匹配配开始替换时，可以使用 /Ng：</span></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">&#x27;s/sk/SK/3g&#x27;</span></span><br><span class="line">skskSKSKSKSK</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换某目录下所有文件的某字符串</span></span><br><span class="line">oldip=172.22.12.241</span><br><span class="line">newip=172.22.12.242</span><br><span class="line"><span class="comment"># 查看之前包含oldip的文件</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$oldip</span></span><br><span class="line"><span class="comment"># 替换IP地址</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs sed -i <span class="string">&quot;s/<span class="variable">$oldip</span>/<span class="variable">$newip</span>/&quot;</span></span><br><span class="line"><span class="comment"># 检查更新后的</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$newip</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>find命令用于按照指定条件来查找文件，格式为“find [查找路径] 寻找条件 操作”。</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-name</td>
-<td>匹配名称</td>
-</tr>
-<tr>
-<td>-perm</td>
-<td>匹配权限（mode为完全匹配，-mode为包含即可）</td>
-</tr>
-<tr>
-<td>-user</td>
-<td>匹配所有者</td>
-</tr>
-<tr>
-<td>-group</td>
-<td>匹配所有组</td>
-</tr>
-<tr>
-<td>-mtime -n +n</td>
-<td>匹配修改内容的时间（-n指n天以内，+n指n天以前）</td>
-</tr>
-<tr>
-<td>-atime -n +n</td>
-<td>匹配访问文件的时间（-n指n天以内，+n指n天以前）</td>
-</tr>
-<tr>
-<td>-ctime -n +n</td>
-<td>匹配修改文件权限的时间（-n指n天以内，+n指n天以前）</td>
-</tr>
-<tr>
-<td>-nouser</td>
-<td>匹配无所有者的文件</td>
-</tr>
-<tr>
-<td>-nogroup</td>
-<td>匹配无所有组的文件</td>
-</tr>
-<tr>
-<td>-newer f1 !f2</td>
-<td>匹配比文件f1新但比f2旧的文件</td>
-</tr>
-<tr>
-<td>-type b&#x2F;d&#x2F;c&#x2F;p&#x2F;l&#x2F;f</td>
-<td>匹配文件类型（后面的字幕字母依次表示块设备、目录、字符设备、管道、链接文件、文本文件）</td>
-</tr>
-<tr>
-<td>-size</td>
-<td>匹配文件的大小（+50KB为查找超过50KB的文件，而-50KB为查找小于50KB的文件）</td>
-</tr>
-<tr>
-<td>-prune</td>
-<td>忽略某个目录</td>
-</tr>
-<tr>
-<td>-exec …… {};</td>
-<td>后面可跟用于进一步处理搜索结果的命令（下文会有演示）</td>
-</tr>
-</tbody></table>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查找当前目录下是否存在README.md </span></span><br><span class="line">find . -name README.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找etc目录是否存在以host开头的文件</span></span><br><span class="line">find /etc -name host* </span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定目录查找大于1G的文件</span></span><br><span class="line">find / -size +1024M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前目录搜索所有文件，文件内容 包含 “140.206.111.111” 的内容</span></span><br><span class="line">find . -<span class="built_in">type</span> f -name <span class="string">&quot;*&quot;</span> | xargs grep <span class="string">&quot;140.206.111.111&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建带有内容的文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello &gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line"><span class="comment"># 追加写入文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello-test &gt;&gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line">hello-test</span><br></pre></td></tr></table></figure>
-
-<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><p>dd命令用于按照指定大小和个数的数据块来复制文件或转换文件，格式为“dd [参数]”。</p>
-<p>Linux系统中有一个名为&#x2F;dev&#x2F;zero的设备文件，这个文件不会占用系统存储空间，但却可以提供无穷无尽的数据，因此可以使用它作为dd命令的输入文件，来生成一个指定大小的文件。</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>if</td>
-<td>输入的文件名称，如果不指定if，默认就会从stdin中读取输入。</td>
-</tr>
-<tr>
-<td>of</td>
-<td>输出的文件名称，如果不指定of，默认就会将stdout作为默认输出。</td>
-</tr>
-<tr>
-<td>bs</td>
-<td>设置每个“块”的大小</td>
-</tr>
-<tr>
-<td>count</td>
-<td>设置要复制“块”的个数</td>
-</tr>
-</tbody></table>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从/dev/zero设备文件中取出一个大小为100M的数据块</span></span><br><span class="line">[root@master01 ~]# <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=sun.txt bs=100M count=1</span><br><span class="line">1+0 records <span class="keyword">in</span></span><br><span class="line">1+0 records out</span><br><span class="line">104857600 bytes (105 MB, 100 MiB) copied, 0.0580656 s, 1.8 GB/s</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试磁盘写入速度</span></span><br><span class="line">[root@localhost ~]# dd if=/dev/zero of=/tmp/testfile bs=1G count=1 oflag=direct</span><br><span class="line">1+0 records in</span><br><span class="line">1+0 records out</span><br><span class="line">1073741824 bytes (1.1 GB) copied, 7.10845 s, 151 MB/s</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试磁盘读取速度</span></span><br><span class="line">[root@localhost ~]# dd if=/tmp/testfile of=/dev/null bs=1G count=1 iflag=direct</span><br><span class="line">1+0 records in</span><br><span class="line">1+0 records out</span><br><span class="line">1073741824 bytes (1.1 GB) copied, 6.53009 s, 164 MB/s</span><br></pre></td></tr></table></figure>
-
-<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><p>tar命令用于对文件进行打包压缩或解压，格式为“tar [选项] [文件]”。在Linux系统中，常见的文件格式比较多，其中主要使用的是.tar或.tar.gz或.tar.bz2格式。</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-c</td>
-<td>创建压缩文件</td>
-</tr>
-<tr>
-<td>-x</td>
-<td>解开压缩文件</td>
-</tr>
-<tr>
-<td>-t</td>
-<td>查看压缩包内有哪些文件</td>
-</tr>
-<tr>
-<td>-z</td>
-<td>用Gzip压缩或解压</td>
-</tr>
-<tr>
-<td>-j</td>
-<td>用bzip2压缩或解压</td>
-</tr>
-<tr>
-<td>-v</td>
-<td>显示压缩或解压的过程</td>
-</tr>
-<tr>
-<td>-f</td>
-<td>目标文件名</td>
-</tr>
-<tr>
-<td>-p</td>
-<td>保留原始的权限与属性</td>
-</tr>
-<tr>
-<td>-P</td>
-<td>使用绝对路径来压缩</td>
-</tr>
-<tr>
-<td>-C</td>
-<td>指定解压到的目录</td>
-</tr>
-</tbody></table>
-<p>命令示例：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 仅打包，不压缩！将 /home/vivek/bin/ 目录打包</span></span><br><span class="line">tar -cvf /tmp/bin-backup.tar /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 bzip2 算法压缩压缩</span></span><br><span class="line">tar -jcvf /tmp/bin-backup.tar.bz2 /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 gzip 算法压缩压缩</span></span><br><span class="line">tar -zcvf /tmp/bin-backup.tar.gz /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩</span></span><br><span class="line">tar -zxvf bin-backup.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细列举包里的所有文件</span></span><br><span class="line">tar -tvf /opt/extra.tgz</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">上下翻页：Ctrl+f、Ctrl+b</span><br><span class="line">跳到当前行最后字符处：Fn+右键</span><br><span class="line">跳到当前行最前面字符处：Fn+左键、0</span><br><span class="line"></span><br><span class="line">查找字符串：/字符串  n继续查找</span><br><span class="line">字符全局替换：:%s/foo/bar/g  :&#123;作用范围&#125;s/&#123;目标&#125;/&#123;替换&#125;/&#123;替换标志&#125;</span><br><span class="line"></span><br><span class="line">x或X：删除一个字符，x删除光标后的，而X删除光标前的；</span><br><span class="line">D：删除从当前光标到光标所在行尾的全部字符；</span><br><span class="line">删除行：<span class="built_in">dd</span> ndd（n代表删除或复制的行数）</span><br><span class="line">复制行：yy  nyy</span><br><span class="line">粘贴行：p、P</span><br><span class="line"></span><br><span class="line">复原前一个操作：u</span><br><span class="line">重做上一个操作：ctrl+r</span><br><span class="line">显示行号：:<span class="built_in">set</span> nu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Ctrl+u：向文件首翻半屏；</span><br><span class="line">Ctrl+d：向文件尾翻半屏；</span><br><span class="line">Ctrl+f：向文件尾翻一屏；</span><br><span class="line">Ctrl+b：向文件首翻一屏；</span><br><span class="line">Esc：从编辑模式切换到命令模式；</span><br><span class="line">ZZ：命令模式下保存当前文件所做的修改后退出vi；</span><br><span class="line">:行号：光标跳转到指定行的行首；</span><br><span class="line">:$：光标跳转到最后一行的行首；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p><strong>scp命令</strong> 用于在Linux下进行远程拷贝文件的命令，和它类似的命令有cp，不过cp只是在本机进行拷贝不能跨服务器，而且scp传输是加密的。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 从远程拷贝目录到本地</span></span><br><span class="line">scp -r root@10.10.10.10:/opt/soft/mongodb /opt/soft/ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传本地目录到远程机器指定目录</span></span><br><span class="line">scp -r /opt/soft/mongodb root@10.10.10.10:/opt/soft/scptest</span><br></pre></td></tr></table></figure>
-
-<h2 id="vi"><a href="#vi" class="headerlink" title="vi"></a>vi</h2><p>vi编辑器提供了丰富的内置命令，有些内置命令使用键盘组合键即可完成，有些内置命令则需要以冒号“：”开头输入。</p>
-<p>常用内置命令如下：</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>dd</td>
-<td>删除（剪切）光标所在整行</td>
-</tr>
-<tr>
-<td>5dd</td>
-<td>删除（剪切）从光标处开始的5行</td>
-</tr>
-<tr>
-<td>yy</td>
-<td>复制光标所在整行</td>
-</tr>
-<tr>
-<td>5yy</td>
-<td>复制从光标处开始的5行</td>
-</tr>
-<tr>
-<td>u</td>
-<td>撤销上一步的操作</td>
-</tr>
-<tr>
-<td>p</td>
-<td>将之前删除（dd）或复制（yy）过的数据粘贴到光标后面</td>
-</tr>
-<tr>
-<td>D</td>
-<td>删除光标处所在行尾的全部字符</td>
-</tr>
-<tr>
-<td>x</td>
-<td>删除光标处的一个字符</td>
-</tr>
-<tr>
-<td>:set nu</td>
-<td>显示行号</td>
-</tr>
-<tr>
-<td>&#x2F;string、?string</td>
-<td>查找字符串，常结合n&#x2F;N可以继续查找上一个、下一个字符串</td>
-</tr>
-<tr>
-<td>:s&#x2F;foo&#x2F;bar&#x2F;g</td>
-<td>将当前光标所在行的所有foo替换成bar</td>
-</tr>
-<tr>
-<td>:%s&#x2F;foo&#x2F;bar&#x2F;g</td>
-<td>将全文中的所有foo替换成bar</td>
-</tr>
-<tr>
-<td>Fn+右键</td>
-<td>光标跳到当前行最后一个字符</td>
-</tr>
-<tr>
-<td>Fn+右键、0</td>
-<td>光标跳到当前行第一个字符</td>
-</tr>
-<tr>
-<td>Ctrl+f、Ctrl+b</td>
-<td>上下翻页</td>
-</tr>
-</tbody></table>
-<h2 id="file"><a href="#file" class="headerlink" title="file"></a>file</h2><p>file命令用于查看文件的类型，格式为“file 文件名”。</p>
-<p>在Linux系统中，由于文本、目录、设备等所有这些一切都统称为文件，而我们又不能单凭后缀就知道具体的文件类型，这时就需要使用file命令来查看文件类型了。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# file admin-openrc.sh</span><br><span class="line">admin-openrc.sh: ASCII text</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# file /dev/sda</span><br><span class="line">/dev/sda: block special (8/0)</span><br></pre></td></tr></table></figure>
-
-<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><p><code>wc</code> 命令用于统计指定文本的行数、字数、字节数，格式为“<code>wc [参数]</code> 文本”。</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>-l</code></td>
-<td>只显示行数</td>
-</tr>
-<tr>
-<td><code>-w</code></td>
-<td>只显示单词数</td>
-</tr>
-<tr>
-<td><code>-c</code></td>
-<td>只显示字节数</td>
-</tr>
-</tbody></table>
-<h1 id="网络管理"><a href="#网络管理" class="headerlink" title="网络管理"></a>网络管理</h1><h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p><strong>ip命令</strong> 用来显示或操纵Linux主机的路由、网络设备、策略路由和隧道，是Linux下较新的功能强大的网络配置工具。</p>
-<p>网卡配置</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ip <span class="built_in">link</span>                          <span class="comment"># 显示网络接口信息</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 up              <span class="comment"># 开启网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 down            <span class="comment"># 关闭网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 promisc on      <span class="comment"># 开启网卡的混合模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 promisc offi    <span class="comment"># 关闭网卡的混合模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 txqueuelen 1200 <span class="comment"># 设置网卡队列长度</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 mtu 1400        <span class="comment"># 设置网卡最大传输单元</span></span><br><span class="line"></span><br><span class="line">ip a                             <span class="comment"># 显示网卡IP信息</span></span><br><span class="line">ip a a 192.168.0.1/24 dev eth0 <span class="comment"># 为eth0网卡添加IP地址192.168.0.1</span></span><br><span class="line">ip a d 192.168.0.1/24 dev eth0 <span class="comment"># 为eth0网卡删除一个IP地址192.168.0.1</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>ip命令配置网卡信息，在网卡或机器重启后配置会丢失。要想配置永久生效，那就要修改网卡配置文件。如下：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 文件名对应网口名，CentOS 7\8 默认配置文件</span></span><br><span class="line">[Linux]# vi /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line">DEVICE=<span class="string">&quot;eth0&quot;</span></span><br><span class="line">BOOTPROTO=<span class="string">&quot;static&quot;</span></span><br><span class="line">BROADCAST=<span class="string">&quot;192.168.0.255&quot;</span></span><br><span class="line">HWADDR=<span class="string">&quot;00:16:36:1B:BB:74&quot;</span></span><br><span class="line">IPADDR=<span class="string">&quot;192.168.0.100&quot;</span></span><br><span class="line">NETMASK=<span class="string">&quot;255.255.255.0&quot;</span></span><br><span class="line">ONBOOT=<span class="string">&quot;yes&quot;</span></span><br></pre></td></tr></table></figure>
-</blockquote>
-<p>路由配置</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ip r                         <span class="comment"># 显示系统路由</span></span><br><span class="line">ip r add default via 192.168.1.254   <span class="comment"># 设置系统默认路由</span></span><br><span class="line">ip r d default          <span class="comment"># 删除默认路由</span></span><br><span class="line"></span><br><span class="line">ip r a 192.168.4.0/24 via 192.168.0.254 dev eth0 <span class="comment"># 设置192.168.4.0网段的网关为192.168.0.254,数据走eth0接口</span></span><br><span class="line">ip r a default via 192.168.0.254 dev eth0        <span class="comment"># 设置默认网关为192.168.0.254</span></span><br><span class="line">ip r d 192.168.4.0/24   <span class="comment"># 删除192.168.4.0网段的网关</span></span><br><span class="line">ip r d 192.168.1.0/24 dev eth0 <span class="comment"># 删除路由</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><p>有时进程之间需要通信，需要开启一个socket，socket就是对外建立连接的一个窗口，然后借助TCP协议进行通信。但进行通信之前首先需要进程开启一个端口，这时就可以通过netstat命令查看开启的端口以及由哪个进程开启</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#列出所有端口</span></span><br><span class="line">netstat -a</span><br><span class="line"><span class="comment">#列出所有tcp端口</span></span><br><span class="line">netstat -at</span><br><span class="line"><span class="comment">#列出所有udp端口</span></span><br><span class="line">netstat -au</span><br><span class="line"><span class="comment">#只列出所有监听 udp 端口</span></span><br><span class="line">netstat -lu</span><br><span class="line"><span class="comment"># 通过端口找进程ID</span></span><br><span class="line">netstat -anp|grep 8081 | grep LISTEN|awk <span class="string">&#x27;&#123;printf $7&#125;&#x27;</span>|<span class="built_in">cut</span> -d/ -f1</span><br><span class="line"></span><br><span class="line">-n或--numeric：直接使用ip地址，而不通过域名服务器；</span><br><span class="line">-l或--listening：显示监控中的服务器的Socket</span><br><span class="line">-p或--programs：添加“PID/进程名称”到netstat输出中；</span><br></pre></td></tr></table></figure>
-
-<h2 id="ss"><a href="#ss" class="headerlink" title="ss"></a>ss</h2><p>ss 可以用来获取socket统计信息，它可以显示和netstat类似的内容。但ss的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">ss -t -a    <span class="comment"># 显示TCP连接</span></span><br><span class="line">ss -u -a    <span class="comment"># 显示所有UDP Sockets</span></span><br><span class="line">ss -s       <span class="comment"># 显示 Sockets 摘要</span></span><br><span class="line">ss -l       <span class="comment"># 列出所有打开的网络连接端口</span></span><br><span class="line">ss -pl      <span class="comment"># 查看进程使用的socket</span></span><br><span class="line">ss -lp | grep 3306  <span class="comment"># 找出打开套接字/端口应用程序</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h1><h2 id="firewalld-cmd"><a href="#firewalld-cmd" class="headerlink" title="firewalld-cmd"></a>firewalld-cmd</h2><p>firewalld是centos7的一大特性，最大的好处有两个：支持动态更新，不用重启服务；第二个就是加入了防火墙的“zone”概念。</p>
-<p>firewalld自身并不具备防火墙的功能，而是和iptables一样需要通过内核的netfilter来实现，也就是说firewalld和 iptables一样，他们的作用都是用于维护规则，而真正使用规则干活的是内核的netfilter，只不过firewalld和iptables的结 构以及使用方法不一样罢了。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# firewall-cmd --zone=public --list-ports</span><br><span class="line">2121/tcp 3306/tcp 8081/tcp 30000/tcp 38060/tcp 40000/tcp 40001/tcp</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --permanent --add-port=3307/tcp --zone=public</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --reload</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --zone=public --list-ports</span><br><span class="line">2121/tcp 3306/tcp 3307/tcp 8081/tcp 30000/tcp 38060/tcp 40000/tcp 40001/tcp</span><br></pre></td></tr></table></figure>
-
-<p>firewalld中常见的zone（默认为public）以及相应的策略规则如下所示：</p>
-<table>
-<thead>
-<tr>
-<th>区域</th>
-<th align="left">默认规则策略</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>trusted</td>
-<td align="left">允许所有的数据包</td>
-</tr>
-<tr>
-<td>home</td>
-<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量</td>
-</tr>
-<tr>
-<td>internal</td>
-<td align="left">等同于home区域</td>
-</tr>
-<tr>
-<td>work</td>
-<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量</td>
-</tr>
-<tr>
-<td>public</td>
-<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量</td>
-</tr>
-<tr>
-<td>external</td>
-<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
-</tr>
-<tr>
-<td>dmz</td>
-<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
-</tr>
-<tr>
-<td>block</td>
-<td align="left">拒绝流入的流量，除非与流出的流量相关</td>
-</tr>
-<tr>
-<td>drop</td>
-<td align="left">拒绝流入的流量，除非与流出的流量相关</td>
-</tr>
-</tbody></table>
-<h2 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h2><p><strong>ps命令</strong> 用于报告当前系统的进程状态。</p>
-<table>
-<thead>
-<tr>
-<th>参数</th>
-<th>作用</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-a</td>
-<td>显示所有进程（包括其他用户的进程）</td>
-</tr>
-<tr>
-<td>-u</td>
-<td>用户以及其他详细信息</td>
-</tr>
-<tr>
-<td>-x</td>
-<td>显示没有控制终端的进程</td>
-</tr>
-</tbody></table>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 加上ww可以完整展示进程的信息</span></span><br><span class="line">ps -efww</span><br><span class="line"><span class="comment"># 找出占用内存资源最多的前 10 个进程</span></span><br><span class="line">ps -auxf | <span class="built_in">sort</span> -nr -k 4 | <span class="built_in">head</span> -10</span><br><span class="line"><span class="comment"># 找出占用cpu资源最多的前 10 个进程</span></span><br><span class="line">ps -auxf | <span class="built_in">sort</span> -nr -k 3 | <span class="built_in">head</span> -10 </span><br></pre></td></tr></table></figure>
-<h2 id="journalctl"><a href="#journalctl" class="headerlink" title="journalctl"></a>journalctl</h2><p>检索 systemd 日志，是 CentOS 7 才有的工具</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看服务启动日志</span></span><br><span class="line">journalctl -u kubelet.service</span><br><span class="line">journalctl -u etcd.service -f -n 100 </span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>如果不知道服务名称，可以使用<code>systemctl list-units --type=service</code>命令来列出系统中的 systemd 服务。</p>
-</blockquote>
-<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p><strong>watch命令</strong> 以周期性的方式执行给定的指令，指令输出以全屏方式显示</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 每隔60s查看主机内存的使用情况</span></span><br><span class="line">watch -d -n 60 <span class="string">&quot;free -h&quot;</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="rpm"><a href="#rpm" class="headerlink" title="rpm"></a>rpm</h2><p><strong>rpm命令</strong> 是RPM软件包的管理工具</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 列出所有安装过的包</span></span><br><span class="line">rpm -qa </span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装rpm软件包</span></span><br><span class="line">rpm -ivh your-package.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取rpm包中的文件安装路径</span></span><br><span class="line">rpm -ql nfs-utils-1.3.0-0.54.el7.x86_64 </span><br></pre></td></tr></table></figure>
-
-<h2 id="crontab"><a href="#crontab" class="headerlink" title="crontab"></a>crontab</h2><p><strong>crontab命令</strong> 被用来提交和管理用户的需要周期性执行的任务</p>
-<p>用户可以使用 crontab 工具来定制自己的计划任务。所有用户定义的crontab文件都被保存在<code>/var/spool/cron</code>目录中。其文件名与用户名一致。</p>
-<p>crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">minute   hour   day   month   week   command     顺序：分 时 日 月 周</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@master01 ~]# <span class="built_in">cat</span> /var/spool/cron/root</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出该用户的定时任务</span></span><br><span class="line">[root@master01 ~]# crontab -l</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br></pre></td></tr></table></figure>
-
-<h1 id="进阶操作"><a href="#进阶操作" class="headerlink" title="进阶操作"></a>进阶操作</h1><h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p><strong>nohup命令</strong> 可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 后台运行脚本，stderr和stdout重定向输出到output.log</span></span><br><span class="line"><span class="built_in">nohup</span> sh install.sh &gt; output.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
-
-<h2 id="script"><a href="#script" class="headerlink" title="script"></a>script</h2><p><strong>script</strong> 用于在终端会话中，记录用户的所有操作和命令的输出信息。</p>
-<p>使用命令<code>exit</code>或者快捷键<code>Ctrl + D</code>停止记录。</p>
-<figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 静默模式记录</span></span><br><span class="line">script -q myfile</span><br></pre></td></tr></table></figure>
-
-<h2 id="chattr"><a href="#chattr" class="headerlink" title="chattr"></a>chattr</h2><p><strong>chattr命令</strong> 用来改变文件属性。这些属性共有以下8种模式：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">a：让文件或目录仅供附加用途；</span><br><span class="line">b：不更新文件或目录的最后存取时间；</span><br><span class="line">c：将文件或目录压缩后存放；</span><br><span class="line">d：将文件或目录排除在倾倒操作之外；</span><br><span class="line">i：不得任意更动文件或目录；</span><br><span class="line">s：保密性删除文件或目录；</span><br><span class="line">S：即时更新文件或目录；</span><br><span class="line">u：预防意外删除。</span><br><span class="line"></span><br><span class="line">+&lt;属性&gt;：开启文件或目录的该项属性；</span><br><span class="line">-&lt;属性&gt;：关闭文件或目录的该项属性；</span><br><span class="line">=&lt;属性&gt;：指定文件或目录的该项属性。</span><br></pre></td></tr></table></figure>
-
-<p>用chattr命令防止系统中某个关键文件被修改：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chattr +i /etc/fstab</span><br></pre></td></tr></table></figure>
-
-<p>然后试一下rm、mv、rename等命令操作于该文件，都是得到Operation not permitted的结果。</p>
-<p>让某个文件只能往里面追加内容，不能删除，一些日志文件适用于这种操作：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">chattr +a /var/log/ansible.log</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux主机端口相关问题</title>
-    <url>/2017/11/26/linux_port/</url>
-    <content><![CDATA[<h2 id="排查端口占用问题"><a href="#排查端口占用问题" class="headerlink" title="排查端口占用问题"></a>排查端口占用问题</h2><p>1、安装net-tools命令行工具 yum install -y net-tools<br>2、执行命令查看被占用端口的pid netstat -anlp | grep port<br>如下图，发现本机8083端口被22980的程序wisecloud-met所占用</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port04.png?raw=true" alt="1.png"></p>
-<p>3、进一步使用命令：ps -aux | grep wisecloud-met，或者直接：ps -aux | grep pid 查看，就可以明确知道8083端口是被哪个程序占用了！然后判断是否使用KILL命令干掉！</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port05.png?raw=true" alt="2.png"></p>
-<p>知识拓展：<a href="https://www.cnblogs.com/wonux/p/6268134.html">Linux网络管理常用命令：net-tools VS iproute2</a></p>
-<h2 id="测试端口连通性"><a href="#测试端口连通性" class="headerlink" title="测试端口连通性"></a>测试端口连通性</h2><h3 id="方法一：telnet"><a href="#方法一：telnet" class="headerlink" title="方法一：telnet"></a>方法一：telnet</h3><p>预置条件：安装telnet<br>step 1、rpm -qa telnet-server（无输出表示telnet-server未安装，则执行step2；否则执行step3）<br>step 2、yum -y install telnet-server（安装telnet-server）<br>step 3、rpm -qa telnet（无输出表示telnet未安装，则执行step4，否则执行step5）<br>step 4、yum -y install telnet（安装）</p>
-<p>telnet为用户提供了在本地计算机上完成远程主机工作的能力，因此可以通过telnet来测试端口的连通性，具体用法格式：telnet ip port<br>如果telnet连接不存在的端口，那会显示Connecttion refused<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port01.png?raw=true" alt="示例1.png"></p>
-<h3 id="方法二：curl"><a href="#方法二：curl" class="headerlink" title="方法二：curl"></a>方法二：curl</h3><p>预置条件：安装curl<br>curl 的官网下载地址：<a href="http://curl.haxx.se/download/">http://curl.haxx.se/download/</a><br>下载地址如下： <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>1.wget <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>如果使用 wget下载https开头的网址域名 时报错，你可能需要加上 –no-check-certificate 选项<br>2.tar -xzvf curl-7.38.0.tar.gz<br>3.cd curl-7.38.0<br>.&#x2F;configure<br>make<br>make install</p>
-<p>curl是利用URL语法在命令行方式下工作的开源文件传输工具。也可以用来测试端口的连通性，具体用法:curl ip:port<br>说明：如果远程主机开通了相应的端口，都会输出信息，如果没有开通相应的端口，则没有任何提示，需要CTRL+C断开。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port02.png?raw=true" alt="示例2.png"></p>
-<h3 id="方法三：wget"><a href="#方法三：wget" class="headerlink" title="方法三：wget"></a>方法三：wget</h3><p>预置条件：安装wget</p>
-<p>debian 或者 ubuntu : sudo apt-get install wget</p>
-<p>centos : sudo yum -y install wget</p>
-<p>wget是一个从网络上自动下载文件的自由工具，支持通过HTTP、HTTPS、FTP三个最常见的TCP&#x2F;IP协议下载，并可以使用HTTP代理。wget名称的由来是“World Wide Web”与“get”的结合，它也可以用来测试端口的连通性具体用法:wget ip:port，如果远程主机不存在端口则会一直提示连接主机。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port03.png?raw=true" alt="示例3.png"></p>
-]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Linux</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>NFS服务器搭建和挂载</title>
     <url>/2018/05/26/nfs_server_install/</url>
     <content><![CDATA[<h1 id="nfs-server-install"><a href="#nfs-server-install" class="headerlink" title="nfs-server-install"></a>nfs-server-install</h1><p>NFS 是Network File System的缩写，即网络文件系统。功能是通过网络让不同的机器、不同的操作系统能够彼此分享个别的数据，让应用程序在客户端通过网络访问位于服务器磁盘中的数据，是在类Unix系统间实现磁盘文件共享的一种方法。<br>NFS在文件传送或信息传送过程中依赖于RPC协议。所以只要用到NFS的地方都要启动RPC服务，不论是NFS SERVER或者NFS CLIENT。这样SERVER和CLIENT才能通过RPC来实现PROGRAM PORT（centos5之前，之后是rpcbind）的对应。可以这么理解RPC和NFS的关系：NFS是一个文件系统，而RPC是负责信息的传输。</p>
@@ -1603,6 +1592,30 @@
       </categories>
       <tags>
         <tag>NFS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux主机端口相关问题</title>
+    <url>/2017/11/26/linux_port/</url>
+    <content><![CDATA[<h2 id="排查端口占用问题"><a href="#排查端口占用问题" class="headerlink" title="排查端口占用问题"></a>排查端口占用问题</h2><p>1、安装net-tools命令行工具 yum install -y net-tools<br>2、执行命令查看被占用端口的pid netstat -anlp | grep port<br>如下图，发现本机8083端口被22980的程序wisecloud-met所占用</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port04.png?raw=true" alt="1.png"></p>
+<p>3、进一步使用命令：ps -aux | grep wisecloud-met，或者直接：ps -aux | grep pid 查看，就可以明确知道8083端口是被哪个程序占用了！然后判断是否使用KILL命令干掉！</p>
+<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port05.png?raw=true" alt="2.png"></p>
+<p>知识拓展：<a href="https://www.cnblogs.com/wonux/p/6268134.html">Linux网络管理常用命令：net-tools VS iproute2</a></p>
+<h2 id="测试端口连通性"><a href="#测试端口连通性" class="headerlink" title="测试端口连通性"></a>测试端口连通性</h2><h3 id="方法一：telnet"><a href="#方法一：telnet" class="headerlink" title="方法一：telnet"></a>方法一：telnet</h3><p>预置条件：安装telnet<br>step 1、rpm -qa telnet-server（无输出表示telnet-server未安装，则执行step2；否则执行step3）<br>step 2、yum -y install telnet-server（安装telnet-server）<br>step 3、rpm -qa telnet（无输出表示telnet未安装，则执行step4，否则执行step5）<br>step 4、yum -y install telnet（安装）</p>
+<p>telnet为用户提供了在本地计算机上完成远程主机工作的能力，因此可以通过telnet来测试端口的连通性，具体用法格式：telnet ip port<br>如果telnet连接不存在的端口，那会显示Connecttion refused<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port01.png?raw=true" alt="示例1.png"></p>
+<h3 id="方法二：curl"><a href="#方法二：curl" class="headerlink" title="方法二：curl"></a>方法二：curl</h3><p>预置条件：安装curl<br>curl 的官网下载地址：<a href="http://curl.haxx.se/download/">http://curl.haxx.se/download/</a><br>下载地址如下： <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>1.wget <a href="http://curl.haxx.se/download/curl-7.38.0.tar.gz">http://curl.haxx.se/download/curl-7.38.0.tar.gz</a><br>如果使用 wget下载https开头的网址域名 时报错，你可能需要加上 –no-check-certificate 选项<br>2.tar -xzvf curl-7.38.0.tar.gz<br>3.cd curl-7.38.0<br>.&#x2F;configure<br>make<br>make install</p>
+<p>curl是利用URL语法在命令行方式下工作的开源文件传输工具。也可以用来测试端口的连通性，具体用法:curl ip:port<br>说明：如果远程主机开通了相应的端口，都会输出信息，如果没有开通相应的端口，则没有任何提示，需要CTRL+C断开。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port02.png?raw=true" alt="示例2.png"></p>
+<h3 id="方法三：wget"><a href="#方法三：wget" class="headerlink" title="方法三：wget"></a>方法三：wget</h3><p>预置条件：安装wget</p>
+<p>debian 或者 ubuntu : sudo apt-get install wget</p>
+<p>centos : sudo yum -y install wget</p>
+<p>wget是一个从网络上自动下载文件的自由工具，支持通过HTTP、HTTPS、FTP三个最常见的TCP&#x2F;IP协议下载，并可以使用HTTP代理。wget名称的由来是“World Wide Web”与“get”的结合，它也可以用来测试端口的连通性具体用法:wget ip:port，如果远程主机不存在端口则会一直提示连接主机。<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/port03.png?raw=true" alt="示例3.png"></p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
       </tags>
   </entry>
   <entry>
@@ -1769,6 +1782,75 @@
       </categories>
       <tags>
         <tag>PaaS</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python编程进阶：装饰器的使用</title>
+    <url>/2020/01/06/python-decorator/</url>
+    <content><![CDATA[<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>在Python开发中，装饰器（Decorator）是一种强大而优雅的语法特性，它允许在<strong>不修改原函数代码</strong>的前提下，动态地为函数添加额外功能（如日志记录、性能分析、参数校验等）。本文将从闭包的基础概念出发，深入解析装饰器的实现原理，并通过实际示例展示其应用场景。</p>
+<hr>
+<h3 id="闭包：装饰器的基石"><a href="#闭包：装饰器的基石" class="headerlink" title="闭包：装饰器的基石"></a>闭包：装饰器的基石</h3><p>在理解装饰器之前，必须先了解<strong>闭包（Closure）</strong>的概念。闭包是指在函数内部定义的函数（嵌套函数），该函数可以访问外层函数的变量，即使外层函数已经执行完毕。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">outer</span>():</span><br><span class="line">    x = <span class="number">10</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;通过闭包访问外层变量x的值: <span class="subst">&#123;x&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> inner	<span class="comment"># 返回闭包</span></span><br><span class="line"></span><br><span class="line">closure = outer()</span><br><span class="line">closure()  <span class="comment"># 输出: 通过闭包访问外层变量x的值: 10</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>outer</code> 返回 <code>inner</code>，后者可以访问并使用 <code>outer</code> 中的变量 <code>x</code></p>
+<h3 id="装饰器的实现"><a href="#装饰器的实现" class="headerlink" title="装饰器的实现"></a>装饰器的实现</h3><p>装饰器的本质是一个接收函数作为参数的外层函数，其内部定义一个闭包（通常命名为<code>wrapper</code>），用于包裹原函数并增强其功能。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 装饰器模版</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):          <span class="comment"># 外层函数（装饰器）</span></span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):  <span class="comment"># 内层函数（闭包）</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        result = func(*args, **kwargs)	<span class="comment"># 访问外层函数的参数 `func`</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<code>decorator</code>就是一个装饰器。它接受一个函数<code>func</code>作为参数，并返回一个包裹原函数的新函数<code>wrapper</code>。</p>
+<p><strong>代码解析</strong></p>
+<ol>
+<li><code>@wraps(func)</code> ：保留原函数的元数据（如函数名、文档信息）</li>
+<li><code>*args, **kwargs</code>：接受任意、不定数量的参数，增强装饰器的通用性。</li>
+<li>外层<code>return wrapper</code>：确保装饰器返回包装后的函数，其实就是一个闭包函数。</li>
+<li>内层<code>return result</code>：确保原函数的返回值不被丢弃</li>
+</ol>
+<h3 id="装饰器应用场景"><a href="#装饰器应用场景" class="headerlink" title="装饰器应用场景"></a>装饰器应用场景</h3><p>1.日志记录：在大型项目中，使用装饰器可以轻松地为多个函数添加日志功能，而无需在每个函数中重复编写日志代码。</p>
+<p>2.性能分析：通过装饰器可以方便地测量函数的执行时间，帮助开发者识别性能瓶颈。</p>
+<p>3.访问控制：在Web应用中，装饰器可以用于实现用户认证和授权，确保只有具有特定权限的用户才能访问某些功能。</p>
+<p>4.缓存机制：对于计算密集型函数，使用缓存装饰器可以显著提高程序的执行效率，避免重复计算。</p>
+<p>5.输入验证：在数据处理应用中，装饰器可以用于检查函数输入的有效性，提高代码的健壮性。</p>
+<h3 id="装饰器函数示例"><a href="#装饰器函数示例" class="headerlink" title="装饰器函数示例"></a>装饰器函数示例</h3><h4 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">log_decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="comment"># logging.getLogger().setLevel(logging.INFO)</span></span><br><span class="line">        logging.info(<span class="string">f&quot;调用函数: <span class="subst">&#123;func.__name__&#125;</span>, 参数: <span class="subst">&#123;args&#125;</span>, <span class="subst">&#123;kwargs&#125;</span>&quot;</span>)</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        logging.info(<span class="string">f&quot;函数返回: <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@log_decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;两数相加&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>)  <span class="comment"># 自动记录日志</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码解析</strong></p>
+<ol>
+<li><code>@log_decorator</code>是装饰器的应用方式，相当于：<code>add = log_decorator(add)</code></li>
+<li>装饰器返回的<code>wrapper</code>函数能够访问外部函数<code>log_decorator</code>的作用域，因此可以在原函数执行前后插入自己的逻辑。</li>
+</ol>
+<h4 id="函数计时"><a href="#函数计时" class="headerlink" title="函数计时"></a>函数计时</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timer</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kw</span>):</span><br><span class="line">        t1=time.time()</span><br><span class="line">        <span class="comment"># 这是函数真正执行的地方</span></span><br><span class="line">        func(*args, **kw)</span><br><span class="line">        t2=time.time()</span><br><span class="line">        <span class="comment"># 计算下时长</span></span><br><span class="line">        cost_time = t2-t1 </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;花费时间：&#123;&#125;秒&quot;</span>.<span class="built_in">format</span>(cost_time))</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@timer</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">want_sleep</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line">want_sleep(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="函数重试"><a href="#函数重试" class="headerlink" title="函数重试"></a>函数重试</h4><p>若需要为装饰器传递参数（如重试次数），需定义一个<strong>装饰器工厂函数</strong>，它可以根据参数“生产”出不同的装饰器。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">repeat</span>(<span class="params">num_times</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">        @wraps(<span class="params">func</span>)</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_times):</span><br><span class="line">                result = func(*args, **kwargs)</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="meta">@repeat(<span class="params">num_times=<span class="number">3</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Hello <span class="subst">&#123;name&#125;</span>!&quot;</span>)</span><br><span class="line"></span><br><span class="line">greet(<span class="string">&quot;Alice&quot;</span>)  <span class="comment"># 输出3次&quot;Hello Alice!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>从以上例子中可以看到，在带参数的装饰器函数中一共有三层函数嵌套，其实剥离出最外面的一层，我们可以发现和简单（不带参数）的装饰器是一样的。</p>
+<p><strong>代码解析</strong>：</p>
+<ul>
+<li><code>repeat</code>是一个装饰器工厂函数，负责“生产”返回一个实际的装饰器<code>decorator</code>。</li>
+<li><code>@repeat(num_times=3)</code>等价于<code>greet = repeat(3)(greet)</code>。</li>
+</ul>
+<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><p>绝大多数装饰器都是基于函数和闭包实现的，但这并非制造装饰器的唯一方式。事实上，Python 对某个对象是否能通过装饰器（<code>@decorator</code>）形式使用只有一个要求：<strong>decorator 必须是一个“可被调用（callable）的对象</strong>。</p>
+<p>基于类装饰器的实现，必须实现 <code>__call__</code> 和 <code>__init__</code>两个内置函数。</p>
+<h4 id="不带参数的类装饰器"><a href="#不带参数的类装饰器" class="headerlink" title="不带参数的类装饰器"></a>不带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Decorator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func</span>):	<span class="comment"># 接收被装饰函数</span></span><br><span class="line">        <span class="variable language_">self</span>.func = func</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):	<span class="comment"># 实现装饰逻辑。</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;函数 <span class="subst">&#123;self.func.__name__&#125;</span> 被调用&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello!&quot;</span>)</span><br><span class="line"></span><br><span class="line">say_hello()  <span class="comment"># 输出: 函数 say_hello 被调用 → Hello!</span></span><br></pre></td></tr></table></figure>
+
+<p>在不带参数的类装饰器中，等价于 <code>func = class(func)</code>，此时函数作为了类的实例参数。</p>
+<h4 id="带参数的类装饰器"><a href="#带参数的类装饰器" class="headerlink" title="带参数的类装饰器"></a>带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">logger</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, level=<span class="string">&#x27;INFO&#x27;</span></span>):	<span class="comment"># 接受装饰器参数</span></span><br><span class="line">        <span class="variable language_">self</span>.level = level</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, func</span>): <span class="comment"># 接受被装饰函数</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[&#123;level&#125;]: the function &#123;func&#125;() is running...&quot;</span>\</span><br><span class="line">                .<span class="built_in">format</span>(level=<span class="variable language_">self</span>.level, func=func.__name__))</span><br><span class="line">            func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapper  <span class="comment">#返回函数</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@logger(<span class="params">level=<span class="string">&#x27;WARNING&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say</span>(<span class="params">something</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;say &#123;&#125;!&quot;</span>.<span class="built_in">format</span>(something))</span><br><span class="line"></span><br><span class="line">say(<span class="string">&quot;hello&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在带参数的类装饰器中，等价于<code>func = class(para)(func)</code>。也就是说，此时函数并不是实例化参数，而变成了callable 的参数，这也就是为什么需要在__call__() 中传入func。</p>
+<h3 id="内置装饰器"><a href="#内置装饰器" class="headerlink" title="内置装饰器"></a>内置装饰器</h3><p>Python还提供了一些常用的内置装饰器。例如：</p>
+<ul>
+<li><code>@property</code>：用于将一个方法转换为属性。广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查。</li>
+<li><code>@staticmethod</code> 和 <code>@classmethod</code>：用于定义静态方法和类方法。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>装饰器是闭包的一种应用，闭包为装饰器提供了“记住外部函数参数（如被装饰函数 <code>func</code>）”的能力。</li>
+<li>一切 callable 的对象都可以被用来实现装饰器，比如函数、类。</li>
+<li>装饰器会改变原函数的原始签名，需要使用 <code>functools.wraps</code></li>
+<li>在内层函数修改外层函数的变量时，需要使用 <code>nonlocal</code> 关键字。</li>
+<li>“装饰器”并没有提供某种无法替代的功能，等同于<code>func = decorator(func)</code>。它只是一颗“语法糖”而已，就像乐高积木，可以自由组合各种功能模块，在某些特定场景里可以使代码更简洁易维护。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
   <entry>
