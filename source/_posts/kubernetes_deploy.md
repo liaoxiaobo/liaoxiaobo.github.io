@@ -1,8 +1,8 @@
 ---
-title: 使用kubeadm部署K8S集群v1.16.4
+title: Kubernetes系列：kubeadm部署K8S集群v1.16.4
 date:  2019-12-01
 categories:
-  - cloud-native
+  - 云原生
 tags:
   - Kubernetes
   - kubeadm

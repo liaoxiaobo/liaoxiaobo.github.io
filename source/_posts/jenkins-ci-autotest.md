@@ -1,6 +1,6 @@
 ---
-title: 使用Jenkins工具集成自动化测试
-date:  2019-03-29
+title: Jenkins集成自动化测试项目
+date: 2019-03-29
 categories:
   - 测试自动化
 tags:
@@ -12,8 +12,7 @@ tags:
 
 # 需求背景
 
-1、公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，这时需要对接CI自动化冒烟测试
-2、Jenkins有着其丰富的插件和job触发机制，易于拓展，能够满足持续测试的大部分场景，尤其是jenkins pipeline使得创建任务非常灵活和简洁，最终选择jenkins作为持续集成测试平台
+公司项目搭建了一套CICD，每天可以自动地构建镜像并部署至测试环境，此时需要对接自动化测试，实现持续集成测试。
 
 # 安装Jenkins
 
@@ -28,10 +27,10 @@ docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/loc
 2、如果宿主机不存在timezone文件，自己手动创建并写入Asia/Shanghai即可
 
 执行命令截图：
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true)
+<img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true" alt="jk.png" style="zoom: 33%;" />
 
 为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true)
+<img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true" alt="jk.png" style="zoom:33%;" />
 
 # 配置Jenkins
 
@@ -64,13 +63,62 @@ docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/loc
 
 由于项目里的自动化脚本基于RF编写开发，所以Jenkins需要安装robot-framework插件。该插件在Jenkins中收集并发布Robot Framework测试结果。
 
-# 编写Pipeline脚本
 
-直接贴脚本，pipeline支持的语法请查看官方手册。
 
-pipeline流程图：
+# 集成自动化测试项目
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk09.png?raw=true)
+## 项目介绍
+
+框架搭建时，主要用了以下工具：
+
+- gitee：管理多分支代码
+- Robot Framework：作为测试框架
+- docker：打包测试脚本和python包依赖，构建测试镜像
+
+配置数据管理
+
+- 目前是把不同的测试集群信息放在wisecloud.yaml文件里管理，另外basedata.py文件管理其它配置数据。比如公共登录账号、harbor地址账号等。
+- 配置读取：单独创建一个Rest类，并继承REST父类。get_baseurl实例方法会根据env_type变量值，去动态获取目标集群的访问地址、集群ip地址,并调用BuiltIn().set_global_variable方法去设为全局变量。供用例执行过程中使用
+
+分层设计与解耦
+
+- 用例、方法（关键字）、测试库分层
+
+- 用例按模块划分成多个测试用例文件，集中放进测试套件Suites
+
+- 方法按模块划分成多个资源文件，集中放进资源文件夹Resource
+
+- 自定义创建测试库和方法，集中放进Library。以关键字的形式以供调用
+
+```sh
+  ├── Library
+  │   ├── Basedata.py
+  │   ├── Rest.py
+  │   ├── ServiceAdd.py
+  │   └── wisecloud.yaml
+  ├── Resource
+  │   ├── BackupRestore.robot
+  │   ├── Common.robot
+  │   ├── Configcenter.robot
+  │   ├── Dashboard.robot
+  │   ├── Monitor.robot
+  │   ├── Orche_App.robot
+  │   ├── Orche_Stack.robot
+  │   ├── Resource_Manager.robot
+  │   ├── Workflow.robot
+  │   └── pipeline_workflow.robot
+  ├── Suites
+  │   ├── backuprestore.robot
+  │   ├── configcenter.robot
+  │   ├── dashboard.robot
+  │   ├── ingress
+  │   │   └── ingress.robot
+```
+
+
+## 编写Pipeline脚本
+
+直接贴脚本，pipeline支持的语法可查看官方手册。
 
 ```
 pipeline {
@@ -122,7 +170,7 @@ pipeline {
 }
 ```
 
-# webhook自动触发Jenkins pipeline
+## webhook触发流水线
 
 1、新建pipeline时，构建触发器选择‘触发远程构建’这项，输入token name。比如apitest
 这时就可以获得一个webhhok地址，提供给维护CICD平台的同事即可。
@@ -137,7 +185,7 @@ curl JENKINS_URL/job/wise2c-robot/build?token=TOKEN_NAME
 
 ![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk05.png?raw=true)
 
-# 测试结果报告展示
+## 测试结果报告展示
 
 job首页测试结果展示，失败了1条case，同时收到了一封关于api测试失败的邮件通知：
 
@@ -149,17 +197,9 @@ job首页测试结果展示，失败了1条case，同时收到了一封关于api
 ![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk06.png?raw=true)
 ![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk08.png?raw=true)
 
-注：如果到打开失败，可以参考这个解决办法。https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed
+如果到打开失败，可以参考这个解决办法。https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed
 管理jenkins–>脚本命令行输入如下脚本:
 
 ```
 System.setProperty("hudson.model.DirectoryBrowserSupport.CSP","sandbox allow-scripts; default-src 'none'; img-src 'self' data: ; style-src 'self' 'unsafe-inline' data: ; script-src 'self' 'unsafe-inline' 'unsafe-eval' ;")
 ```
-
-
-
-# 持续改进
-
-1、目前创建的wise2c-robot任务脚本数量500+，全部跑完至少需要2个小时，后期打算按模块拆分成多个子任务job，并行执行测试。
-
-2、邮件通知的正文内容过于简单，希望能把每条case的执行结果直接展示出来

@@ -1,14 +1,14 @@
 ---
-title: 网络系列：路由器和交换机
+title: 网络系列：常用网络设备
 date: 2019/2/10 20:41:20
 categories:
   - 网络
 tags:
-  - 路由器
-  - 交换机
+  - 网络设备
 ---
 
 # 网络设备
+
 
 | 设备           | 工作层级 | 功能                                                         |
 | -------------- | -------- | ------------------------------------------------------------ |
@@ -37,7 +37,7 @@ tags:
 
 > PS：在网络管理员已知某些设备的MAC地址和端口的情况下，可以手动配置静态MAC地址表条目，避免交换机进行广播查找。
 
-### **三层交换机**
+## **三层交换机**
 
 三层交换机（L3 Switch）通过引入路由功能，用于连接局域网中的不同网段，通过对缺省网关的查询学习来建立两个网段之间的直接连接。
 
@@ -50,7 +50,123 @@ tags:
   - 如果三层交换模块在以前的通信过程中已经知道主机B的MAC地址，则向主机A回复B的MAC地址。
   - 如果三层交换模块不知道主机B的MAC地址，三层交换模块根据路由信息向主机B广播一个ARP请求，主机B得到此ARP请求后向三层交换模块回复其MAC地址，三层交换模块保存此地址并回复给主机A,同时将主机B的MAC地址发送到二层交换引擎的MAC地址表中。从这以后，当A向B发送的数据包便全部交给二层交换处理，信息得以高速交换。
 
-# 相关问题
+## 网卡
+
+### 网卡Bond
+
+所谓bond，就是把多个物理网卡绑定成一个逻辑上的网卡，使用同一个IP工作，有时服务器带宽不够了也可以用作增加带宽。
+
+借助于网卡bond技术，不仅可以提高网络传输速度，更重要的是，还可以确保在其中一块网卡出现故障时，依然可以正常提供网络服务。
+
+网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6。常用的有三种：
+
+- mode=0（平衡负载模式）：平时两块网卡均工作，且自动备援，但需要在与服务器本地网卡相连的交换机设备上进行端口聚合来支持绑定技术。
+- mode=1（自动备援模式）：平时只有一块主网卡工作，在它故障后自动替换为另外的网卡。
+- mode=6（平衡负载模式）：平时两块网卡均工作，且自动备援，无须交换机设备提供辅助支持。
+
+**1.Bond准备工作**
+
+首先要确定服务器上的网卡规划用途，以及哪些网卡已插网线，一般是有两块网卡对应两根网线，分别连接不同的交换机。
+
+```sh
+[root@master01 network-scripts]# ethtool p4p2
+Settings for p4p2:
+        Supported ports: [ FIBRE ]
+        Supported link modes:   1000baseKX/Full
+                                10000baseKR/Full
+                                25000baseCR/Full
+                                25000baseKR/Full
+                                25000baseSR/Full
+        Supported pause frame use: Symmetric
+        Supports auto-negotiation: Yes
+        Supported FEC modes: None BaseR
+        Advertised link modes:  1000baseKX/Full
+                                10000baseKR/Full
+                                25000baseCR/Full
+                                25000baseKR/Full
+                                25000baseSR/Full
+        Advertised pause frame use: Symmetric
+        Advertised auto-negotiation: Yes
+        Advertised FEC modes: None
+        Speed: 10000Mb/s
+        Duplex: Full
+        Port: FIBRE
+        PHYAD: 0
+        Transceiver: internal
+        Auto-negotiation: on
+        Supports Wake-on: d
+        Wake-on: d
+        Current message level: 0x00000004 (4)
+                               link
+        Link detected: yes
+```
+
+> ethtool查看网卡信息，`Link detected：yes`表示有网线插入；
+>
+> 如果`Link detected:no` 的话，尝试用`ifup ethxxx`，如果依然为no的话，才能说明此网卡确实没有网线插入。
+
+**2.网卡Bond配置**
+
+方法一：命令行配置
+
+```sh
+# 创建一个名为 storagepub 的网卡绑定接口，类型为 bond，模式为 802.3ad
+ip link add storagepub type bond mode 802.3ad xmit_hash_policy layer3+4
+
+# 关闭网卡
+ip link set ens4np1 down
+
+# 将网卡 ens4np1 加入到名为 storagepub 的绑定接口，成为其从属（slave）设备
+ip link set ens4np1 master storagepub
+
+# 启用网卡
+ip link set ens4np1 up
+
+# 启用绑定接口 storagepub，使其可用
+ip link set storagepub up
+
+# 查看绑定接口 storagepub 的详细信息，包括模式、成员网卡、负载均衡策略等。
+cat /proc/net/bonding/storagepub
+```
+
+方法二：修改bond网卡的配置文件
+
+```sh
+[root@master01 network-scripts]# cat ifcfg-bond-storagepub
+DEVICE=storagepub
+BONDING_OPTS="mode=4 miimon=100 xmit_hash_policy=1"
+TYPE=Bond
+BONDING_MASTER=yes	# 表示该设备是绑定主设备（master）。
+BOOTPROTO=static	# 使用静态 IP 配置（不依赖 DHCP）
+PEERDNS=no
+IPV4_FAILURE_FATAL=no
+IPV6INIT=no	# 不启用 IPv6 配置
+NAME=bond-storagepub
+ONBOOT=yes
+IPADDR=172.22.88.177
+NETMASK=255.255.255.0
+
+[root@master01 network-scripts]# cat ifcfg-p4p2
+TYPE=Ethernet
+BOOTPROTO=static
+DEVICE=p4p2
+ONBOOT=yes
+MASTER=storagepub	# 指定绑定接口的主设备为 storagepu。
+SLAVE=yes	# 指定该网卡是绑定接口的从设备（slave）
+```
+
+3.**重启网络验证**
+
+```
+[root@master01 ~]# systemctl restart network
+
+[root@master01 ~]# ip a |grep storagepub
+11: p4p2: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc mq master storagepub state UP group default qlen 1000
+19: storagepub: <BROADCAST,MULTICAST,MASTER,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    inet 172.22.88.177/24 brd 172.22.88.255 scope global noprefixroute storagepub
+```
+
+# 常见面试题
 
 ## 交换机的VLAN怎么划分的
 

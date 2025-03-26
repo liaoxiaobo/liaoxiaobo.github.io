@@ -1,8 +1,8 @@
 ---
-title: Kubernetes集群监控
+title: Kubernetes系列：监控组件部署
 date: 2019-03-04
 categories:
-  - cloud-native
+  - 云原生
 tags:
   - Kubernetes
   - Prometheus

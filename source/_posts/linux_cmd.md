@@ -1,5 +1,5 @@
 ---
-title: Linux命令速查
+title: Linux 常用命令
 date: 2017/7/5 20:36:25
 categories:
   - Linux
