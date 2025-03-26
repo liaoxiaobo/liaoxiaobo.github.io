@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="需求背景1、测试环境部署了一套监控系统，测试人员经常需要访问web去分析数据或定位问题，但是访问不方便也不灵活,每次需要去找到pod运行主机IP和svc暴露的端口。2、通过利用nginx反向代理+负载均衡配置，快速地访问系统。比如prometheus、granfana等 配置步骤1、查看测试集群监控服务的pod和svc信息，prometheus和grafana均以NodePort的形式映射到主机端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="nginx实战笔记：配置反向代理访问监控系统">
+<meta property="og:url" content="http://example.com/2019/01/24/nginx_proxy/index.html">
+<meta property="og:site_name" content="liaoxb&#39;s blog">
+<meta property="og:description" content="需求背景1、测试环境部署了一套监控系统，测试人员经常需要访问web去分析数据或定位问题，但是访问不方便也不灵活,每次需要去找到pod运行主机IP和svc暴露的端口。2、通过利用nginx反向代理+负载均衡配置，快速地访问系统。比如prometheus、granfana等 配置步骤1、查看测试集群监控服务的pod和svc信息，prometheus和grafana均以NodePort的形式映射到主机端">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx15.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx16.png?raw=true">
+<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx17.png?raw=true">
+<meta property="article:published_time" content="2019-01-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-16T06:35:47.218Z">
+<meta property="article:author" content="liaoxb">
+<meta property="article:tag" content="Nginx">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx15.png?raw=true">
+
+
+<link rel="canonical" href="http://example.com/2019/01/24/nginx_proxy/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/01/24/nginx_proxy/","path":"2019/01/24/nginx_proxy/","title":"nginx实战笔记：配置反向代理访问监控系统"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>nginx实战笔记：配置反向代理访问监控系统 | liaoxb's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">liaoxb's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">需求背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text">配置步骤</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="nav-number">3.</span> <span class="nav-text">关于负载均衡策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AE%E8%AF%A2"><span class="nav-number">3.1.</span> <span class="nav-text">轮询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E6%9D%83%E8%BD%AE%E8%AF%A2"><span class="nav-number">3.2.</span> <span class="nav-text">加权轮询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%B0%91%E8%BF%9E%E6%8E%A5"><span class="nav-number">3.3.</span> <span class="nav-text">最少连接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP-Hash"><span class="nav-number">3.4.</span> <span class="nav-text">IP Hash</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">liaoxb</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/24/nginx_proxy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="nginx实战笔记：配置反向代理访问监控系统 | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          nginx实战笔记：配置反向代理访问监控系统
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-01-24 00:00:00" itemprop="dateCreated datePublished" datetime="2019-01-24T00:00:00+08:00">2019-01-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E4%BD%9C%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">工作笔记</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="需求背景"><a href="#需求背景" class="headerlink" title="需求背景"></a>需求背景</h1><p>1、测试环境部署了一套监控系统，测试人员经常需要访问web去分析数据或定位问题，但是访问不方便也不灵活,每次需要去找到pod运行主机IP和svc暴露的端口。<br>2、通过利用nginx反向代理+负载均衡配置，快速地访问系统。比如prometheus、granfana等</p>
+<h1 id="配置步骤"><a href="#配置步骤" class="headerlink" title="配置步骤"></a>配置步骤</h1><p>1、查看测试集群监控服务的pod和svc信息，prometheus和grafana均以NodePort的形式映射到主机端口。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">|kubernetes-admin@q4-default# kcc get po,svc |grep grafana</span><br><span class="line">pod/grafana-6c5f687b5b-79qf8                         1/1       Running     0          56m</span><br><span class="line"></span><br><span class="line">service/grafana                         NodePort    10.104.106.121   &lt;none&gt;        3000:31962/TCP      12d</span><br><span class="line">|kubernetes-admin@q4-default# kca get po,svc |grep prometheus</span><br><span class="line">pod/prometheus-68d7459bb-cmnmn                  5/5       Running   0          2d</span><br><span class="line"></span><br><span class="line">service/prometheus                 NodePort    10.99.169.156   &lt;none&gt;        81:32001/TCP,9093:32003/TCP   2d</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这时是可以通过集群内主机内网ip+端口，成功访问到监控系统。比如访问prometheus端口32001</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@harbor nginx-proxy]# curl 192.168.0.34:32001</span><br><span class="line">&lt;a href=<span class="string">&quot;/graph&quot;</span>&gt;Found&lt;/a&gt;.</span><br><span class="line"></span><br><span class="line">[root@harbor nginx-proxy]# curl 192.168.0.35:32001</span><br><span class="line">&lt;a href=<span class="string">&quot;/graph&quot;</span>&gt;Found&lt;/a&gt;.</span><br><span class="line"></span><br><span class="line">[root@harbor nginx-proxy]# curl 192.168.0.36:32001</span><br><span class="line">&lt;a href=<span class="string">&quot;/graph&quot;</span>&gt;Found&lt;/a&gt;.</span><br></pre></td></tr></table></figure>
+
+
+
+<p>2、nginx配置文件如下</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="attribute">harbor</span> nginx-proxy]<span class="comment"># cat default.conf</span></span><br><span class="line">    <span class="comment"># 设定实际的后端服务器列表</span></span><br><span class="line">    upstream prometheus_server&#123;</span><br><span class="line">	    <span class="comment">#设定负载均衡的服务器列表，weigth参数表示权值（缺省是1），权值越高被分配到的几率越大</span></span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.0.34:32001</span> weight=<span class="number">1</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.0.35:32001</span> weight=<span class="number">2</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.0.36:32001</span> weight=<span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="section">upstream</span> alert_server&#123;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.0.34:32003</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.0.35:32003</span>;</span><br><span class="line">        <span class="attribute">server</span> <span class="number">192.168.0.36:32003</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="section">upstream</span> grafana_server&#123;</span><br><span class="line">        <span class="attribute">server</span>  <span class="number">192.168.0.34:31962</span>;</span><br><span class="line">        <span class="comment">#server 192.168.0.35:31962;</span></span><br><span class="line">        <span class="comment">#server 192.168.0.36:31962;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="section">server</span> &#123;</span><br><span class="line">        <span class="comment">#监听80端口，用于HTTP协议</span></span><br><span class="line">        <span class="attribute">listen</span>       <span class="number">80</span>;</span><br><span class="line">        <span class="comment">#定义使用www.test.com访问</span></span><br><span class="line">        <span class="attribute">server_name</span>  www.test.com;</span><br><span class="line">        <span class="attribute">proxy_headers_hash_max_size</span>     <span class="number">51200</span>;</span><br><span class="line">        <span class="attribute">proxy_headers_hash_bucket_size</span>  <span class="number">6400</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>                Host             <span class="variable">$host</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>                X-Real-IP        <span class="variable">$remote_addr</span>;</span><br><span class="line">        <span class="attribute">proxy_set_header</span>                X-Forwarded-For  <span class="variable">$proxy_add_x_forwarded_for</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">#location / &#123;</span></span><br><span class="line">        <span class="comment">#    root /usr/share/nginx/html;</span></span><br><span class="line">        <span class="comment">#    index index.html;</span></span><br><span class="line">        <span class="comment">#&#125;</span></span><br><span class="line">        <span class="comment">#反向代理的路径</span></span><br><span class="line">        <span class="section">location</span> / &#123;</span><br><span class="line">            <span class="comment">#请求将转向upstream里prometheus_server定义的服务器列表</span></span><br><span class="line">            <span class="attribute">proxy_pass</span>  http://prometheus_server/;</span><br><span class="line">            <span class="comment">#nginx跟后端服务器连接超时时间(代理连接超时)</span></span><br><span class="line">            <span class="attribute">proxy_connect_timeout</span>     <span class="number">30s</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="section">location</span> /alert/ &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span>  http://alert_server/;</span><br><span class="line">            <span class="attribute">proxy_connect_timeout</span>     <span class="number">30s</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="section">location</span> /grafana/ &#123;</span><br><span class="line">            <span class="attribute">proxy_pass</span>  http://grafana_server/;</span><br><span class="line">            <span class="attribute">proxy_connect_timeout</span>     <span class="number">30s</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3、make run快速启动nginx容器<br>Makefile里总共三步操作：<br>快速启动nginx容器，映射到主机端口8081，<br>拷贝default.conf到nginx容器&#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;目录<br>重启nginx容器</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@harbor nginx-proxy]# ll</span><br><span class="line">总用量 12</span><br><span class="line">-rw-r--r-- 1 root root 1587 1月  24 21:39 default_backup.conf</span><br><span class="line">-rw-r--r-- 1 root root 1327 1月  24 21:40 default.conf</span><br><span class="line">-rw-r--r-- 1 root root  353 1月  24 21:44 Makefile</span><br><span class="line">[root@harbor nginx-proxy]# make run</span><br><span class="line">docker <span class="built_in">rm</span> -f nginx-web</span><br><span class="line">nginx-web</span><br><span class="line">docker run -d -p 8081:80 --name nginx-web nginx</span><br><span class="line">229484284a78d84800527337eb7a074d42ff62987cb8e479a0d6c4c65b586156</span><br><span class="line">docker <span class="built_in">cp</span> default.conf nginx-web:/etc/nginx/conf.d/</span><br><span class="line">docker restart nginx-web</span><br><span class="line">nginx-web</span><br><span class="line">[root@harbor nginx-proxy]# docker ps |grep nginx-web</span><br><span class="line">229484284a78        nginx                                                                 <span class="string">&quot;nginx -g &#x27;daemon ...&quot;</span>   30 seconds ago      Up 29 seconds          0.0.0.0:8081-&gt;80/tcp                                               nginx-web</span><br></pre></td></tr></table></figure>
+
+<p>4、在浏览器中访问 <a target="_blank" rel="noopener" href="http://www.test.com,这时应该就可以根据location,访问到不同的服务了./">www.test.com，这时应该就可以根据location，访问到不同的服务了。</a><br>访问Grafana Dashboard：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx15.png?raw=true" alt="7.png"><br>访问Alertmanager ui：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx16.png?raw=true" alt="7.png"><br>访问:Prometheus ui<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx17.png?raw=true" alt="7.png"></p>
+<h1 id="关于负载均衡策略"><a href="#关于负载均衡策略" class="headerlink" title="关于负载均衡策略"></a>关于负载均衡策略</h1><p>Nginx提供了多种负载均衡策略，在上面其实已用到过轮询算法。在这里延伸多了解一下其它策略。</p>
+<h2 id="轮询"><a href="#轮询" class="headerlink" title="轮询"></a>轮询</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> bck_testing_01 &#123;</span><br><span class="line">  <span class="comment"># 默认所有服务器权重为 1</span></span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.250.220:8080</span></span><br><span class="line">  server <span class="number">192.168.250.221:8080</span></span><br><span class="line">  server <span class="number">192.168.250.222:8080</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="加权轮询"><a href="#加权轮询" class="headerlink" title="加权轮询"></a>加权轮询</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> bck_testing_01 &#123;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.250.220:8080</span>  weight=<span class="number">3</span></span><br><span class="line">  server <span class="number">192.168.250.221:8080</span></span><br><span class="line">  server <span class="number">192.168.250.222:8080</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最少连接"><a href="#最少连接" class="headerlink" title="最少连接"></a>最少连接</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> bck_testing_01 &#123;</span><br><span class="line">  least_conn;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.250.220:8080</span></span><br><span class="line">  server <span class="number">192.168.250.221:8080</span></span><br><span class="line">  server <span class="number">192.168.250.222:8080</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="IP-Hash"><a href="#IP-Hash" class="headerlink" title="IP Hash"></a>IP Hash</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> bck_testing_01 &#123;</span><br><span class="line">  ip_hash;</span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.250.220:8080</span></span><br><span class="line">  server <span class="number">192.168.250.221:8080</span></span><br><span class="line">  server <span class="number">192.168.250.222:8080</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考文档：<br><a target="_blank" rel="noopener" href="https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html">https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html</a><br><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/qMtJtZ6g62wibRVilIHPNg">https://mp.weixin.qq.com/s/qMtJtZ6g62wibRVilIHPNg</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Nginx/" rel="tag"># Nginx</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/01/17/nginx_web/" rel="prev" title="nginx实战笔记：搭建静态文件服务器">
+                  <i class="fa fa-angle-left"></i> nginx实战笔记：搭建静态文件服务器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/02/05/network-base/" rel="next" title="网络系列：计算机网络基础">
+                  网络系列：计算机网络基础 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">liaoxb</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">94k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:25</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

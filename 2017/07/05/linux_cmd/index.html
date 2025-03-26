@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="文件目录管理grepgrep命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。    参数 作用    -b 将可执行文件(binary)当作文本文件（text）来搜索   -c 仅显示找到的行数   -i 忽略大小写   -n 显示行号   -v 反向选择——仅列出没有“关键词”的行。   -A 除了显示符合范本样式的那一行之外，并显示该行之后的内容。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 常用命令">
+<meta property="og:url" content="http://example.com/2017/07/05/linux_cmd/index.html">
+<meta property="og:site_name" content="liaoxb&#39;s blog">
+<meta property="og:description" content="文件目录管理grepgrep命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。    参数 作用    -b 将可执行文件(binary)当作文本文件（text）来搜索   -c 仅显示找到的行数   -i 忽略大小写   -n 显示行号   -v 反向选择——仅列出没有“关键词”的行。   -A 除了显示符合范本样式的那一行之外，并显示该行之后的内容。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-07-05T12:36:25.000Z">
+<meta property="article:modified_time" content="2025-03-26T16:50:39.589Z">
+<meta property="article:author" content="liaoxb">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2017/07/05/linux_cmd/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2017/07/05/linux_cmd/","path":"2017/07/05/linux_cmd/","title":"Linux 常用命令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux 常用命令 | liaoxb's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">liaoxb's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">文件目录管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#grep"><span class="nav-number">1.1.</span> <span class="nav-text">grep</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#awk"><span class="nav-number">1.2.</span> <span class="nav-text">awk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sed"><span class="nav-number">1.3.</span> <span class="nav-text">sed</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#find"><span class="nav-number">1.4.</span> <span class="nav-text">find</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#echo"><span class="nav-number">1.5.</span> <span class="nav-text">echo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dd"><span class="nav-number">1.6.</span> <span class="nav-text">dd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tar"><span class="nav-number">1.7.</span> <span class="nav-text">tar</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#scp"><span class="nav-number">1.8.</span> <span class="nav-text">scp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vi"><span class="nav-number">1.9.</span> <span class="nav-text">vi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file"><span class="nav-number">1.10.</span> <span class="nav-text">file</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wc"><span class="nav-number">1.11.</span> <span class="nav-text">wc</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E7%AE%A1%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">网络管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ip"><span class="nav-number">2.1.</span> <span class="nav-text">ip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#netstat"><span class="nav-number">2.2.</span> <span class="nav-text">netstat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ss"><span class="nav-number">2.3.</span> <span class="nav-text">ss</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">系统管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#firewalld-cmd"><span class="nav-number">3.1.</span> <span class="nav-text">firewalld-cmd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ps"><span class="nav-number">3.2.</span> <span class="nav-text">ps</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#journalctl"><span class="nav-number">3.3.</span> <span class="nav-text">journalctl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#watch"><span class="nav-number">3.4.</span> <span class="nav-text">watch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rpm"><span class="nav-number">3.5.</span> <span class="nav-text">rpm</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#crontab"><span class="nav-number">3.6.</span> <span class="nav-text">crontab</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text">进阶操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nohup"><span class="nav-number">4.1.</span> <span class="nav-text">nohup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#script"><span class="nav-number">4.2.</span> <span class="nav-text">script</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chattr"><span class="nav-number">4.3.</span> <span class="nav-text">chattr</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">liaoxb</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/05/linux_cmd/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux 常用命令 | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 常用命令
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-07-05 20:36:25" itemprop="dateCreated datePublished" datetime="2017-07-05T20:36:25+08:00">2017-07-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>10k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="文件目录管理"><a href="#文件目录管理" class="headerlink" title="文件目录管理"></a>文件目录管理</h1><h2 id="grep"><a href="#grep" class="headerlink" title="grep"></a>grep</h2><p>grep命令用于在文本中执行关键词搜索，并显示匹配的结果，格式为“grep [选项] [文件]”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-b</td>
+<td>将可执行文件(binary)当作文本文件（text）来搜索</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>仅显示找到的行数</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>反向选择——仅列出没有“关键词”的行。</td>
+</tr>
+<tr>
+<td>-A</td>
+<td>除了显示符合范本样式的那一行之外，并显示该行之后的内容。</td>
+</tr>
+<tr>
+<td>-B</td>
+<td>在显示符合范本样式的那一行之外，并显示该行之前的内容。</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>除了显示符合范本样式的那一列之外，并显示该列之前后的内容。</td>
+</tr>
+</tbody></table>
+<h2 id="awk"><a href="#awk" class="headerlink" title="awk"></a>awk</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">localhost% <span class="built_in">cat</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文件的第一列和第五列</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $1,$5&#125;&#x27;</span> test.txt</span><br><span class="line">NAME VERSION</span><br><span class="line">k8s01 v1.16.4</span><br><span class="line">k8s02 v1.16.4</span><br><span class="line">k8s03 v1.16.4</span><br><span class="line">k8s04 v1.16.4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印最后一列字段</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $NF&#125;&#x27;</span> test.txt</span><br><span class="line">CONTAINER-RUNTIME</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line">docker://18.9.8</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印倒数第二列字段：</span></span><br><span class="line">localhost% awk <span class="string">&#x27;&#123;print $(NF-1)&#125;&#x27;</span> test.txt</span><br><span class="line">KERNEL-VERSION</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line">3.10.0-862.el7.x86_64</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本文件的总行数</span></span><br><span class="line">localhost% awk <span class="string">&#x27;END&#123;print NR&#125;&#x27;</span> test.txt</span><br><span class="line">5</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本第1行数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR==1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">NAME    STATUS   ROLES                    AGE   VERSION   INTERNAL-IP    EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION          CONTAINER-RUNTIME</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打印文本大于第1行的数据</span></span><br><span class="line">localhost% awk <span class="string">&#x27;NR&gt;1&#123;print&#125;&#x27;</span> test.txt</span><br><span class="line">k8s01   Ready    wise-controller          38d   v1.16.4   192.168.0.3    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s02   Ready    wise-controller          38d   v1.16.4   192.168.0.7    &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s03   Ready    wise-controller          38d   v1.16.4   192.168.0.10   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br><span class="line">k8s04   NotReady node                     38d   v1.16.4   192.168.0.15   &lt;none&gt;        CentOS                  3.10.0-862.el7.x86_64   docker://18.9.8</span><br></pre></td></tr></table></figure>
+
+<h2 id="sed"><a href="#sed" class="headerlink" title="sed"></a>sed</h2><p>定位到数据行并对数据进行增删改查操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 替换文本中的字符串：</span></span><br><span class="line">sed <span class="string">&#x27;s/book/books/&#x27;</span> file</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用后缀/g标记会替换每一行中的所有匹配：</span></span><br><span class="line">[root@harbor image_pull_push]# <span class="built_in">cat</span> img-list.txt |sed <span class="string">&#x27;s/registry.cn-hangzhou.aliyuncs.com/192.168.0.11/g&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当需要从第N处匹配配开始替换时，可以使用 /Ng：</span></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">&#x27;s/sk/SK/3g&#x27;</span></span><br><span class="line">skskSKSKSKSK</span><br><span class="line"></span><br><span class="line"><span class="comment"># 替换某目录下所有文件的某字符串</span></span><br><span class="line">oldip=172.22.12.241</span><br><span class="line">newip=172.22.12.242</span><br><span class="line"><span class="comment"># 查看之前包含oldip的文件</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$oldip</span></span><br><span class="line"><span class="comment"># 替换IP地址</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs sed -i <span class="string">&quot;s/<span class="variable">$oldip</span>/<span class="variable">$newip</span>/&quot;</span></span><br><span class="line"><span class="comment"># 检查更新后的</span></span><br><span class="line">find . -<span class="built_in">type</span> f | xargs grep <span class="variable">$newip</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="find"><a href="#find" class="headerlink" title="find"></a>find</h2><p>find命令用于按照指定条件来查找文件，格式为“find [查找路径] 寻找条件 操作”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-name</td>
+<td>匹配名称</td>
+</tr>
+<tr>
+<td>-perm</td>
+<td>匹配权限（mode为完全匹配，-mode为包含即可）</td>
+</tr>
+<tr>
+<td>-user</td>
+<td>匹配所有者</td>
+</tr>
+<tr>
+<td>-group</td>
+<td>匹配所有组</td>
+</tr>
+<tr>
+<td>-mtime -n +n</td>
+<td>匹配修改内容的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td>-atime -n +n</td>
+<td>匹配访问文件的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td>-ctime -n +n</td>
+<td>匹配修改文件权限的时间（-n指n天以内，+n指n天以前）</td>
+</tr>
+<tr>
+<td>-nouser</td>
+<td>匹配无所有者的文件</td>
+</tr>
+<tr>
+<td>-nogroup</td>
+<td>匹配无所有组的文件</td>
+</tr>
+<tr>
+<td>-newer f1 !f2</td>
+<td>匹配比文件f1新但比f2旧的文件</td>
+</tr>
+<tr>
+<td>-type b&#x2F;d&#x2F;c&#x2F;p&#x2F;l&#x2F;f</td>
+<td>匹配文件类型（后面的字幕字母依次表示块设备、目录、字符设备、管道、链接文件、文本文件）</td>
+</tr>
+<tr>
+<td>-size</td>
+<td>匹配文件的大小（+50KB为查找超过50KB的文件，而-50KB为查找小于50KB的文件）</td>
+</tr>
+<tr>
+<td>-prune</td>
+<td>忽略某个目录</td>
+</tr>
+<tr>
+<td>-exec …… {};</td>
+<td>后面可跟用于进一步处理搜索结果的命令（下文会有演示）</td>
+</tr>
+</tbody></table>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查找当前目录下是否存在README.md </span></span><br><span class="line">find . -name README.md</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查找etc目录是否存在以host开头的文件</span></span><br><span class="line">find /etc -name host* </span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定目录查找大于1G的文件</span></span><br><span class="line">find / -size +1024M</span><br><span class="line"></span><br><span class="line"><span class="comment"># 当前目录搜索所有文件，文件内容 包含 “140.206.111.111” 的内容</span></span><br><span class="line">find . -<span class="built_in">type</span> f -name <span class="string">&quot;*&quot;</span> | xargs grep <span class="string">&quot;140.206.111.111&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="echo"><a href="#echo" class="headerlink" title="echo"></a>echo</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建带有内容的文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello &gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line"><span class="comment"># 追加写入文件</span></span><br><span class="line">[root@harbor ~]# <span class="built_in">echo</span> hello-test &gt;&gt; new.yaml</span><br><span class="line">[root@harbor ~]# <span class="built_in">cat</span> new.yaml</span><br><span class="line">hello</span><br><span class="line">hello-test</span><br></pre></td></tr></table></figure>
+
+<h2 id="dd"><a href="#dd" class="headerlink" title="dd"></a>dd</h2><p>dd命令用于按照指定大小和个数的数据块来复制文件或转换文件，格式为“dd [参数]”。</p>
+<p>Linux系统中有一个名为&#x2F;dev&#x2F;zero的设备文件，这个文件不会占用系统存储空间，但却可以提供无穷无尽的数据，因此可以使用它作为dd命令的输入文件，来生成一个指定大小的文件。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>if</td>
+<td>输入的文件名称，如果不指定if，默认就会从stdin中读取输入。</td>
+</tr>
+<tr>
+<td>of</td>
+<td>输出的文件名称，如果不指定of，默认就会将stdout作为默认输出。</td>
+</tr>
+<tr>
+<td>bs</td>
+<td>设置每个“块”的大小</td>
+</tr>
+<tr>
+<td>count</td>
+<td>设置要复制“块”的个数</td>
+</tr>
+</tbody></table>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从/dev/zero设备文件中取出一个大小为100M的数据块</span></span><br><span class="line">[root@master01 ~]# <span class="built_in">dd</span> <span class="keyword">if</span>=/dev/zero of=sun.txt bs=100M count=1</span><br><span class="line">1+0 records <span class="keyword">in</span></span><br><span class="line">1+0 records out</span><br><span class="line">104857600 bytes (105 MB, 100 MiB) copied, 0.0580656 s, 1.8 GB/s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试磁盘写入速度</span></span><br><span class="line">[root@localhost ~]# dd if=/dev/zero of=/tmp/testfile bs=1G count=1 oflag=direct</span><br><span class="line">1+0 records in</span><br><span class="line">1+0 records out</span><br><span class="line">1073741824 bytes (1.1 GB) copied, 7.10845 s, 151 MB/s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">测试磁盘读取速度</span></span><br><span class="line">[root@localhost ~]# dd if=/tmp/testfile of=/dev/null bs=1G count=1 iflag=direct</span><br><span class="line">1+0 records in</span><br><span class="line">1+0 records out</span><br><span class="line">1073741824 bytes (1.1 GB) copied, 6.53009 s, 164 MB/s</span><br></pre></td></tr></table></figure>
+
+<h2 id="tar"><a href="#tar" class="headerlink" title="tar"></a>tar</h2><p>tar命令用于对文件进行打包压缩或解压，格式为“tar [选项] [文件]”。在Linux系统中，常见的文件格式比较多，其中主要使用的是.tar或.tar.gz或.tar.bz2格式。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-c</td>
+<td>创建压缩文件</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>解开压缩文件</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>查看压缩包内有哪些文件</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>用Gzip压缩或解压</td>
+</tr>
+<tr>
+<td>-j</td>
+<td>用bzip2压缩或解压</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>显示压缩或解压的过程</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>目标文件名</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>保留原始的权限与属性</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>使用绝对路径来压缩</td>
+</tr>
+<tr>
+<td>-C</td>
+<td>指定解压到的目录</td>
+</tr>
+</tbody></table>
+<p>命令示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 仅打包，不压缩！将 /home/vivek/bin/ 目录打包</span></span><br><span class="line">tar -cvf /tmp/bin-backup.tar /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 bzip2 算法压缩压缩</span></span><br><span class="line">tar -jcvf /tmp/bin-backup.tar.bz2 /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打包 并使用 gzip 算法压缩压缩</span></span><br><span class="line">tar -zcvf /tmp/bin-backup.tar.gz /home/vivek/bin/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 解压缩</span></span><br><span class="line">tar -zxvf bin-backup.tar.gz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 详细列举包里的所有文件</span></span><br><span class="line">tar -tvf /opt/extra.tgz</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">上下翻页：Ctrl+f、Ctrl+b</span><br><span class="line">跳到当前行最后字符处：Fn+右键</span><br><span class="line">跳到当前行最前面字符处：Fn+左键、0</span><br><span class="line"></span><br><span class="line">查找字符串：/字符串  n继续查找</span><br><span class="line">字符全局替换：:%s/foo/bar/g  :&#123;作用范围&#125;s/&#123;目标&#125;/&#123;替换&#125;/&#123;替换标志&#125;</span><br><span class="line"></span><br><span class="line">x或X：删除一个字符，x删除光标后的，而X删除光标前的；</span><br><span class="line">D：删除从当前光标到光标所在行尾的全部字符；</span><br><span class="line">删除行：<span class="built_in">dd</span> ndd（n代表删除或复制的行数）</span><br><span class="line">复制行：yy  nyy</span><br><span class="line">粘贴行：p、P</span><br><span class="line"></span><br><span class="line">复原前一个操作：u</span><br><span class="line">重做上一个操作：ctrl+r</span><br><span class="line">显示行号：:<span class="built_in">set</span> nu</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Ctrl+u：向文件首翻半屏；</span><br><span class="line">Ctrl+d：向文件尾翻半屏；</span><br><span class="line">Ctrl+f：向文件尾翻一屏；</span><br><span class="line">Ctrl+b：向文件首翻一屏；</span><br><span class="line">Esc：从编辑模式切换到命令模式；</span><br><span class="line">ZZ：命令模式下保存当前文件所做的修改后退出vi；</span><br><span class="line">:行号：光标跳转到指定行的行首；</span><br><span class="line">:$：光标跳转到最后一行的行首；</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="scp"><a href="#scp" class="headerlink" title="scp"></a>scp</h2><p><strong>scp命令</strong> 用于在Linux下进行远程拷贝文件的命令，和它类似的命令有cp，不过cp只是在本机进行拷贝不能跨服务器，而且scp传输是加密的。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从远程拷贝目录到本地</span></span><br><span class="line">scp -r root@10.10.10.10:/opt/soft/mongodb /opt/soft/ </span><br><span class="line"></span><br><span class="line"><span class="comment"># 上传本地目录到远程机器指定目录</span></span><br><span class="line">scp -r /opt/soft/mongodb root@10.10.10.10:/opt/soft/scptest</span><br></pre></td></tr></table></figure>
+
+<h2 id="vi"><a href="#vi" class="headerlink" title="vi"></a>vi</h2><p>vi编辑器提供了丰富的内置命令，有些内置命令使用键盘组合键即可完成，有些内置命令则需要以冒号“：”开头输入。</p>
+<p>常用内置命令如下：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>dd</td>
+<td>删除（剪切）光标所在整行</td>
+</tr>
+<tr>
+<td>5dd</td>
+<td>删除（剪切）从光标处开始的5行</td>
+</tr>
+<tr>
+<td>yy</td>
+<td>复制光标所在整行</td>
+</tr>
+<tr>
+<td>5yy</td>
+<td>复制从光标处开始的5行</td>
+</tr>
+<tr>
+<td>u</td>
+<td>撤销上一步的操作</td>
+</tr>
+<tr>
+<td>p</td>
+<td>将之前删除（dd）或复制（yy）过的数据粘贴到光标后面</td>
+</tr>
+<tr>
+<td>D</td>
+<td>删除光标处所在行尾的全部字符</td>
+</tr>
+<tr>
+<td>x</td>
+<td>删除光标处的一个字符</td>
+</tr>
+<tr>
+<td>:set nu</td>
+<td>显示行号</td>
+</tr>
+<tr>
+<td>&#x2F;string、?string</td>
+<td>查找字符串，常结合n&#x2F;N可以继续查找上一个、下一个字符串</td>
+</tr>
+<tr>
+<td>:s&#x2F;foo&#x2F;bar&#x2F;g</td>
+<td>将当前光标所在行的所有foo替换成bar</td>
+</tr>
+<tr>
+<td>:%s&#x2F;foo&#x2F;bar&#x2F;g</td>
+<td>将全文中的所有foo替换成bar</td>
+</tr>
+<tr>
+<td>Fn+右键</td>
+<td>光标跳到当前行最后一个字符</td>
+</tr>
+<tr>
+<td>Fn+右键、0</td>
+<td>光标跳到当前行第一个字符</td>
+</tr>
+<tr>
+<td>Ctrl+f、Ctrl+b</td>
+<td>上下翻页</td>
+</tr>
+</tbody></table>
+<h2 id="file"><a href="#file" class="headerlink" title="file"></a>file</h2><p>file命令用于查看文件的类型，格式为“file 文件名”。</p>
+<p>在Linux系统中，由于文本、目录、设备等所有这些一切都统称为文件，而我们又不能单凭后缀就知道具体的文件类型，这时就需要使用file命令来查看文件类型了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# file admin-openrc.sh</span><br><span class="line">admin-openrc.sh: ASCII text</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# file /dev/sda</span><br><span class="line">/dev/sda: block special (8/0)</span><br></pre></td></tr></table></figure>
+
+<h2 id="wc"><a href="#wc" class="headerlink" title="wc"></a>wc</h2><p><code>wc</code> 命令用于统计指定文本的行数、字数、字节数，格式为“<code>wc [参数]</code> 文本”。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>-l</code></td>
+<td>只显示行数</td>
+</tr>
+<tr>
+<td><code>-w</code></td>
+<td>只显示单词数</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>只显示字节数</td>
+</tr>
+</tbody></table>
+<h1 id="网络管理"><a href="#网络管理" class="headerlink" title="网络管理"></a>网络管理</h1><h2 id="ip"><a href="#ip" class="headerlink" title="ip"></a>ip</h2><p><strong>ip命令</strong> 用来显示或操纵Linux主机的路由、网络设备、策略路由和隧道，是Linux下较新的功能强大的网络配置工具。</p>
+<p>网卡配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ip <span class="built_in">link</span>                          <span class="comment"># 显示网络接口信息</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 up              <span class="comment"># 开启网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 down            <span class="comment"># 关闭网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 promisc on      <span class="comment"># 开启网卡的混合模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 promisc offi    <span class="comment"># 关闭网卡的混合模式</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 txqueuelen 1200 <span class="comment"># 设置网卡队列长度</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> eth0 mtu 1400        <span class="comment"># 设置网卡最大传输单元</span></span><br><span class="line"></span><br><span class="line">ip a                             <span class="comment"># 显示网卡IP信息</span></span><br><span class="line">ip a a 192.168.0.1/24 dev eth0 <span class="comment"># 为eth0网卡添加IP地址192.168.0.1</span></span><br><span class="line">ip a d 192.168.0.1/24 dev eth0 <span class="comment"># 为eth0网卡删除一个IP地址192.168.0.1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ip命令配置网卡信息，在网卡或机器重启后配置会丢失。要想配置永久生效，那就要修改网卡配置文件。如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 文件名对应网口名，CentOS 7\8 默认配置文件</span></span><br><span class="line">[Linux]# vi /etc/sysconfig/network-scripts/ifcfg-eth0</span><br><span class="line">DEVICE=<span class="string">&quot;eth0&quot;</span></span><br><span class="line">BOOTPROTO=<span class="string">&quot;static&quot;</span></span><br><span class="line">BROADCAST=<span class="string">&quot;192.168.0.255&quot;</span></span><br><span class="line">HWADDR=<span class="string">&quot;00:16:36:1B:BB:74&quot;</span></span><br><span class="line">IPADDR=<span class="string">&quot;192.168.0.100&quot;</span></span><br><span class="line">NETMASK=<span class="string">&quot;255.255.255.0&quot;</span></span><br><span class="line">ONBOOT=<span class="string">&quot;yes&quot;</span></span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>路由配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ip r                         <span class="comment"># 显示系统路由</span></span><br><span class="line">ip r add default via 192.168.1.254   <span class="comment"># 设置系统默认路由</span></span><br><span class="line">ip r d default          <span class="comment"># 删除默认路由</span></span><br><span class="line"></span><br><span class="line">ip r a 192.168.4.0/24 via 192.168.0.254 dev eth0 <span class="comment"># 设置192.168.4.0网段的网关为192.168.0.254,数据走eth0接口</span></span><br><span class="line">ip r a default via 192.168.0.254 dev eth0        <span class="comment"># 设置默认网关为192.168.0.254</span></span><br><span class="line">ip r d 192.168.4.0/24   <span class="comment"># 删除192.168.4.0网段的网关</span></span><br><span class="line">ip r d 192.168.1.0/24 dev eth0 <span class="comment"># 删除路由</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="netstat"><a href="#netstat" class="headerlink" title="netstat"></a>netstat</h2><p>有时进程之间需要通信，需要开启一个socket，socket就是对外建立连接的一个窗口，然后借助TCP协议进行通信。但进行通信之前首先需要进程开启一个端口，这时就可以通过netstat命令查看开启的端口以及由哪个进程开启</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#列出所有端口</span></span><br><span class="line">netstat -a</span><br><span class="line"><span class="comment">#列出所有tcp端口</span></span><br><span class="line">netstat -at</span><br><span class="line"><span class="comment">#列出所有udp端口</span></span><br><span class="line">netstat -au</span><br><span class="line"><span class="comment">#只列出所有监听 udp 端口</span></span><br><span class="line">netstat -lu</span><br><span class="line"><span class="comment"># 通过端口找进程ID</span></span><br><span class="line">netstat -anp|grep 8081 | grep LISTEN|awk <span class="string">&#x27;&#123;printf $7&#125;&#x27;</span>|<span class="built_in">cut</span> -d/ -f1</span><br><span class="line"></span><br><span class="line">-n或--numeric：直接使用ip地址，而不通过域名服务器；</span><br><span class="line">-l或--listening：显示监控中的服务器的Socket</span><br><span class="line">-p或--programs：添加“PID/进程名称”到netstat输出中；</span><br></pre></td></tr></table></figure>
+
+<h2 id="ss"><a href="#ss" class="headerlink" title="ss"></a>ss</h2><p>ss 可以用来获取socket统计信息，它可以显示和netstat类似的内容。但ss的优势在于它能够显示更多更详细的有关TCP和连接状态的信息，而且比netstat更快速更高效。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ss -t -a    <span class="comment"># 显示TCP连接</span></span><br><span class="line">ss -u -a    <span class="comment"># 显示所有UDP Sockets</span></span><br><span class="line">ss -s       <span class="comment"># 显示 Sockets 摘要</span></span><br><span class="line">ss -l       <span class="comment"># 列出所有打开的网络连接端口</span></span><br><span class="line">ss -pl      <span class="comment"># 查看进程使用的socket</span></span><br><span class="line">ss -lp | grep 3306  <span class="comment"># 找出打开套接字/端口应用程序</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="系统管理"><a href="#系统管理" class="headerlink" title="系统管理"></a>系统管理</h1><h2 id="firewalld-cmd"><a href="#firewalld-cmd" class="headerlink" title="firewalld-cmd"></a>firewalld-cmd</h2><p>firewalld是centos7的一大特性，最大的好处有两个：支持动态更新，不用重启服务；第二个就是加入了防火墙的“zone”概念。</p>
+<p>firewalld自身并不具备防火墙的功能，而是和iptables一样需要通过内核的netfilter来实现，也就是说firewalld和 iptables一样，他们的作用都是用于维护规则，而真正使用规则干活的是内核的netfilter，只不过firewalld和iptables的结 构以及使用方法不一样罢了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# firewall-cmd --zone=public --list-ports</span><br><span class="line">2121/tcp 3306/tcp 8081/tcp 30000/tcp 38060/tcp 40000/tcp 40001/tcp</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --permanent --add-port=3307/tcp --zone=public</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --reload</span><br><span class="line">success</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# firewall-cmd --zone=public --list-ports</span><br><span class="line">2121/tcp 3306/tcp 3307/tcp 8081/tcp 30000/tcp 38060/tcp 40000/tcp 40001/tcp</span><br></pre></td></tr></table></figure>
+
+<p>firewalld中常见的zone（默认为public）以及相应的策略规则如下所示：</p>
+<table>
+<thead>
+<tr>
+<th>区域</th>
+<th align="left">默认规则策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>trusted</td>
+<td align="left">允许所有的数据包</td>
+</tr>
+<tr>
+<td>home</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、mdns、ipp-client、amba-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>internal</td>
+<td align="left">等同于home区域</td>
+</tr>
+<tr>
+<td>work</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、ipp-client与dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>public</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh、dhcpv6-client服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>external</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>dmz</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关；而如果流量与ssh服务相关，则允许流量</td>
+</tr>
+<tr>
+<td>block</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+<tr>
+<td>drop</td>
+<td align="left">拒绝流入的流量，除非与流出的流量相关</td>
+</tr>
+</tbody></table>
+<h2 id="ps"><a href="#ps" class="headerlink" title="ps"></a>ps</h2><p><strong>ps命令</strong> 用于报告当前系统的进程状态。</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-a</td>
+<td>显示所有进程（包括其他用户的进程）</td>
+</tr>
+<tr>
+<td>-u</td>
+<td>用户以及其他详细信息</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>显示没有控制终端的进程</td>
+</tr>
+</tbody></table>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 加上ww可以完整展示进程的信息</span></span><br><span class="line">ps -efww</span><br><span class="line"><span class="comment"># 找出占用内存资源最多的前 10 个进程</span></span><br><span class="line">ps -auxf | <span class="built_in">sort</span> -nr -k 4 | <span class="built_in">head</span> -10</span><br><span class="line"><span class="comment"># 找出占用cpu资源最多的前 10 个进程</span></span><br><span class="line">ps -auxf | <span class="built_in">sort</span> -nr -k 3 | <span class="built_in">head</span> -10 </span><br></pre></td></tr></table></figure>
+<h2 id="journalctl"><a href="#journalctl" class="headerlink" title="journalctl"></a>journalctl</h2><p>检索 systemd 日志，是 CentOS 7 才有的工具</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看服务启动日志</span></span><br><span class="line">journalctl -u kubelet.service</span><br><span class="line">journalctl -u etcd.service -f -n 100 </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果不知道服务名称，可以使用<code>systemctl list-units --type=service</code>命令来列出系统中的 systemd 服务。</p>
+</blockquote>
+<h2 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h2><p><strong>watch命令</strong> 以周期性的方式执行给定的指令，指令输出以全屏方式显示</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 每隔60s查看主机内存的使用情况</span></span><br><span class="line">watch -d -n 60 <span class="string">&quot;free -h&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="rpm"><a href="#rpm" class="headerlink" title="rpm"></a>rpm</h2><p><strong>rpm命令</strong> 是RPM软件包的管理工具</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有安装过的包</span></span><br><span class="line">rpm -qa </span><br><span class="line"></span><br><span class="line"><span class="comment"># 安装rpm软件包</span></span><br><span class="line">rpm -ivh your-package.rpm</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取rpm包中的文件安装路径</span></span><br><span class="line">rpm -ql nfs-utils-1.3.0-0.54.el7.x86_64 </span><br></pre></td></tr></table></figure>
+
+<h2 id="crontab"><a href="#crontab" class="headerlink" title="crontab"></a>crontab</h2><p><strong>crontab命令</strong> 被用来提交和管理用户的需要周期性执行的任务</p>
+<p>用户可以使用 crontab 工具来定制自己的计划任务。所有用户定义的crontab文件都被保存在<code>/var/spool/cron</code>目录中。其文件名与用户名一致。</p>
+<p>crontab文件的含义：用户所建立的crontab文件中，每一行都代表一项任务，每行的每个字段代表一项设置，它的格式共分为六个字段，前五段是时间设定段，第六段是要执行的命令段，格式如下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">minute   hour   day   month   week   command     顺序：分 时 日 月 周</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# <span class="built_in">cat</span> /var/spool/cron/root</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 列出该用户的定时任务</span></span><br><span class="line">[root@master01 ~]# crontab -l</span><br><span class="line"><span class="comment">#Ansible: release free</span></span><br><span class="line">0 * * * * sh /opt/free.sh</span><br><span class="line"><span class="comment">#Ansible: disk check over 85% move vip</span></span><br><span class="line">0 * * * * sh /opt/diskcheck.sh</span><br></pre></td></tr></table></figure>
+
+<h1 id="进阶操作"><a href="#进阶操作" class="headerlink" title="进阶操作"></a>进阶操作</h1><h2 id="nohup"><a href="#nohup" class="headerlink" title="nohup"></a>nohup</h2><p><strong>nohup命令</strong> 可以将程序以忽略挂起信号的方式运行起来，被运行的程序的输出信息将不会显示到终端。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 后台运行脚本，stderr和stdout重定向输出到output.log</span></span><br><span class="line"><span class="built_in">nohup</span> sh install.sh &gt; output.log 2&gt;&amp;1 &amp;</span><br></pre></td></tr></table></figure>
+
+<h2 id="script"><a href="#script" class="headerlink" title="script"></a>script</h2><p><strong>script</strong> 用于在终端会话中，记录用户的所有操作和命令的输出信息。</p>
+<p>使用命令<code>exit</code>或者快捷键<code>Ctrl + D</code>停止记录。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 静默模式记录</span></span><br><span class="line">script -q myfile</span><br></pre></td></tr></table></figure>
+
+<h2 id="chattr"><a href="#chattr" class="headerlink" title="chattr"></a>chattr</h2><p><strong>chattr命令</strong> 用来改变文件属性。这些属性共有以下8种模式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a：让文件或目录仅供附加用途；</span><br><span class="line">b：不更新文件或目录的最后存取时间；</span><br><span class="line">c：将文件或目录压缩后存放；</span><br><span class="line">d：将文件或目录排除在倾倒操作之外；</span><br><span class="line">i：不得任意更动文件或目录；</span><br><span class="line">s：保密性删除文件或目录；</span><br><span class="line">S：即时更新文件或目录；</span><br><span class="line">u：预防意外删除。</span><br><span class="line"></span><br><span class="line">+&lt;属性&gt;：开启文件或目录的该项属性；</span><br><span class="line">-&lt;属性&gt;：关闭文件或目录的该项属性；</span><br><span class="line">=&lt;属性&gt;：指定文件或目录的该项属性。</span><br></pre></td></tr></table></figure>
+
+<p>用chattr命令防止系统中某个关键文件被修改：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chattr +i /etc/fstab</span><br></pre></td></tr></table></figure>
+
+<p>然后试一下rm、mv、rename等命令操作于该文件，都是得到Operation not permitted的结果。</p>
+<p>让某个文件只能往里面追加内容，不能删除，一些日志文件适用于这种操作：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chattr +a /var/log/ansible.log</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/05/26/nfs_server_install/" rel="next" title="NFS服务器搭建和挂载">
+                  NFS服务器搭建和挂载 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">liaoxb</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">94k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:25</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
