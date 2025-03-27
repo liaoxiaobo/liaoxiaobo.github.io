@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://example.com/2018/07/01/linux-basic/output.png">
 <meta property="og:image" content="http://example.com/2018/07/01/linux-basic/output-1737083379812-9.png">
 <meta property="article:published_time" content="2018-07-01T12:36:25.000Z">
-<meta property="article:modified_time" content="2025-03-27T14:51:28.722Z">
+<meta property="article:modified_time" content="2025-03-27T17:41:29.130Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
@@ -337,7 +337,7 @@
 </tr>
 </tbody></table>
 <h2 id="目录树结构"><a href="#目录树结构" class="headerlink" title="目录树结构"></a>目录树结构</h2><p>在Windows操作系统中，想要找到一个文件，要依次进入该文件所在的磁盘分区（也叫盘符），然后再进入该分区下的具体目录，最终找到这个文件。但是在Linux系统中并不存在C、D、E、F等盘符，<strong>Linux系统中的一切文件都是从“根”目录（&#x2F;）开始的，并按照文件系统层次标准(FHS)采用倒树状结构来存放文件，以及定义了常见目录的用途。</strong></p>
-<img src="/2018/07/01/linux-basic/linux-file-system-directory.png"  alt="img" style="zoom: 50%;" />
+<img src="/2018/07/01/linux-basic/linux-file-system-directory.png" class="" title="img">
 
 <p>Linux系统中常见的目录名称以及相应内容</p>
 <table>
@@ -455,7 +455,7 @@
 <li><strong>动态 inode 分配</strong>：XFS 可以动态分配 inode，而 ext4 需要在创建文件系统时预先分配 inode，可能导致 inode 不足和格式化速度慢的问题。</li>
 <li><strong>高效的日志机制</strong>：XFS 的日志机制更高效，能够快速恢复文件系统一致性，尤其在系统崩溃后。</li>
 </ul>
-<h1 id="Linux-硬盘与文件系统管理"><a href="#Linux-硬盘与文件系统管理" class="headerlink" title="Linux 硬盘与文件系统管理"></a>Linux 硬盘与文件系统管理</h1><h2 id="硬盘类型"><a href="#硬盘类型" class="headerlink" title="硬盘类型"></a><strong>硬盘类型</strong></h2><img src="/2018/07/01/linux-basic/disk.png"  alt="disk" style="zoom: 50%;" />
+<h1 id="Linux-硬盘与文件系统管理"><a href="#Linux-硬盘与文件系统管理" class="headerlink" title="Linux 硬盘与文件系统管理"></a>Linux 硬盘与文件系统管理</h1><h2 id="硬盘类型"><a href="#硬盘类型" class="headerlink" title="硬盘类型"></a><strong>硬盘类型</strong></h2><img src="/2018/07/01/linux-basic/disk.png" class="" title="disk">
 
 <p><strong>机械硬盘</strong>（HDD）的组成主要有盘片、机械手臂、磁头与主轴马达所组成，而数据的写入其实是在盘片上面。盘片上面又可细分出扇区（Sector）与磁道（Track）两种单位，其中扇区的容量设计有两种大小，分别是 512Bytes 与 4KBytes。</p>
 <p><strong>固态硬盘</strong>（SSD）是基于半导体闪存（NAND Flash）作为存储介质的硬盘，相比传统的机械硬盘，它去掉了机械固件，引入了主控芯片来代替机械操作，这意味着它的性能、功耗及可靠性会比HDD高出一大截。固态硬盘虽然没有物理扇区，但逻辑上仍保留扇区的概念以兼容操作系统和文件系统。</p>
@@ -468,7 +468,7 @@
 <p><strong>分区表类型</strong></p>
 <p><strong>MBR（Master Boot Record）</strong>：传统的分区表格式，最多支持4个主分区（或3个主分区加一个扩展分区，扩展分区内可创建多个逻辑分区）。</p>
 <p>MBR 分区表中，第一个扇区最重要，里面有主开机记录（Master boot record,MBR）及分区表（partition table），其中 MBR 占有 446 Bytes，而 partition table 则占有 64 Bytes。</p>
-<img src="/2018/07/01/linux-basic/1737022182076-13.png"  alt="img" style="zoom: 50%;" />
+<img src="/2018/07/01/linux-basic/1737022182076-13.png"  alt="img" style="zoom:50%;" />
 
 <p><strong>GPT（GUID Partition Table）</strong>：现代硬盘常用的分区表格式，支持更多分区，且对于大容量硬盘有更好的支持和数据冗余能力。</p>
 <p><strong>分区过程</strong><br>分区工具会让你选择起始扇区和结束扇区，从而决定每个分区的大小。现在的分区都是基于逻辑扇区（LBA）进行划分的。</p>
@@ -488,7 +488,7 @@
 <li>挂载分区</li>
 <li>开机自动挂载（可选）</li>
 </ol>
-<img src="/2018/07/01/linux-basic/output.png"  alt="output" style="zoom: 67%;" />
+<img src="/2018/07/01/linux-basic/output.png" class="" title="output">
 
 <img src="/2018/07/01/linux-basic/output-1737083379812-9.png" class="" title="output">
 

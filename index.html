@@ -346,7 +346,7 @@
 <li><strong>发布维护</strong>：监控线上问题并修复。</li>
 </ol>
 <h3 id="敏捷测试流程"><a href="#敏捷测试流程" class="headerlink" title="敏捷测试流程"></a>敏捷测试流程</h3><p>敏捷测试本质是短、频、快地反馈代码提交的质量，促进持续交付。</p>
-<img src="/2020/09/30/testing-theory/image-20250212001852714.png"  alt="image-20250212001852714" style="zoom:33%;" />
+<img src="/2020/09/30/testing-theory/image-20250212001852714.png" class="" title="image-20250212001852714">
 
 <p>敏捷测试的特点如下：</p>
 <ul>
@@ -1150,8 +1150,12 @@
 <p>命令说明：</p>
 <p>1、通过 <code>-v $(which docker):/usr/bin/docker</code> 和 <code>-v /var/run/docker.sock:/var/run/docker.sock</code>，容器内可以直接调用宿主机的 Docker命令，从而实现构建、测试等任务。即DooD（Docker-outside-of-Docker）方案</p>
 <p>2、如果宿主机不存在timezone文件，自己手动创建并写入Asia&#x2F;Shanghai即可</p>
-<p>执行命令截图：<br><img src="/2019/03/29/jenkins-ci-autotest/jk01.png"  alt="jk.png" style="zoom: 33%;" /></p>
-<p>为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：<br><img src="/2019/03/29/jenkins-ci-autotest/jk02.png"  alt="jk.png" style="zoom:33%;" /></p>
+<p>执行命令截图：</p>
+<img src="/2019/03/29/jenkins-ci-autotest/jk01.png" class="" title="jk.png">
+
+<p>为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：</p>
+<img src="/2019/03/29/jenkins-ci-autotest/jk02.png" class="" title="jk.png">
+
 <h1 id="配置Jenkins"><a href="#配置Jenkins" class="headerlink" title="配置Jenkins"></a>配置Jenkins</h1><h2 id="配置gitlab仓库拉取权限"><a href="#配置gitlab仓库拉取权限" class="headerlink" title="配置gitlab仓库拉取权限"></a><strong>配置gitlab仓库拉取权限</strong></h2><p>1、jenkins容器内生成SSH密钥对</p>
 <img src="/2019/03/29/jenkins-ci-autotest/image-20250310002536286.png" class="" title="image-20250310002536286">
 
@@ -1717,7 +1721,7 @@
 <td>以太网、Wi-Fi、MAC 地址</td>
 </tr>
 </tbody></table>
-<h1 id="TCP-IP-网络协作过程"><a href="#TCP-IP-网络协作过程" class="headerlink" title="TCP&#x2F;IP 网络协作过程"></a>TCP&#x2F;IP 网络协作过程</h1><img src="/2019/02/05/network-base/7716f9f8-c044-425e-90b2-ffda5df8dc99.png"  alt="7716f9f8-c044-425e-90b2-ffda5df8dc99" style="zoom:50%;" />
+<h1 id="TCP-IP-网络协作过程"><a href="#TCP-IP-网络协作过程" class="headerlink" title="TCP&#x2F;IP 网络协作过程"></a>TCP&#x2F;IP 网络协作过程</h1><img src="/2019/02/05/network-base/7716f9f8-c044-425e-90b2-ffda5df8dc99.png" class="" title="7716f9f8-c044-425e-90b2-ffda5df8dc99">
 
 <p><strong>协作过程示例（发一封邮件）</strong></p>
 <ol>
@@ -1861,7 +1865,7 @@
 <li>当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包，如果是，则首先从数据包中取出源主机的IP和MAC地址写入到ARP列表中，如果已经存在，则覆盖，然后将自己的MAC地址写入ARP响应包中，告诉源主机自己是它想要找的MAC地址。</li>
 <li>源主机收到ARP响应包后。将目的主机的IP和MAC地址写入ARP列表，并利用此信息发送数据。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败。</li>
 </ol>
-<img src="/2019/02/05/network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png"  alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom: 50%;" />
+<img src="/2019/02/05/network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png"  alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom:50%;" />
 
 <h2 id="DNS-的作用是什么？"><a href="#DNS-的作用是什么？" class="headerlink" title="DNS 的作用是什么？"></a>DNS 的作用是什么？</h2><p>DNS（Domain Name System）域名管理系统，是当用户使用浏览器访问网址之后，使用的第一个重要协议。DNS 要解决的是<strong>域名和 IP 地址的映射问题</strong>。</p>
 <h2 id="DNS进行域名解析的过程"><a href="#DNS进行域名解析的过程" class="headerlink" title="DNS进行域名解析的过程"></a>DNS进行域名解析的过程</h2><ol>

@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://example.com/2019/02/05/network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png">
 <meta property="og:image" content="http://example.com/2019/02/05/network-base/1715326531135-c1f081dd-89e1-4b31-94e4-95a76f9fcba4.png">
 <meta property="article:published_time" content="2019-02-05T04:11:20.000Z">
-<meta property="article:modified_time" content="2025-03-27T14:51:28.723Z">
+<meta property="article:modified_time" content="2025-03-27T17:42:55.415Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="计算机网络">
 <meta property="article:tag" content="网络协议">
@@ -294,7 +294,7 @@
 <td>以太网、Wi-Fi、MAC 地址</td>
 </tr>
 </tbody></table>
-<h1 id="TCP-IP-网络协作过程"><a href="#TCP-IP-网络协作过程" class="headerlink" title="TCP&#x2F;IP 网络协作过程"></a>TCP&#x2F;IP 网络协作过程</h1><img src="/2019/02/05/network-base/7716f9f8-c044-425e-90b2-ffda5df8dc99.png"  alt="7716f9f8-c044-425e-90b2-ffda5df8dc99" style="zoom:50%;" />
+<h1 id="TCP-IP-网络协作过程"><a href="#TCP-IP-网络协作过程" class="headerlink" title="TCP&#x2F;IP 网络协作过程"></a>TCP&#x2F;IP 网络协作过程</h1><img src="/2019/02/05/network-base/7716f9f8-c044-425e-90b2-ffda5df8dc99.png" class="" title="7716f9f8-c044-425e-90b2-ffda5df8dc99">
 
 <p><strong>协作过程示例（发一封邮件）</strong></p>
 <ol>
@@ -438,7 +438,7 @@
 <li>当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包，如果是，则首先从数据包中取出源主机的IP和MAC地址写入到ARP列表中，如果已经存在，则覆盖，然后将自己的MAC地址写入ARP响应包中，告诉源主机自己是它想要找的MAC地址。</li>
 <li>源主机收到ARP响应包后。将目的主机的IP和MAC地址写入ARP列表，并利用此信息发送数据。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败。</li>
 </ol>
-<img src="/2019/02/05/network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png"  alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom: 50%;" />
+<img src="/2019/02/05/network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png"  alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom:50%;" />
 
 <h2 id="DNS-的作用是什么？"><a href="#DNS-的作用是什么？" class="headerlink" title="DNS 的作用是什么？"></a>DNS 的作用是什么？</h2><p>DNS（Domain Name System）域名管理系统，是当用户使用浏览器访问网址之后，使用的第一个重要协议。DNS 要解决的是<strong>域名和 IP 地址的映射问题</strong>。</p>
 <h2 id="DNS进行域名解析的过程"><a href="#DNS进行域名解析的过程" class="headerlink" title="DNS进行域名解析的过程"></a>DNS进行域名解析的过程</h2><ol>
