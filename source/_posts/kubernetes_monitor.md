@@ -352,11 +352,11 @@ sum by (pod_name)( rate(container_cpu_usage_seconds_total{image!="", pod_name!="
 
 > prometheus节点ip:32002访问prometheus ui
 
-![prometheus节点ip:32002访问prometheus ui](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image1.png?raw=true)
+![image](kubernetes_monitor/image1.png)
 
 > PromQL查询数据
 
-![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image2.png?raw=true)
+![image](kubernetes_monitor/image2.png)
 
 ### 部署Grafana组件
 
@@ -417,23 +417,23 @@ grafana                NodePort    10.102.160.34    <none>        3000:32003/TCP
 
 #### grafana配置数据源为prometheus
 
-![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image3.png?raw=true)
+![image](kubernetes_monitor/image3.png)
 
 #### 导入监控Dashboard
 
 使用[Kubernetes cluster monitoring (via Prometheus)](https://grafana.com/dashboards/162)这个即可
 
-![https://github.com/liaoxiaobo/Markdown-Resource/blob/master/2019.3.4/image4.png?raw=true](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image4.png?raw=true)
+![image](kubernetes_monitor/image4.png)
 
 #### Dashboard数据展示
 
 > 主机监控数据展示
 
-![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image5.png?raw=true)
+![image](kubernetes_monitor/image5.png)
 
 > pod和container数据展示
 
-![https://github.com/liaoxiaobo/Markdown-Resource/blob/master/2019.3.4/image6.png?raw=true](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image6.png?raw=true)
+![image](kubernetes_monitor/image6.png)
 
 ### Kubernetes集群上部署应用的监控
 
@@ -462,7 +462,7 @@ service "kube-state-metrics" created
 
 > 查询k8s集群中deploy的个数：
 
-![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image7.png?raw=true)
+![image](kubernetes_monitor/image7.png)
 
 ### 中间件监控
 
@@ -523,7 +523,7 @@ prometheus-cm.yaml里job追加配置成功后，需要kubectl apply -f prometheu
 
 > consul haproxy等中间件采集job
 
-![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image8.png?raw=true)
+![image](kubernetes_monitor/image8.png)
 
 部署实践小结：
 

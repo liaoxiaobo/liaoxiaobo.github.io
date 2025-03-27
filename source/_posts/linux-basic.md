@@ -43,7 +43,7 @@ categories:
 
 在Windows操作系统中，想要找到一个文件，要依次进入该文件所在的磁盘分区（也叫盘符），然后再进入该分区下的具体目录，最终找到这个文件。但是在Linux系统中并不存在C、D、E、F等盘符，**Linux系统中的一切文件都是从“根”目录（/）开始的，并按照文件系统层次标准(FHS)采用倒树状结构来存放文件，以及定义了常见目录的用途。**
 
-<img src="linux-basic/linux-file-system-directory.png" alt="img" style="zoom: 50%;" />
+![img](linux-basic/linux-file-system-directory.png)
 
 Linux系统中常见的目录名称以及相应内容
 
@@ -144,7 +144,7 @@ XFS 是一种高性能的文件系统，相比 ext4，它在某些方面具有�
 
 ## **硬盘类型**
 
-<img src="linux-basic/disk.png" alt="disk" style="zoom: 50%;" />
+![disk](linux-basic/disk.png)
 
 **机械硬盘**（HDD）的组成主要有盘片、机械手臂、磁头与主轴马达所组成，而数据的写入其实是在盘片上面。盘片上面又可细分出扇区（Sector）与磁道（Track）两种单位，其中扇区的容量设计有两种大小，分别是 512Bytes 与 4KBytes。
 
@@ -166,7 +166,7 @@ XFS 是一种高性能的文件系统，相比 ext4，它在某些方面具有�
 
 MBR 分区表中，第一个扇区最重要，里面有主开机记录（Master boot record,MBR）及分区表（partition table），其中 MBR 占有 446 Bytes，而 partition table 则占有 64 Bytes。
 
-<img src="linux-basic/1737022182076-13.png" alt="img" style="zoom: 50%;" />
+<img src="linux-basic/1737022182076-13.png" alt="img" style="zoom:50%;" />
 
 **GPT（GUID Partition Table）**：现代硬盘常用的分区表格式，支持更多分区，且对于大容量硬盘有更好的支持和数据冗余能力。
 
@@ -189,7 +189,7 @@ MBR 分区表中，第一个扇区最重要，里面有主开机记录（Master 
 6. 挂载分区
 7. 开机自动挂载（可选）
 
-<img src="linux-basic/output.png" alt="output" style="zoom: 67%;" />
+![output](linux-basic/output.png)
 
 ![output](linux-basic/output-1737083379812-9.png)
 

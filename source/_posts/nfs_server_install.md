@@ -23,9 +23,7 @@ rpm -qa|grep nfs #检查系统是否已安装NFS
 yum install nfs-utils -y #客户端和服务端都要安装
 ```
 
-
-
-![image](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/nfs/nfs01.png?raw=true)
+![image](./nfs_server_install/nfs01.png)
 
 二、服务端配置启动NFS
 

@@ -19,7 +19,7 @@ tags:
 
 # TCP/IP 网络协作过程
 
-<img src="network-base/7716f9f8-c044-425e-90b2-ffda5df8dc99.png" alt="7716f9f8-c044-425e-90b2-ffda5df8dc99" style="zoom:50%;" />
+![7716f9f8-c044-425e-90b2-ffda5df8dc99](network-base/7716f9f8-c044-425e-90b2-ffda5df8dc99.png)
 
 **协作过程示例（发一封邮件）**
 
@@ -212,7 +212,7 @@ HTTP 比较严重的缺点就是不安全：
 3. 当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包，如果是，则首先从数据包中取出源主机的IP和MAC地址写入到ARP列表中，如果已经存在，则覆盖，然后将自己的MAC地址写入ARP响应包中，告诉源主机自己是它想要找的MAC地址。
 4. 源主机收到ARP响应包后。将目的主机的IP和MAC地址写入ARP列表，并利用此信息发送数据。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败。
 
-<img src="network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png" alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom: 50%;" />
+<img src="network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png" alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom:50%;" />
 
 ## DNS 的作用是什么？
 

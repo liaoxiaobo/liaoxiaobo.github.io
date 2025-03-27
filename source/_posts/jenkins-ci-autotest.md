@@ -27,10 +27,10 @@ docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/loc
 2、如果宿主机不存在timezone文件，自己手动创建并写入Asia/Shanghai即可
 
 执行命令截图：
-<img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk01.png?raw=true" alt="jk.png" style="zoom: 33%;" />
+![jk.png](jenkins-ci-autotest/jk01.png)
 
 为了省心方便，在此默认选择了jenkins推荐的插件安装,这需要耐心等待一段时间：
-<img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk02.png?raw=true" alt="jk.png" style="zoom:33%;" />
+![jk.png](jenkins-ci-autotest/jk02.png)
 
 # 配置Jenkins
 
@@ -38,26 +38,26 @@ docker run -u root -d  --name jenkins-ci -p 8081:8080 -p 50000:50000 -v /etc/loc
 
 1、jenkins容器内生成SSH密钥对
 
-![image-20250310002536286](./jenkins-ci-autotest/image-20250310002536286.png)
+![image-20250310002536286](jenkins-ci-autotest/image-20250310002536286.png)
 
 2、拷贝SSH公钥至gitlab账号
 
-![image-20250310002536300](./jenkins-ci-autotest/image-20250310002536300.png)
+![image-20250310002536300](jenkins-ci-autotest/image-20250310002536300.png)
 
 3、Jenkins容器内验证SSH密钥是否已正确添加，参考以下文档
 
-![image](./jenkins-ci-autotest/image.png)
+![image](jenkins-ci-autotest/image.png)
 
 ## 配置邮件服务器
 
 1、配置发件人邮箱
 
-![image-20250309233827675](./jenkins-ci-autotest/image-20250309233827675.png)
+![image-20250309233827675](jenkins-ci-autotest/image-20250309233827675.png)
 
 2、jenkins配置smtp服务器
 
 以配置qq邮箱服务器为例（密码填qq邮箱的授权码），测试配置如果发送成功，说明邮件配置成功
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk03.png?raw=true)
+![jk.png](jenkins-ci-autotest/jk03.png)
 
 ## 安装报告插件
 
@@ -183,19 +183,19 @@ curl JENKINS_URL/job/wise2c-robot/build?token=TOKEN_NAME
 
 
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk05.png?raw=true)
+![jk.png](./jenkins-ci-autotest/jk05.png)
 
 ## 测试结果报告展示
 
 job首页测试结果展示，失败了1条case，同时收到了一封关于api测试失败的邮件通知：
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk04.png?raw=true)
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk07.png?raw=true)
+![jk.png](jenkins-ci-autotest/jk04.png)
+![jk.png](jenkins-ci-autotest/jk07.png)
 
 测试结果详情页面展示，点击log.html链接可以直接查看日志；
 
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk06.png?raw=true)
-![jk.png](https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/jenkins/jk08.png?raw=true)
+![jk.png](jenkins-ci-autotest/jk06.png)
+![jk.png](jenkins-ci-autotest/jk08.png)
 
 如果到打开失败，可以参考这个解决办法。https://stackoverflow.com/questions/36607394/error-opening-robot-framework-log-failed
 管理jenkins–>脚本命令行输入如下脚本:

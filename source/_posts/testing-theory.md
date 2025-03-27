@@ -77,7 +77,7 @@ date: 2020-09-30
 
 敏捷测试本质是短、频、快地反馈代码提交的质量，促进持续交付。
 
-<img src="testing-theory/image-20250212001852714.png" alt="image-20250212001852714" style="zoom:33%;" />
+![image-20250212001852714](testing-theory/image-20250212001852714.png)
 
 敏捷测试的特点如下：
 
