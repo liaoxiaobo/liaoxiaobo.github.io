@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="网络设备   设备 工作层级 功能    集线器 L1 广播数据包到所有端口，无智能过滤   交换机 L2 基于 MAC 地址对数据帧进行转发，支持 VLAN 划分   路由器 L3 基于 IP 地址路由数据包（Packet），隔离广播域，支持 NAT 和防火墙   三层交换机 L3 结合交换机和路由器的功能，高速转发并支持路由策略   交换机工作原理交换机根据每个端口接收到的数据帧源地址进行MA">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络系列：常用网络设备">
+<meta property="og:url" content="http://example.com/2019/02/10/network-device/index.html">
+<meta property="og:site_name" content="liaoxb&#39;s blog">
+<meta property="og:description" content="网络设备   设备 工作层级 功能    集线器 L1 广播数据包到所有端口，无智能过滤   交换机 L2 基于 MAC 地址对数据帧进行转发，支持 VLAN 划分   路由器 L3 基于 IP 地址路由数据包（Packet），隔离广播域，支持 NAT 和防火墙   三层交换机 L3 结合交换机和路由器的功能，高速转发并支持路由策略   交换机工作原理交换机根据每个端口接收到的数据帧源地址进行MA">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-02-10T12:41:20.000Z">
+<meta property="article:modified_time" content="2025-03-27T14:51:28.727Z">
+<meta property="article:author" content="liaoxb">
+<meta property="article:tag" content="网络设备">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2019/02/10/network-device/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/02/10/network-device/","path":"2019/02/10/network-device/","title":"网络系列：常用网络设备"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>网络系列：常用网络设备 | liaoxb's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">liaoxb's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">网络设备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC%E5%9C%B0%E5%9D%80%E8%A1%A8%E5%BB%BA%E7%AB%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">MAC地址表建立过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.2.</span> <span class="nav-text">三层交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E5%8D%A1"><span class="nav-number">1.3.</span> <span class="nav-text">网卡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E5%8D%A1Bond"><span class="nav-number">1.3.1.</span> <span class="nav-text">网卡Bond</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">常见面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84VLAN%E6%80%8E%E4%B9%88%E5%88%92%E5%88%86%E7%9A%84"><span class="nav-number">2.1.</span> <span class="nav-text">交换机的VLAN怎么划分的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E5%92%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">路由器和交换机区别</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">liaoxb</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/02/10/network-device/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="网络系列：常用网络设备 | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络系列：常用网络设备
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-02-10 20:41:20" itemprop="dateCreated datePublished" datetime="2019-02-10T20:41:20+08:00">2019-02-10</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">网络</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.2k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h1><table>
+<thead>
+<tr>
+<th>设备</th>
+<th>工作层级</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>集线器</strong></td>
+<td>L1</td>
+<td>广播数据包到所有端口，无智能过滤</td>
+</tr>
+<tr>
+<td><strong>交换机</strong></td>
+<td>L2</td>
+<td>基于 MAC 地址对数据帧进行转发，支持 VLAN 划分</td>
+</tr>
+<tr>
+<td><strong>路由器</strong></td>
+<td>L3</td>
+<td>基于 IP 地址路由数据包（Packet），隔离广播域，支持 NAT 和防火墙</td>
+</tr>
+<tr>
+<td><strong>三层交换机</strong></td>
+<td>L3</td>
+<td>结合交换机和路由器的功能，高速转发并支持路由策略</td>
+</tr>
+</tbody></table>
+<h2 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a><strong>交换机</strong></h2><h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a><strong>工作原理</strong></h3><p>交换机根据每个<strong>端口</strong>接收到的数据帧源地址进行<strong>MAC地址学习</strong>，内部维护一张<strong>MAC地址表</strong>。在后续的通讯中，发往特定MAC地址的数据包仅被转发至该MAC地址对应的端口，而非所有端口。</p>
+<h3 id="MAC地址表建立过程"><a href="#MAC地址表建立过程" class="headerlink" title="MAC地址表建立过程"></a><strong>MAC地址表建立过程</strong></h3><p>初始状态下，交换机的MAC地址表为空。</p>
+<ol>
+<li><strong>接收数据包</strong>：交换机从其端口接收数据包，交换机会检查数据包的头部信息（包括源MAC和IP地址、目的MAC和IP地址）。同时将源MAC地址和对应端口编号记录到MAC地址表中</li>
+<li><strong>查看MAC地址表</strong><ul>
+<li><strong>找到目的MAC</strong> -&gt; 交换机对数据包进行端口<strong>转发</strong></li>
+<li><strong>未找到目的MAC</strong> -&gt; 交换机会<strong>泛洪</strong>数据包，所有主机均会收到该数据包（除了接收端口）</li>
+</ul>
+</li>
+<li><strong>更新MAC地址表</strong><ul>
+<li><strong>收到响应数据包</strong> -&gt; 交换机记录响应数据包的源MAC地址和端口号，并更新MAC地址表</li>
+<li><strong>未收到响应数据包</strong> -&gt; 说明目的主机可能不在网络中或者没有响应，数据包<strong>丢弃</strong>（交换机默认行为）</li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>PS：在网络管理员已知某些设备的MAC地址和端口的情况下，可以手动配置静态MAC地址表条目，避免交换机进行广播查找。</p>
+</blockquote>
+<h2 id="三层交换机"><a href="#三层交换机" class="headerlink" title="三层交换机"></a><strong>三层交换机</strong></h2><p>三层交换机（L3 Switch）通过引入路由功能，用于连接局域网中的不同网段，通过对缺省网关的查询学习来建立两个网段之间的直接连接。</p>
+<p>三层交换机在对第一个数据包进行路由后，它将会产生一个MAC地址与IP地址的映射表，当同样的数据包再次通过时，将根据此表直接通过二层交换转发。</p>
+<p>假设两个使用IP协议的主机A、B通过三层交换机进行通信，主机A在开始发送时，把自己的IP地址与主机B的IP地址比较，判断主机B是否与自己在同一子网内。</p>
+<ul>
+<li>若两个主机在同一子网内，则直接进行二层的转发。</li>
+<li>若两个主机不在同一子网内，主机A要向“默认网关”的IP地址广播出一个ARP请求，“默认网关”的IP地址其实是三层交换机的三层交换模块。<ul>
+<li>如果三层交换模块在以前的通信过程中已经知道主机B的MAC地址，则向主机A回复B的MAC地址。</li>
+<li>如果三层交换模块不知道主机B的MAC地址，三层交换模块根据路由信息向主机B广播一个ARP请求，主机B得到此ARP请求后向三层交换模块回复其MAC地址，三层交换模块保存此地址并回复给主机A,同时将主机B的MAC地址发送到二层交换引擎的MAC地址表中。从这以后，当A向B发送的数据包便全部交给二层交换处理，信息得以高速交换。</li>
+</ul>
+</li>
+</ul>
+<h2 id="网卡"><a href="#网卡" class="headerlink" title="网卡"></a>网卡</h2><h3 id="网卡Bond"><a href="#网卡Bond" class="headerlink" title="网卡Bond"></a>网卡Bond</h3><p>所谓bond，就是把多个物理网卡绑定成一个逻辑上的网卡，使用同一个IP工作，有时服务器带宽不够了也可以用作增加带宽。</p>
+<p>借助于网卡bond技术，不仅可以提高网络传输速度，更重要的是，还可以确保在其中一块网卡出现故障时，依然可以正常提供网络服务。</p>
+<p>网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6。常用的有三种：</p>
+<ul>
+<li>mode&#x3D;0（平衡负载模式）：平时两块网卡均工作，且自动备援，但需要在与服务器本地网卡相连的交换机设备上进行端口聚合来支持绑定技术。</li>
+<li>mode&#x3D;1（自动备援模式）：平时只有一块主网卡工作，在它故障后自动替换为另外的网卡。</li>
+<li>mode&#x3D;6（平衡负载模式）：平时两块网卡均工作，且自动备援，无须交换机设备提供辅助支持。</li>
+</ul>
+<p><strong>1.Bond准备工作</strong></p>
+<p>首先要确定服务器上的网卡规划用途，以及哪些网卡已插网线，一般是有两块网卡对应两根网线，分别连接不同的交换机。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 network-scripts]# ethtool p4p2</span><br><span class="line">Settings <span class="keyword">for</span> p4p2:</span><br><span class="line">        Supported ports: [ FIBRE ]</span><br><span class="line">        Supported <span class="built_in">link</span> modes:   1000baseKX/Full</span><br><span class="line">                                10000baseKR/Full</span><br><span class="line">                                25000baseCR/Full</span><br><span class="line">                                25000baseKR/Full</span><br><span class="line">                                25000baseSR/Full</span><br><span class="line">        Supported pause frame use: Symmetric</span><br><span class="line">        Supports auto-negotiation: Yes</span><br><span class="line">        Supported FEC modes: None BaseR</span><br><span class="line">        Advertised <span class="built_in">link</span> modes:  1000baseKX/Full</span><br><span class="line">                                10000baseKR/Full</span><br><span class="line">                                25000baseCR/Full</span><br><span class="line">                                25000baseKR/Full</span><br><span class="line">                                25000baseSR/Full</span><br><span class="line">        Advertised pause frame use: Symmetric</span><br><span class="line">        Advertised auto-negotiation: Yes</span><br><span class="line">        Advertised FEC modes: None</span><br><span class="line">        Speed: 10000Mb/s</span><br><span class="line">        Duplex: Full</span><br><span class="line">        Port: FIBRE</span><br><span class="line">        PHYAD: 0</span><br><span class="line">        Transceiver: internal</span><br><span class="line">        Auto-negotiation: on</span><br><span class="line">        Supports Wake-on: d</span><br><span class="line">        Wake-on: d</span><br><span class="line">        Current message level: 0x00000004 (4)</span><br><span class="line">                               <span class="built_in">link</span></span><br><span class="line">        Link detected: <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>ethtool查看网卡信息，<code>Link detected：yes</code>表示有网线插入；</p>
+<p>如果<code>Link detected:no</code> 的话，尝试用<code>ifup ethxxx</code>，如果依然为no的话，才能说明此网卡确实没有网线插入。</p>
+</blockquote>
+<p><strong>2.网卡Bond配置</strong></p>
+<p>方法一：命令行配置</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个名为 storagepub 的网卡绑定接口，类型为 bond，模式为 802.3ad</span></span><br><span class="line">ip <span class="built_in">link</span> add storagepub <span class="built_in">type</span> bond mode 802.3ad xmit_hash_policy layer3+4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> ens4np1 down</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将网卡 ens4np1 加入到名为 storagepub 的绑定接口，成为其从属（slave）设备</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> ens4np1 master storagepub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> ens4np1 up</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用绑定接口 storagepub，使其可用</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> storagepub up</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看绑定接口 storagepub 的详细信息，包括模式、成员网卡、负载均衡策略等。</span></span><br><span class="line"><span class="built_in">cat</span> /proc/net/bonding/storagepub</span><br></pre></td></tr></table></figure>
+
+<p>方法二：修改bond网卡的配置文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 network-scripts]# <span class="built_in">cat</span> ifcfg-bond-storagepub</span><br><span class="line">DEVICE=storagepub</span><br><span class="line">BONDING_OPTS=<span class="string">&quot;mode=4 miimon=100 xmit_hash_policy=1&quot;</span></span><br><span class="line">TYPE=Bond</span><br><span class="line">BONDING_MASTER=<span class="built_in">yes</span>	<span class="comment"># 表示该设备是绑定主设备（master）。</span></span><br><span class="line">BOOTPROTO=static	<span class="comment"># 使用静态 IP 配置（不依赖 DHCP）</span></span><br><span class="line">PEERDNS=no</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=no	<span class="comment"># 不启用 IPv6 配置</span></span><br><span class="line">NAME=bond-storagepub</span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line">IPADDR=172.22.88.177</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"></span><br><span class="line">[root@master01 network-scripts]# <span class="built_in">cat</span> ifcfg-p4p2</span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEVICE=p4p2</span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line">MASTER=storagepub	<span class="comment"># 指定绑定接口的主设备为 storagepu。</span></span><br><span class="line">SLAVE=<span class="built_in">yes</span>	<span class="comment"># 指定该网卡是绑定接口的从设备（slave）</span></span><br></pre></td></tr></table></figure>
+
+<p>3.<strong>重启网络验证</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# systemctl restart network</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# ip a |grep storagepub</span><br><span class="line">11: p4p2: &lt;BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP&gt; mtu 1500 qdisc mq master storagepub state UP group default qlen 1000</span><br><span class="line">19: storagepub: &lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000</span><br><span class="line">    inet 172.22.88.177/24 brd 172.22.88.255 scope global noprefixroute storagepub</span><br></pre></td></tr></table></figure>
+
+<h1 id="常见面试题"><a href="#常见面试题" class="headerlink" title="常见面试题"></a>常见面试题</h1><h2 id="交换机的VLAN怎么划分的"><a href="#交换机的VLAN怎么划分的" class="headerlink" title="交换机的VLAN怎么划分的"></a>交换机的VLAN怎么划分的</h2><p>为了解决广播域带来的问题，引入了VLAN (Virtual Local Area Network)，即虚拟局域网技术：</p>
+<p>通过在交换机上部署VLAN，可以将一个规模较大的广播域在逻辑上划分成若干个不同的、规模较小的广播域，由此可以有效地提升网络的安全性，同时减少垃圾流量，节约网络资源。</p>
+<p>每个VLAN是一个独立的广播域，VLAN内的设备可以相互通信，而不同VLAN之间的设备不能直接通信（除非通过三层设备进行路由）。</p>
+<p>划分VLAN的方法有多种，常见的包括：</p>
+<ul>
+<li><strong>基于端口划分（常用）</strong>：将交换机的端口分配到不同的VLAN中。例如，将端口1和2分配到VLAN10，端口3和4分配到VLAN20。</li>
+<li><strong>基于MAC地址划分</strong>：根据设备的MAC地址将设备分配到不同的VLAN中。</li>
+<li><strong>基于IP子网划分</strong>：根据设备的IP地址和子网掩码来划分VLAN。</li>
+<li><strong>基于协议划分</strong>：根据设备使用的协议类型来划分VLAN</li>
+</ul>
+<h2 id="路由器和交换机区别"><a href="#路由器和交换机区别" class="headerlink" title="路由器和交换机区别"></a>路由器和交换机区别</h2><p>（1）外形上：<br>交换机通常端口比较多，而路由器的端口比较少</p>
+<p>（2）工作层次不同：<br>交换机一般工作在数据链路层，而路由器则工作在网络层</p>
+<p>（3）数据的转发对象不同：<br>交换机是根据MAC地址转发数据帧，而路由器则是根据IP地址来转发IP数据报&#x2F;分组。</p>
+<p>（4）”分工“不同<br>交换机主要是用于组建局域网，而路由器则是负责让主机连接外网。</p>
+<p>（5）冲突域和广播域<br>交换机分割冲突域，但是不分割广播域，而路由器分割广播域。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87/" rel="tag"># 网络设备</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/02/05/network-base/" rel="prev" title="网络系列：计算机网络基础">
+                  <i class="fa fa-angle-left"></i> 网络系列：计算机网络基础
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/04/kubernetes_monitor/" rel="next" title="Kubernetes系列：监控组件部署">
+                  Kubernetes系列：监控组件部署 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">liaoxb</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">93k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:25</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

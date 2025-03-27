@@ -19,34 +19,33 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Linux 文件与目录管理一切皆文件“一切皆是文件”是 Unix&#x2F;Linux 的基本哲学之一，它是指 Linux 系统中的所有的一切都可以通过文件的方式访问、管理，即使不是文件，也以文件的形式来管理。例如硬件设备、进程、套接字等都抽象成伪文件，使用统一的用户接口，虽然文件类型各不相同，但是对其提供的却是同一套操作。 在 Linux 中共有 7 种类型的文件，使用了不同的字符来加以区分，其">
+    <meta name="description" content="Linux 文件系统一切皆文件“一切皆是文件”是 Unix&#x2F;Linux 的基本哲学之一，它是指 Linux 系统中的所有的一切都可以通过文件的方式访问、管理，即使不是文件，也以文件的形式来管理。例如硬件设备、进程、套接字等都抽象成伪文件，使用统一的用户接口，虽然文件类型各不相同，但是对其提供的却是同一套操作。 在 Linux 中共有 7 种类型的文件，使用了不同的字符来加以区分，其中伪文">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux 文件系统">
+<meta property="og:title" content="Linux 基础知识总结">
 <meta property="og:url" content="http://example.com/2018/07/01/linux-basic/index.html">
 <meta property="og:site_name" content="liaoxb&#39;s blog">
-<meta property="og:description" content="Linux 文件与目录管理一切皆文件“一切皆是文件”是 Unix&#x2F;Linux 的基本哲学之一，它是指 Linux 系统中的所有的一切都可以通过文件的方式访问、管理，即使不是文件，也以文件的形式来管理。例如硬件设备、进程、套接字等都抽象成伪文件，使用统一的用户接口，虽然文件类型各不相同，但是对其提供的却是同一套操作。 在 Linux 中共有 7 种类型的文件，使用了不同的字符来加以区分，其">
+<meta property="og:description" content="Linux 文件系统一切皆文件“一切皆是文件”是 Unix&#x2F;Linux 的基本哲学之一，它是指 Linux 系统中的所有的一切都可以通过文件的方式访问、管理，即使不是文件，也以文件的形式来管理。例如硬件设备、进程、套接字等都抽象成伪文件，使用统一的用户接口，虽然文件类型各不相同，但是对其提供的却是同一套操作。 在 Linux 中共有 7 种类型的文件，使用了不同的字符来加以区分，其中伪文">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/2018/07/01/linux-basic/1737019312867-1.png">
 <meta property="og:image" content="http://example.com/2018/07/01/linux-basic/linux-file-system-directory.png">
 <meta property="og:image" content="http://example.com/2018/07/01/linux-basic/disk.png">
 <meta property="og:image" content="http://example.com/2018/07/01/linux-basic/1737022182076-13.png">
 <meta property="og:image" content="http://example.com/2018/07/01/linux-basic/output.png">
 <meta property="og:image" content="http://example.com/2018/07/01/linux-basic/output-1737083379812-9.png">
 <meta property="article:published_time" content="2018-07-01T12:36:25.000Z">
-<meta property="article:modified_time" content="2025-03-26T16:55:50.415Z">
+<meta property="article:modified_time" content="2025-03-27T14:51:28.722Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="Linux">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/2018/07/01/linux-basic/1737019312867-1.png">
+<meta name="twitter:image" content="http://example.com/2018/07/01/linux-basic/linux-file-system-directory.png">
 
 
 <link rel="canonical" href="http://example.com/2018/07/01/linux-basic/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2018/07/01/linux-basic/","path":"2018/07/01/linux-basic/","title":"Linux 文件系统"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2018/07/01/linux-basic/","path":"2018/07/01/linux-basic/","title":"Linux 基础知识总结"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Linux 文件系统 | liaoxb's blog</title>
+<title>Linux 基础知识总结 | liaoxb's blog</title>
   
 
 
@@ -145,7 +144,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E6%96%87%E4%BB%B6%E4%B8%8E%E7%9B%AE%E5%BD%95%E7%AE%A1%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Linux 文件与目录管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%88%87%E7%9A%86%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">一切皆文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6%E8%AE%BE%E5%A4%87%E5%91%BD%E5%90%8D"><span class="nav-number">1.2.</span> <span class="nav-text">硬件设备命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%9D%83%E9%99%90%E4%B8%8E%E5%B1%9E%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">文件权限与属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%A0%91%E7%BB%93%E6%9E%84"><span class="nav-number">1.4.</span> <span class="nav-text">目录树结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%A1%AC%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">Linux 硬盘与文件系统管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">硬盘类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E5%88%86%E5%8C%BA%E5%92%8C%E6%8C%82%E8%BD%BD"><span class="nav-number">2.2.</span> <span class="nav-text">硬盘分区和挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.3.</span> <span class="nav-text">文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%93%BE%E6%8E%A5%E6%96%87%E4%BB%B6"><span class="nav-number">2.3.1.</span> <span class="nav-text">链接文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XFS-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.3.2.</span> <span class="nav-text">XFS 文件系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Proc-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.3.3.</span> <span class="nav-text">Proc 文件系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E9%98%B5%E5%88%97%E6%8A%80%E6%9C%AF"><span class="nav-number">2.4.</span> <span class="nav-text">硬盘阵列技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-%E7%89%B9%E6%80%A7"><span class="nav-number">2.4.1.</span> <span class="nav-text">RAID 特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84-RAID-%E7%BA%A7%E5%88%AB"><span class="nav-number">2.4.2.</span> <span class="nav-text">常见的 RAID 级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6-RAID"><span class="nav-number">2.4.3.</span> <span class="nav-text">软件 RAID</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text">Linux 网络设备管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E5%8D%A1Bond"><span class="nav-number">3.1.</span> <span class="nav-text">网卡Bond</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Bond%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="nav-number">3.1.1.</span> <span class="nav-text">1.Bond准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E7%BD%91%E5%8D%A1Bond%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.2.</span> <span class="nav-text">2.网卡Bond配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E9%87%8D%E5%90%AF%E7%BD%91%E7%BB%9C%E9%AA%8C%E8%AF%81"><span class="nav-number">3.1.3.</span> <span class="nav-text">3.重启网络验证</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.</span> <span class="nav-text">Linux 文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E5%88%87%E7%9A%86%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">一切皆文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%A0%91%E7%BB%93%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">目录树结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#inode%E4%BB%8B%E7%BB%8D"><span class="nav-number">1.3.</span> <span class="nav-text">inode介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E9%93%BE%E6%8E%A5%E5%92%8C%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">1.4.</span> <span class="nav-text">硬链接和软链接</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.5.</span> <span class="nav-text">常用文件系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XFS%E7%B3%BB%E7%BB%9F"><span class="nav-number">1.5.1.</span> <span class="nav-text">XFS系统</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux-%E7%A1%AC%E7%9B%98%E4%B8%8E%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">Linux 硬盘与文件系统管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">硬盘类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E5%88%86%E5%8C%BA%E5%92%8C%E6%8C%82%E8%BD%BD"><span class="nav-number">2.2.</span> <span class="nav-text">硬盘分区和挂载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AC%E7%9B%98%E9%98%B5%E5%88%97%E6%8A%80%E6%9C%AF"><span class="nav-number">2.3.</span> <span class="nav-text">硬盘阵列技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RAID-%E7%89%B9%E6%80%A7"><span class="nav-number">2.3.1.</span> <span class="nav-text">RAID 特性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E7%9A%84-RAID-%E7%BA%A7%E5%88%AB"><span class="nav-number">2.3.2.</span> <span class="nav-text">常见的 RAID 级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6-RAID"><span class="nav-number">2.3.3.</span> <span class="nav-text">软件 RAID</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -158,7 +157,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -169,7 +168,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -209,12 +208,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Linux 文件系统 | liaoxb's blog">
+      <meta itemprop="name" content="Linux 基础知识总结 | liaoxb's blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Linux 文件系统
+          Linux 基础知识总结
         </h1>
 
         <div class="post-meta-container">
@@ -244,14 +243,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>10k</span>
+      <span>5.5k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>9 分钟</span>
+      <span>5 分钟</span>
     </span>
 </div>
 
@@ -261,7 +260,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Linux-文件与目录管理"><a href="#Linux-文件与目录管理" class="headerlink" title="Linux 文件与目录管理"></a>Linux 文件与目录管理</h1><h2 id="一切皆文件"><a href="#一切皆文件" class="headerlink" title="一切皆文件"></a>一切皆文件</h2><p>“一切皆是文件”是 Unix&#x2F;Linux 的基本哲学之一，它是指 Linux 系统中的所有的一切都可以通过文件的方式访问、管理，即使不是文件，也以文件的形式来管理。例如硬件设备、进程、套接字等都抽象成伪文件，使用统一的用户接口，虽然文件类型各不相同，但是对其提供的却是同一套操作。</p>
+    <div class="post-body" itemprop="articleBody"><h1 id="Linux-文件系统"><a href="#Linux-文件系统" class="headerlink" title="Linux 文件系统"></a>Linux 文件系统</h1><h2 id="一切皆文件"><a href="#一切皆文件" class="headerlink" title="一切皆文件"></a>一切皆文件</h2><p>“一切皆是文件”是 Unix&#x2F;Linux 的基本哲学之一，它是指 Linux 系统中的所有的一切都可以通过文件的方式访问、管理，即使不是文件，也以文件的形式来管理。例如硬件设备、进程、套接字等都抽象成伪文件，使用统一的用户接口，虽然文件类型各不相同，但是对其提供的却是同一套操作。</p>
 <p>在 Linux 中共有 7 种类型的文件，使用了不同的字符来加以区分，其中伪文件并不占用磁盘空间：</p>
 <table>
 <thead>
@@ -299,7 +298,8 @@
 <td>命名管道文件（pipe）</td>
 </tr>
 </tbody></table>
-<h2 id="硬件设备命名"><a href="#硬件设备命名" class="headerlink" title="硬件设备命名"></a>硬件设备命名</h2><p>系统内核中的udev设备管理器会自动把硬件名称规范起来，目的是让用户通过设备文件的名字可以猜出设备大致的属性以及分区信息等；这对于陌生的设备来说特别方便。</p>
+<p><strong>硬件设备命名</strong></p>
+<p>系统内核中的udev设备管理器会自动把硬件名称规范起来，目的是让用户通过设备文件的名字可以猜出设备大致的属性以及分区信息等；这对于陌生的设备来说特别方便。</p>
 <table>
 <thead>
 <tr>
@@ -336,11 +336,6 @@
 <td>&#x2F;dev&#x2F;st0或&#x2F;dev&#x2F;ht0</td>
 </tr>
 </tbody></table>
-<h2 id="文件权限与属性"><a href="#文件权限与属性" class="headerlink" title="文件权限与属性"></a>文件权限与属性</h2><p>文件的读、写、执行权限可以简写为rwx，亦可分别用数字4、2、1来表示，文件所有者，所属组及其他用户权限之间无关联。</p>
-<img src="/2018/07/01/linux-basic/1737019312867-1.png" class="" title="img">
-
-<p>在上图中，包含了文件的类型、访问权限、所有者（属主）、所属组（属组）、占用的磁盘大小、修改时间和文件名称等信息。</p>
-<p>通过分析可知，该文件类型为普通文件，所有者权限为可读、可写（rw-），所属组权限为可读（r–），除此以外的其他人也只有可读权限（r–），文件的磁盘占用大小是34298字节，最近一次的修改时间为4月2日的凌晨23分，文件的名称为install.log。</p>
 <h2 id="目录树结构"><a href="#目录树结构" class="headerlink" title="目录树结构"></a>目录树结构</h2><p>在Windows操作系统中，想要找到一个文件，要依次进入该文件所在的磁盘分区（也叫盘符），然后再进入该分区下的具体目录，最终找到这个文件。但是在Linux系统中并不存在C、D、E、F等盘符，<strong>Linux系统中的一切文件都是从“根”目录（&#x2F;）开始的，并按照文件系统层次标准(FHS)采用倒树状结构来存放文件，以及定义了常见目录的用途。</strong></p>
 <img src="/2018/07/01/linux-basic/linux-file-system-directory.png"  alt="img" style="zoom: 50%;" />
 
@@ -425,6 +420,41 @@
 <td>当文件系统发生错误时，将一些丢失的文件片段存放在这里</td>
 </tr>
 </tbody></table>
+<h2 id="inode介绍"><a href="#inode介绍" class="headerlink" title="inode介绍"></a>inode介绍</h2><ul>
+<li>inode （索引节点）是 Linux&#x2F;Unix 文件系统的基础。</li>
+<li><code>stat</code> 命令可以查看文件的 inode 信息，包括文件元信息（例如权限、大小、修改时间以及数据块位置）</li>
+<li>inode 的访问速度非常快，Unix&#x2F;Linux系统通过 inode 号码定位到文件的元数据信息，进而读取文件的块数据（4k、1M），无需遍历整个文件系统</li>
+<li>inode 的数量是有限的，每个文件系统只能包含固定数量的 inode。这意味着当文件系统中的 inode 用完时，无法再创建新的文件或目录，即使磁盘上还有可用空间。因此，在创建文件系统时，需要根据文件和目录的预期数量来合理分配 inode 的数量。</li>
+</ul>
+<h2 id="硬链接和软链接"><a href="#硬链接和软链接" class="headerlink" title="硬链接和软链接"></a>硬链接和软链接</h2><p><strong>硬链接</strong></p>
+<p>在 Linux&#x2F;类 Unix 文件系统中，每个文件和目录都有一个唯一的索引节点（inode）号，用来标识该文件或目录。但是，Unix&#x2F;Linux系统允许，多个文件名指向同一个inode号码。</p>
+<ul>
+<li><code>ln</code> 命令用于创建硬链接</li>
+<li>硬链接和源文件的 inode 节点号相同，两者对文件系统来说是完全平等的（可以看作是互为硬链接，源头是同一份文件）</li>
+<li>只有删除了源文件和所有对应的硬链接文件，该文件才会被真正删除。</li>
+<li>硬链接具有一些限制，不能对目录以及不存在的文件创建硬链接，并且，硬链接也不能跨越文件系统。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# ll -i /etc/crontab</span><br><span class="line">268535884 -rw-r--r-- 1 root root 451 Mar 14  2020 /etc/crontab</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# <span class="built_in">ln</span> /etc/crontab .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立硬链接，链接数加1</span></span><br><span class="line">[root@master01 ~]# ll -i /etc/crontab crontab</span><br><span class="line">268535884 -rw-r--r-- 2 root root 451 Mar 14  2020 crontab</span><br><span class="line">268535884 -rw-r--r-- 2 root root 451 Mar 14  2020 /etc/crontab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除硬链接，链接数减1</span></span><br><span class="line">[root@master01 ~]# <span class="built_in">rm</span> -rf crontab</span><br><span class="line">[root@master01 ~]# ll -i /etc/crontab</span><br><span class="line">268535884 -rw-r--r-- 1 root root 451 Mar 14  2020 /etc/crontab</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><strong>软链接</strong></p>
+<ul>
+<li><code>ln -s</code> 命令用于创建软链接</li>
+<li>软链接和源文件的 inode 节点号不同，而是指向一个文件路径</li>
+<li>软连接类似于 Windows 系统中的快捷方式。即源文件删除后，软链接依然存在，但是指向的是一个无效的文件路径</li>
+<li>不同于硬链接，可以对目录或者不存在的文件创建软链接，并且，软链接可以跨越文件系统。</li>
+</ul>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# <span class="built_in">ln</span> -s /etc/crontab crontab_test</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# ll -i /etc/crontab crontab_test</span><br><span class="line">344677386 lrwxrwxrwx 1 root root  12 Jan 20 18:41 crontab_test -&gt; /etc/crontab</span><br><span class="line">268535884 -rw-r--r-- 1 root root 451 Mar 14  2020 /etc/crontab</span><br></pre></td></tr></table></figure>
+
+<p>在Linux系统上&#x2F;bin&#x2F;sh通常就是指向&#x2F;bin&#x2F;bash的软链接。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# ll -i /bin/sh</span><br><span class="line">872423134 lrwxrwxrwx 1 root root 4 Feb 20  2024 /bin/sh -&gt; bash</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# ll -i /bin/bash</span><br><span class="line">872423123 -rwxr-xr-x 1 root root 1166952 Feb 20  2024 /bin/bash</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用文件系统"><a href="#常用文件系统" class="headerlink" title="常用文件系统"></a>常用文件系统</h2><h3 id="XFS系统"><a href="#XFS系统" class="headerlink" title="XFS系统"></a>XFS系统</h3><p>XFS 是一种高性能的文件系统，相比 ext4，它在某些方面具有显著优势。如下：</p>
+<ul>
+<li><strong>大文件处理</strong>：XFS 在处理大文件时性能优异，适合需要频繁读写大文件的场景（如视频编辑、数据库）。</li>
+<li><strong>高并发</strong>：XFS 通过延迟分配（Delayed Allocation）和分布式 B+ 树索引，优化了高并发写入性能，特别是在多线程场景下，能够更好地利用多核 CPU，适合高并发工作负载。</li>
+<li><strong>动态 inode 分配</strong>：XFS 可以动态分配 inode，而 ext4 需要在创建文件系统时预先分配 inode，可能导致 inode 不足和格式化速度慢的问题。</li>
+<li><strong>高效的日志机制</strong>：XFS 的日志机制更高效，能够快速恢复文件系统一致性，尤其在系统崩溃后。</li>
+</ul>
 <h1 id="Linux-硬盘与文件系统管理"><a href="#Linux-硬盘与文件系统管理" class="headerlink" title="Linux 硬盘与文件系统管理"></a>Linux 硬盘与文件系统管理</h1><h2 id="硬盘类型"><a href="#硬盘类型" class="headerlink" title="硬盘类型"></a><strong>硬盘类型</strong></h2><img src="/2018/07/01/linux-basic/disk.png"  alt="disk" style="zoom: 50%;" />
 
 <p><strong>机械硬盘</strong>（HDD）的组成主要有盘片、机械手臂、磁头与主轴马达所组成，而数据的写入其实是在盘片上面。盘片上面又可细分出扇区（Sector）与磁道（Track）两种单位，其中扇区的容量设计有两种大小，分别是 512Bytes 与 4KBytes。</p>
@@ -472,179 +502,6 @@
 
 <p><strong>方法四：作为裸设备使用</strong></p>
 <p>某些特殊用途（如数据库或存储系统）可能直接使用裸设备，无需分区和格式化。例如数据库（如 MySQL）可以直接将 <code>/dev/sdb</code> 作为数据存储路径。</p>
-<h2 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h2><h3 id="链接文件"><a href="#链接文件" class="headerlink" title="链接文件"></a>链接文件</h3><blockquote>
-<p>Unix&#x2F;Linux系统内部不使用文件名，而使用inode号码来识别文件，即系统读取根据 inode号码获取inode信息，分析 inode 所记录的权限与使用者是否符合，若符合才能够读取文件所在block里的数据。</p>
-</blockquote>
-<p><strong>硬链接</strong></p>
-<p>一般情况下，文件名和inode号码是”一一对应”关系，每个inode号码对应一个文件名。但是，Unix&#x2F;Linux系统允许，多个文件名指向同一个inode号码。</p>
-<p>这意味着，可以用不同的文件名访问同样的内容；对文件内容进行修改，会影响到所有文件名；但是，删除一个文件名，不影响另一个文件名的访问。这种情况就被称为”硬链接”（hard link）。</p>
-<p>使用限制：link不能跨文件系统，也不能 link 目录</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# ll -i /etc/crontab</span><br><span class="line">268535884 -rw-r--r-- 1 root root 451 Mar 14  2020 /etc/crontab</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# <span class="built_in">ln</span> /etc/crontab .</span><br><span class="line"></span><br><span class="line"><span class="comment"># 建立硬链接，链接数加1</span></span><br><span class="line">[root@master01 ~]# ll -i /etc/crontab crontab</span><br><span class="line">268535884 -rw-r--r-- 2 root root 451 Mar 14  2020 crontab</span><br><span class="line">268535884 -rw-r--r-- 2 root root 451 Mar 14  2020 /etc/crontab</span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除硬链接，链接数减1</span></span><br><span class="line">[root@master01 ~]# <span class="built_in">rm</span> -rf crontab</span><br><span class="line">[root@master01 ~]# ll -i /etc/crontab</span><br><span class="line">268535884 -rw-r--r-- 1 root root 451 Mar 14  2020 /etc/crontab</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p><strong>软链接（符号链接）</strong></p>
-<p>软链接与硬链接最大的不同：文件A指向文件B的文件名，而不是文件B的inode号码，文件B的inode”链接数”不会因此发生变化。如果删除了文件B，打开文件A就会报错：”No such file or directory”。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# <span class="built_in">ln</span> -s /etc/crontab crontab_test</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# ll -i /etc/crontab crontab_test</span><br><span class="line">344677386 lrwxrwxrwx 1 root root  12 Jan 20 18:41 crontab_test -&gt; /etc/crontab</span><br><span class="line">268535884 -rw-r--r-- 1 root root 451 Mar 14  2020 /etc/crontab</span><br></pre></td></tr></table></figure>
-
-<p>另外，在Linux系统上&#x2F;bin&#x2F;sh通常就是指向&#x2F;bin&#x2F;bash的符号链接。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# ll -i /bin/sh</span><br><span class="line">872423134 lrwxrwxrwx 1 root root 4 Feb 20  2024 /bin/sh -&gt; bash</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# ll -i /bin/bash</span><br><span class="line">872423123 -rwxr-xr-x 1 root root 1166952 Feb 20  2024 /bin/bash</span><br></pre></td></tr></table></figure>
-
-<h3 id="XFS-文件系统"><a href="#XFS-文件系统" class="headerlink" title="XFS 文件系统"></a>XFS 文件系统</h3><p>XFS 是一种高性能的文件系统，相比 ext4，它在某些方面具有显著优势。如下：</p>
-<ul>
-<li><strong>大文件处理</strong>：XFS 在处理大文件时性能优异，适合需要频繁读写大文件的场景（如视频编辑、数据库）。</li>
-<li><strong>高并发</strong>：XFS 通过延迟分配（Delayed Allocation）和分布式 B+ 树索引，优化了高并发写入性能，特别是在多线程场景下，能够更好地利用多核 CPU，适合高并发工作负载。</li>
-<li><strong>动态 inode 分配</strong>：XFS 可以动态分配 inode，而 ext4 需要在创建文件系统时预先分配 inode，可能导致 inode 不足和格式化速度慢的问题。</li>
-<li><strong>高效的日志机制</strong>：XFS 的日志机制更高效，能够快速恢复文件系统一致性，尤其在系统崩溃后。</li>
-</ul>
-<h3 id="Proc-文件系统"><a href="#Proc-文件系统" class="headerlink" title="Proc 文件系统"></a>Proc 文件系统</h3><p>Linux 系统上的 &#x2F;proc 目录是一种文件系统，即 proc 文件系统（procfs），它以文件系统的方式为用户提供访问系统内核数据的操作接口。proc 文件系统是一种内核和内核模块用来向进程（process）发送信息的机制，因此被称为 proc。</p>
-<p>与其它常见的文件系统不同的是，proc 是一种伪文件系统（也即虚拟文件系统），它只存在于内存当中，因此它会在系统启动时创建并挂载到 &#x2F;proc 目录，在系统关闭时卸载并释放。</p>
-<p>下面是linux服务器上 &#x2F;proc 的挂载信息</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@master03 ~]# mount |grep proc</span><br><span class="line">proc on /proc <span class="built_in">type</span> proc (rw,nosuid,nodev,noexec,relatime)</span><br><span class="line">systemd-1 on /proc/sys/fs/binfmt_misc <span class="built_in">type</span> autofs (rw,relatime,fd=30,pgrp=1,<span class="built_in">timeout</span>=0,minproto=5,maxproto=5,direct,pipe_ino=104535)</span><br></pre></td></tr></table></figure>
-
-<p>&#x2F;proc 目录中的文件及其说明如下：</p>
-<table>
-<thead>
-<tr>
-<th>文件</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>&#x2F;proc&#x2F;buddyinfo</td>
-<td>每个内存区中的每个 order 有多少块可用，和内存碎片问题有关。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;cmdline</td>
-<td>启动时传递给 kernel 的参数信息。</td>
-</tr>
-<tr>
-<td><strong>&#x2F;proc&#x2F;cpuinfo</strong></td>
-<td>CPU 信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;crypto</td>
-<td>内核可用的加密模块及细节。</td>
-</tr>
-<tr>
-<td><strong>&#x2F;proc&#x2F;devices</strong></td>
-<td>已装载的设备（包括字符设备和块设备）。</td>
-</tr>
-<tr>
-<td><strong>&#x2F;proc&#x2F;diskstats</strong></td>
-<td>每个逻辑磁盘设备的信息（包括设备编号） 。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;dma</td>
-<td>已注册使用的 ISA DMA 通道列表。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;execdomains</td>
-<td>Linux 内核当前支持的 execution domains。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;fb</td>
-<td>帧缓冲设备列表，包括数量和控制它的驱动。</td>
-</tr>
-<tr>
-<td><strong>&#x2F;proc&#x2F;filesystems</strong></td>
-<td>内核当前支持的文件系统类型。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;interrupts</td>
-<td>当前系统使用的中断信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;iomem</td>
-<td>每个物理设备当前在系统内存中的映射。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;ioports</td>
-<td>一个设备的输入输出所使用的注册端口范围。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;kcore</td>
-<td>代表系统的物理内存，存储为核心文件格式。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;kmsg</td>
-<td>等待内核输出信息，可以通过 &#x2F;sbin&#x2F;klogd 或 &#x2F;bin&#x2F;dmesg 来处理。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;loadavg</td>
-<td>依据过去一段时间内 CPU 和 IO 的状态得出的负载形态，与 uptime 命令有关。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;locks</td>
-<td>内核锁住的文件列表。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;mdstat</td>
-<td>多硬盘，RAID 配置信息（md&#x3D;multiple disks）。</td>
-</tr>
-<tr>
-<td><strong>&#x2F;proc&#x2F;meminfo</strong></td>
-<td>内核管理内存的信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;misc</td>
-<td>在杂项设备（设备号为10）上注册的驱动。</td>
-</tr>
-<tr>
-<td><strong>&#x2F;proc&#x2F;modules</strong></td>
-<td>所有装载到内核的模块列表。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;mounts</td>
-<td>系统当前的所有挂载信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;mtrr</td>
-<td>系统使用的 Memory Type Range Registers（MTRRs）。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;partitions</td>
-<td>磁盘分区中的块分配信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;slabinfo</td>
-<td>系统中所有活动的 slab 缓存信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;stat</td>
-<td>所有的 CPU 活动信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;sysrq-trigger</td>
-<td>该文件是只写的。使用 echo 命令来写这个文件的时候，远程 root 用户可以执行大多数的系统请求关键命令，就好像在本地终端执行一样。要写入这个文件，需要把 &#x2F;proc&#x2F;sys&#x2F;kernel&#x2F;sysrq 设置为1，开启 SysRq（Magic System Request Key）功能。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;uptime</td>
-<td>系统自开机以来的运行时间。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;schedstat</td>
-<td>kernel 调度器的统计信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;swaps</td>
-<td>交换区域的使用情况。</td>
-</tr>
-<tr>
-<td><strong>&#x2F;proc&#x2F;version</strong></td>
-<td>当前 Linux 内核版本、发行版号、gcc 版本号、更新时间等信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;vmcore</td>
-<td>内核 panic 时的内存映像。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;vmstat</td>
-<td>虚拟内存统计信息。</td>
-</tr>
-<tr>
-<td>&#x2F;proc&#x2F;zoneinfo</td>
-<td>显示内存空间的统计信息，对分析虚拟内存行为很有用。</td>
-</tr>
-</tbody></table>
 <h2 id="硬盘阵列技术"><a href="#硬盘阵列技术" class="headerlink" title="硬盘阵列技术"></a>硬盘阵列技术</h2><p>RAID技术的设计初衷是减少因为采购硬盘设备带来的费用支出，但是与数据本身的价值相比较，<strong>现代企业更看重的则是RAID技术所具备的冗余备份机制以及带来的硬盘吞吐量的提升</strong>。也就是说，RAID不仅降低了硬盘设备损坏后丢失数据的几率，还提升了硬盘设备的读写速度，所以它在绝大多数运营商或大中型企业中得以广泛部署和应用。</p>
 <h3 id="RAID-特性"><a href="#RAID-特性" class="headerlink" title="RAID 特性"></a>RAID 特性</h3><ul>
 <li><strong>协同工作</strong>：多块硬盘通过一定的 RAID 级别协同工作。</li>
@@ -683,29 +540,6 @@
 </blockquote>
 <p>软件实现 RAID，通过 Linux 的 <code>mdadm</code> 工具配置软件 RAID。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> mdadm --create /dev/md0 --level=5 --raid-devices=3 /dev/sd[b-d]</span><br></pre></td></tr></table></figure>
-
-<h1 id="Linux-网络设备管理"><a href="#Linux-网络设备管理" class="headerlink" title="Linux 网络设备管理"></a>Linux 网络设备管理</h1><h2 id="网卡Bond"><a href="#网卡Bond" class="headerlink" title="网卡Bond"></a>网卡Bond</h2><p>所谓bond，就是把多个物理网卡绑定成一个逻辑上的网卡，使用同一个IP工作，有时服务器带宽不够了也可以用作增加带宽。</p>
-<p>借助于网卡bond技术，不仅可以提高网络传输速度，更重要的是，还可以确保在其中一块网卡出现故障时，依然可以正常提供网络服务。</p>
-<p>网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6。常用的有三种：</p>
-<ul>
-<li>mode&#x3D;0（平衡负载模式）：平时两块网卡均工作，且自动备援，但需要在与服务器本地网卡相连的交换机设备上进行端口聚合来支持绑定技术。</li>
-<li>mode&#x3D;1（自动备援模式）：平时只有一块主网卡工作，在它故障后自动替换为另外的网卡。</li>
-<li>mode&#x3D;6（平衡负载模式）：平时两块网卡均工作，且自动备援，无须交换机设备提供辅助支持。</li>
-</ul>
-<h3 id="1-Bond准备工作"><a href="#1-Bond准备工作" class="headerlink" title="1.Bond准备工作"></a>1.Bond准备工作</h3><p>首先要确定服务器上的网卡规划用途，以及哪些网卡已插网线，一般是有两块网卡对应两根网线，分别连接不同的交换机。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 network-scripts]# ethtool p4p2</span><br><span class="line">Settings <span class="keyword">for</span> p4p2:</span><br><span class="line">        Supported ports: [ FIBRE ]</span><br><span class="line">        Supported <span class="built_in">link</span> modes:   1000baseKX/Full</span><br><span class="line">                                10000baseKR/Full</span><br><span class="line">                                25000baseCR/Full</span><br><span class="line">                                25000baseKR/Full</span><br><span class="line">                                25000baseSR/Full</span><br><span class="line">        Supported pause frame use: Symmetric</span><br><span class="line">        Supports auto-negotiation: Yes</span><br><span class="line">        Supported FEC modes: None BaseR</span><br><span class="line">        Advertised <span class="built_in">link</span> modes:  1000baseKX/Full</span><br><span class="line">                                10000baseKR/Full</span><br><span class="line">                                25000baseCR/Full</span><br><span class="line">                                25000baseKR/Full</span><br><span class="line">                                25000baseSR/Full</span><br><span class="line">        Advertised pause frame use: Symmetric</span><br><span class="line">        Advertised auto-negotiation: Yes</span><br><span class="line">        Advertised FEC modes: None</span><br><span class="line">        Speed: 10000Mb/s</span><br><span class="line">        Duplex: Full</span><br><span class="line">        Port: FIBRE</span><br><span class="line">        PHYAD: 0</span><br><span class="line">        Transceiver: internal</span><br><span class="line">        Auto-negotiation: on</span><br><span class="line">        Supports Wake-on: d</span><br><span class="line">        Wake-on: d</span><br><span class="line">        Current message level: 0x00000004 (4)</span><br><span class="line">                               <span class="built_in">link</span></span><br><span class="line">        Link detected: <span class="built_in">yes</span></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>ethtool查看网卡信息，<code>Link detected：yes</code>表示有网线插入；</p>
-<p>如果<code>Link detected:no</code> 的话，尝试用<code>ifup ethxxx</code>，如果依然为no的话，才能说明此网卡确实没有网线插入。</p>
-</blockquote>
-<h3 id="2-网卡Bond配置"><a href="#2-网卡Bond配置" class="headerlink" title="2.网卡Bond配置"></a>2.网卡Bond配置</h3><p>方法一：命令行配置</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建一个名为 storagepub 的网卡绑定接口，类型为 bond，模式为 802.3ad</span></span><br><span class="line">ip <span class="built_in">link</span> add storagepub <span class="built_in">type</span> bond mode 802.3ad xmit_hash_policy layer3+4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 关闭网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> ens4np1 down</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将网卡 ens4np1 加入到名为 storagepub 的绑定接口，成为其从属（slave）设备</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> ens4np1 master storagepub</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用网卡</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> ens4np1 up</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启用绑定接口 storagepub，使其可用</span></span><br><span class="line">ip <span class="built_in">link</span> <span class="built_in">set</span> storagepub up</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看绑定接口 storagepub 的详细信息，包括模式、成员网卡、负载均衡策略等。</span></span><br><span class="line"><span class="built_in">cat</span> /proc/net/bonding/storagepub</span><br></pre></td></tr></table></figure>
-
-<p>方法二：修改bond网卡的配置文件</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 network-scripts]# <span class="built_in">cat</span> ifcfg-bond-storagepub</span><br><span class="line">DEVICE=storagepub</span><br><span class="line">BONDING_OPTS=<span class="string">&quot;mode=4 miimon=100 xmit_hash_policy=1&quot;</span></span><br><span class="line">TYPE=Bond</span><br><span class="line">BONDING_MASTER=<span class="built_in">yes</span>	<span class="comment"># 表示该设备是绑定主设备（master）。</span></span><br><span class="line">BOOTPROTO=static	<span class="comment"># 使用静态 IP 配置（不依赖 DHCP）</span></span><br><span class="line">PEERDNS=no</span><br><span class="line">IPV4_FAILURE_FATAL=no</span><br><span class="line">IPV6INIT=no	<span class="comment"># 不启用 IPv6 配置</span></span><br><span class="line">NAME=bond-storagepub</span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line">IPADDR=172.22.88.177</span><br><span class="line">NETMASK=255.255.255.0</span><br><span class="line"></span><br><span class="line">[root@master01 network-scripts]# <span class="built_in">cat</span> ifcfg-p4p2</span><br><span class="line">TYPE=Ethernet</span><br><span class="line">BOOTPROTO=static</span><br><span class="line">DEVICE=p4p2</span><br><span class="line">ONBOOT=<span class="built_in">yes</span></span><br><span class="line">MASTER=storagepub	<span class="comment"># 指定绑定接口的主设备为 storagepu。</span></span><br><span class="line">SLAVE=<span class="built_in">yes</span>	<span class="comment"># 指定该网卡是绑定接口的从设备（slave）</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="3-重启网络验证"><a href="#3-重启网络验证" class="headerlink" title="3.重启网络验证"></a>3.重启网络验证</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# systemctl restart network</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# ip a |grep storagepub</span><br><span class="line">11: p4p2: &lt;BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP&gt; mtu 1500 qdisc mq master storagepub state UP group default qlen 1000</span><br><span class="line">19: storagepub: &lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000</span><br><span class="line">    inet 172.22.88.177/24 brd 172.22.88.255 scope global noprefixroute storagepub</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -726,7 +560,7 @@
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2018/07/07/linux-shell/" rel="next" title="Linux Shell编程">
+                <a href="/2018/07/09/linux-shell/" rel="next" title="Linux Shell编程">
                   Linux Shell编程 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
@@ -760,7 +594,7 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">94k</span>
+    <span title="站点总字数">93k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">

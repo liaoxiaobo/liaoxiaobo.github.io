@@ -26,15 +26,11 @@
 <meta property="og:site_name" content="liaoxb&#39;s blog">
 <meta property="og:description" content="需求背景1、测试环境部署了一套监控系统，测试人员经常需要访问web去分析数据或定位问题，但是访问不方便也不灵活,每次需要去找到pod运行主机IP和svc暴露的端口。2、通过利用nginx反向代理+负载均衡配置，快速地访问系统。比如prometheus、granfana等 配置步骤1、查看测试集群监控服务的pod和svc信息，prometheus和grafana均以NodePort的形式映射到主机端">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx15.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx16.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx17.png?raw=true">
 <meta property="article:published_time" content="2019-01-23T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-16T06:35:47.218Z">
+<meta property="article:modified_time" content="2025-03-27T15:42:58.189Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx15.png?raw=true">
 
 
 <link rel="canonical" href="http://example.com/2019/01/24/nginx_proxy/">
@@ -155,7 +151,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -166,7 +162,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -277,7 +273,13 @@
 <p>3、make run快速启动nginx容器<br>Makefile里总共三步操作：<br>快速启动nginx容器，映射到主机端口8081，<br>拷贝default.conf到nginx容器&#x2F;etc&#x2F;nginx&#x2F;conf.d&#x2F;目录<br>重启nginx容器</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[root@harbor nginx-proxy]# ll</span><br><span class="line">总用量 12</span><br><span class="line">-rw-r--r-- 1 root root 1587 1月  24 21:39 default_backup.conf</span><br><span class="line">-rw-r--r-- 1 root root 1327 1月  24 21:40 default.conf</span><br><span class="line">-rw-r--r-- 1 root root  353 1月  24 21:44 Makefile</span><br><span class="line">[root@harbor nginx-proxy]# make run</span><br><span class="line">docker <span class="built_in">rm</span> -f nginx-web</span><br><span class="line">nginx-web</span><br><span class="line">docker run -d -p 8081:80 --name nginx-web nginx</span><br><span class="line">229484284a78d84800527337eb7a074d42ff62987cb8e479a0d6c4c65b586156</span><br><span class="line">docker <span class="built_in">cp</span> default.conf nginx-web:/etc/nginx/conf.d/</span><br><span class="line">docker restart nginx-web</span><br><span class="line">nginx-web</span><br><span class="line">[root@harbor nginx-proxy]# docker ps |grep nginx-web</span><br><span class="line">229484284a78        nginx                                                                 <span class="string">&quot;nginx -g &#x27;daemon ...&quot;</span>   30 seconds ago      Up 29 seconds          0.0.0.0:8081-&gt;80/tcp                                               nginx-web</span><br></pre></td></tr></table></figure>
 
-<p>4、在浏览器中访问 <a target="_blank" rel="noopener" href="http://www.test.com,这时应该就可以根据location,访问到不同的服务了./">www.test.com，这时应该就可以根据location，访问到不同的服务了。</a><br>访问Grafana Dashboard：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx15.png?raw=true" alt="7.png"><br>访问Alertmanager ui：<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx16.png?raw=true" alt="7.png"><br>访问:Prometheus ui<br><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/linux/nginx17.png?raw=true" alt="7.png"></p>
+<p>4、在浏览器中访问 <a target="_blank" rel="noopener" href="http://www.test.com,这时应该就可以根据location,访问到不同的服务了./">www.test.com，这时应该就可以根据location，访问到不同的服务了。</a><br>访问Grafana Dashboard：</p>
+
+<p>访问Alertmanager ui：</p>
+
+<p>访问:Prometheus ui</p>
+
+
 <h1 id="关于负载均衡策略"><a href="#关于负载均衡策略" class="headerlink" title="关于负载均衡策略"></a>关于负载均衡策略</h1><p>Nginx提供了多种负载均衡策略，在上面其实已用到过轮询算法。在这里延伸多了解一下其它策略。</p>
 <h2 id="轮询"><a href="#轮询" class="headerlink" title="轮询"></a>轮询</h2><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">upstream</span> bck_testing_01 &#123;</span><br><span class="line">  <span class="comment"># 默认所有服务器权重为 1</span></span><br><span class="line">  <span class="attribute">server</span> <span class="number">192.168.250.220:8080</span></span><br><span class="line">  server <span class="number">192.168.250.221:8080</span></span><br><span class="line">  server <span class="number">192.168.250.222:8080</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -343,7 +345,7 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">94k</span>
+    <span title="站点总字数">93k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">

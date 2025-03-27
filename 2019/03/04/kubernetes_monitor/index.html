@@ -21,36 +21,36 @@
 
     <meta name="description" content="在实际工作中，通过prometheus监控的主要对象有如下几个：  基础设施层：主要是监控k8s节点资源，如CPU,内存,网络吞吐和带宽占用,磁盘I&#x2F;O和磁盘使用等指标； 中间件层：监控产品使用到的中间件（一般会独立部署在外部集群），主要有consul、mysql、nats、redis、haproxy Kubernetes集群：监控Kubernetes集群本身的关键指标 Kubernet">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kubernetes集群监控">
+<meta property="og:title" content="Kubernetes系列：监控组件部署">
 <meta property="og:url" content="http://example.com/2019/03/04/kubernetes_monitor/index.html">
 <meta property="og:site_name" content="liaoxb&#39;s blog">
 <meta property="og:description" content="在实际工作中，通过prometheus监控的主要对象有如下几个：  基础设施层：主要是监控k8s节点资源，如CPU,内存,网络吞吐和带宽占用,磁盘I&#x2F;O和磁盘使用等指标； 中间件层：监控产品使用到的中间件（一般会独立部署在外部集群），主要有consul、mysql、nats、redis、haproxy Kubernetes集群：监控Kubernetes集群本身的关键指标 Kubernet">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image1.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image2.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image3.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image4.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image5.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image6.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image7.png?raw=true">
-<meta property="og:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image8.png?raw=true">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image1.png">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image2.png">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image3.png">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image4.png">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image5.png">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image6.png">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image7.png">
+<meta property="og:image" content="http://example.com/2019/03/04/kubernetes_monitor/image8.png">
 <meta property="article:published_time" content="2019-03-03T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-26T17:02:17.103Z">
+<meta property="article:modified_time" content="2025-03-27T15:20:39.902Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="Kubernetes">
 <meta property="article:tag" content="Prometheus">
 <meta property="article:tag" content="Grafana">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image1.png?raw=true">
+<meta name="twitter:image" content="http://example.com/2019/03/04/kubernetes_monitor/image1.png">
 
 
 <link rel="canonical" href="http://example.com/2019/03/04/kubernetes_monitor/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/03/04/kubernetes_monitor/","path":"2019/03/04/kubernetes_monitor/","title":"Kubernetes集群监控"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2019/03/04/kubernetes_monitor/","path":"2019/03/04/kubernetes_monitor/","title":"Kubernetes系列：监控组件部署"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Kubernetes集群监控 | liaoxb's blog</title>
+<title>Kubernetes系列：监控组件部署 | liaoxb's blog</title>
   
 
 
@@ -162,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-count">15</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -173,7 +173,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -213,12 +213,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="Kubernetes集群监控 | liaoxb's blog">
+      <meta itemprop="name" content="Kubernetes系列：监控组件部署 | liaoxb's blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Kubernetes集群监控
+          Kubernetes系列：监控组件部署
         </h1>
 
         <div class="post-meta-container">
@@ -237,7 +237,7 @@
       </span>
       <span class="post-meta-item-text">分类于</span>
         <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/Kubernetes/" itemprop="url" rel="index"><span itemprop="name">Kubernetes</span></a>
+          <a href="/categories/%E4%BA%91%E5%8E%9F%E7%94%9F/" itemprop="url" rel="index"><span itemprop="name">云原生</span></a>
         </span>
     </span>
 
@@ -303,25 +303,31 @@
 <blockquote>
 <p>prometheus节点ip:32002访问prometheus ui</p>
 </blockquote>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image1.png?raw=true" alt="prometheus节点ip:32002访问prometheus ui"></p>
+<img src="/2019/03/04/kubernetes_monitor/image1.png" class="" title="image">
+
 <blockquote>
 <p>PromQL查询数据</p>
 </blockquote>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image2.png?raw=true" alt="image"></p>
+<img src="/2019/03/04/kubernetes_monitor/image2.png" class="" title="image">
+
 <h3 id="部署Grafana组件"><a href="#部署Grafana组件" class="headerlink" title="部署Grafana组件"></a>部署Grafana组件</h3><h4 id="部署grafana-yaml"><a href="#部署grafana-yaml" class="headerlink" title="部署grafana.yaml"></a>部署grafana.yaml</h4><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#cat grafana.yaml</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Service</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">grafana</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NodePort</span></span><br><span class="line">  <span class="attr">ports:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">port:</span> <span class="number">3000</span></span><br><span class="line">    <span class="attr">targetPort:</span> <span class="number">3000</span></span><br><span class="line">    <span class="attr">nodePort:</span> <span class="number">32003</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">grafana</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">extensions/v1beta1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span></span><br><span class="line">    <span class="attr">app:</span> <span class="string">grafana</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">grafana</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">revisionHistoryLimit:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">app:</span> <span class="string">grafana</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">image:</span> <span class="string">grafana/grafana:4.2.0</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">grafana</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">Always</span></span><br><span class="line">        <span class="attr">ports:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">containerPort:</span> <span class="number">3000</span></span><br><span class="line">        <span class="attr">env:</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">GF_AUTH_BASIC_ENABLED</span></span><br><span class="line">            <span class="attr">value:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">          <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">GF_AUTH_ANONYMOUS_ENABLED</span></span><br><span class="line">            <span class="attr">value:</span> <span class="string">&quot;false&quot;</span></span><br><span class="line">[<span class="string">root@test--0005</span> <span class="string">liaoxb</span>]<span class="comment"># kubectl create -f grafana.yaml</span></span><br><span class="line"><span class="string">service</span> <span class="string">&quot;grafana&quot;</span> <span class="string">created</span></span><br><span class="line"><span class="string">deployment</span> <span class="string">&quot;grafana&quot;</span> <span class="string">created</span></span><br><span class="line">[<span class="string">root@test--0005</span> <span class="string">liaoxb</span>]<span class="comment"># kcs get pods -o wide |grep grafana</span></span><br><span class="line"><span class="string">grafana-f9f5975f8-mv74b</span>               <span class="number">1</span><span class="string">/1</span>       <span class="string">Running</span>   <span class="number">0</span>          <span class="string">24s</span>       <span class="number">10.244</span><span class="number">.1</span><span class="number">.32</span>     <span class="string">test--0006</span></span><br><span class="line">[<span class="string">root@test--0005</span> <span class="string">liaoxb</span>]<span class="comment"># kcs get svc -o wide |grep grafana</span></span><br><span class="line"><span class="string">grafana</span>                <span class="string">NodePort</span>    <span class="number">10.102</span><span class="number">.160</span><span class="number">.34</span>    <span class="string">&lt;none&gt;</span>        <span class="number">3000</span><span class="string">:32003/TCP</span>   <span class="string">42s</span>       <span class="string">app=grafana</span></span><br></pre></td></tr></table></figure>
 
 <p>此时就可以通过grafana节点ip:32003访问grafana web页面，账户密码默认都是admin；</p>
-<h4 id="grafana配置数据源为prometheus"><a href="#grafana配置数据源为prometheus" class="headerlink" title="grafana配置数据源为prometheus"></a>grafana配置数据源为prometheus</h4><p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image3.png?raw=true" alt="image"></p>
+<h4 id="grafana配置数据源为prometheus"><a href="#grafana配置数据源为prometheus" class="headerlink" title="grafana配置数据源为prometheus"></a>grafana配置数据源为prometheus</h4><img src="/2019/03/04/kubernetes_monitor/image3.png" class="" title="image">
+
 <h4 id="导入监控Dashboard"><a href="#导入监控Dashboard" class="headerlink" title="导入监控Dashboard"></a>导入监控Dashboard</h4><p>使用<a target="_blank" rel="noopener" href="https://grafana.com/dashboards/162">Kubernetes cluster monitoring (via Prometheus)</a>这个即可</p>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image4.png?raw=true" alt="https://github.com/liaoxiaobo/Markdown-Resource/blob/master/2019.3.4/image4.png?raw=true"></p>
+<img src="/2019/03/04/kubernetes_monitor/image4.png" class="" title="image">
+
 <h4 id="Dashboard数据展示"><a href="#Dashboard数据展示" class="headerlink" title="Dashboard数据展示"></a>Dashboard数据展示</h4><blockquote>
 <p>主机监控数据展示</p>
 </blockquote>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image5.png?raw=true" alt="image"></p>
+<img src="/2019/03/04/kubernetes_monitor/image5.png" class="" title="image">
+
 <blockquote>
 <p>pod和container数据展示</p>
 </blockquote>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image6.png?raw=true" alt="https://github.com/liaoxiaobo/Markdown-Resource/blob/master/2019.3.4/image6.png?raw=true"></p>
+<img src="/2019/03/04/kubernetes_monitor/image6.png" class="" title="image">
+
 <h3 id="Kubernetes集群上部署应用的监控"><a href="#Kubernetes集群上部署应用的监控" class="headerlink" title="Kubernetes集群上部署应用的监控"></a>Kubernetes集群上部署应用的监控</h3><p>Kubernetes集群上Pod, DaemonSet, Deployment, Job, CronJob等各种资源对象的状态需要监控，这也反映了使用这些资源部署的应用的状态。但通过查看前面Prometheus从k8s集群拉取的指标(这些指标主要来自apiserver和kubelet中集成的cAdvisor)，并没有具体的各种资源对象的状态指标。对于Prometheus来说，当然是需要引入新的exporter来暴露这些指标，Kubernetes提供了一个kube-state-metrics正式我们需要。</p>
 <h4 id="在Kubernetes上部署kube-state-metrics组件"><a href="#在Kubernetes上部署kube-state-metrics组件" class="headerlink" title="在Kubernetes上部署kube-state-metrics组件"></a>在Kubernetes上部署kube-state-metrics组件</h4><p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/kube-state-metrics.git">https://github.com/kubernetes/kube-state-metrics.git</a></p>
 <p>kube-state-metrics&#x2F;kubernetes目录下，有所需要的文件</p>
@@ -333,7 +339,8 @@
 <blockquote>
 <p>查询k8s集群中deploy的个数：</p>
 </blockquote>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image7.png?raw=true" alt="image"></p>
+<img src="/2019/03/04/kubernetes_monitor/image7.png" class="" title="image">
+
 <h3 id="中间件监控"><a href="#中间件监控" class="headerlink" title="中间件监控"></a>中间件监控</h3><p>关于中间件的exporter部署请自行在prometheus项目中查找<br><a target="_blank" rel="noopener" href="https://github.com/prometheus">https://github.com/prometheus</a><br>最主要的关键点是配置好prometheus.yml文件，在configmap中追加如下格式内容：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">consul</span></span><br><span class="line">  <span class="attr">scrape_interval:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">scrape_timeout:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">metrics_path:</span> <span class="string">/metrics</span></span><br><span class="line">  <span class="attr">scheme:</span> <span class="string">http</span></span><br><span class="line">  <span class="attr">static_configs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.111</span><span class="string">:9107</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.155</span><span class="string">:9107</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.251</span><span class="string">:9107</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">haproxy</span></span><br><span class="line">  <span class="attr">scrape_interval:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">scrape_timeout:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">metrics_path:</span> <span class="string">/metrics</span></span><br><span class="line">  <span class="attr">scheme:</span> <span class="string">http</span></span><br><span class="line">  <span class="attr">static_configs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.111</span><span class="string">:9101</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">mysql</span></span><br><span class="line">  <span class="attr">scrape_interval:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">scrape_timeout:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">metrics_path:</span> <span class="string">/metrics</span></span><br><span class="line">  <span class="attr">scheme:</span> <span class="string">http</span></span><br><span class="line">  <span class="attr">static_configs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.111</span><span class="string">:9104</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.155</span><span class="string">:9104</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.251</span><span class="string">:9104</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">nats</span></span><br><span class="line">  <span class="attr">scrape_interval:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">scrape_timeout:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">metrics_path:</span> <span class="string">/metrics</span></span><br><span class="line">  <span class="attr">scheme:</span> <span class="string">http</span></span><br><span class="line">  <span class="attr">static_configs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.111</span><span class="string">:7777</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.155</span><span class="string">:7777</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.251</span><span class="string">:7777</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">job_name:</span> <span class="string">redis</span></span><br><span class="line">  <span class="attr">scrape_interval:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">scrape_timeout:</span> <span class="string">30s</span></span><br><span class="line">  <span class="attr">metrics_path:</span> <span class="string">/metrics</span></span><br><span class="line">  <span class="attr">scheme:</span> <span class="string">http</span></span><br><span class="line">  <span class="attr">static_configs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">targets:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="number">192.168</span><span class="number">.1</span><span class="number">.155</span><span class="string">:9121</span></span><br></pre></td></tr></table></figure>
 
@@ -341,7 +348,8 @@
 <blockquote>
 <p>consul haproxy等中间件采集job</p>
 </blockquote>
-<p><img src="https://github.com/liaoxiaobo/liaoxiaobo.github.io/blob/blog/source/image/prometheus/image8.png?raw=true" alt="image"></p>
+<img src="/2019/03/04/kubernetes_monitor/image8.png" class="" title="image">
+
 <p>部署实践小结：</p>
 <ul>
 <li>至此，我们就能通过grafana能够展示基础设施层、Kubernetes集群自身的监控数据指标，比如cpu、内存、网络IO等（数据采集组件分别是node-exporter、cadvisor）</li>
@@ -369,8 +377,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019/02/05/network-base/" rel="prev" title="网络系列：计算机网络基础">
-                  <i class="fa fa-angle-left"></i> 网络系列：计算机网络基础
+                <a href="/2019/02/10/network-device/" rel="prev" title="网络系列：常用网络设备">
+                  <i class="fa fa-angle-left"></i> 网络系列：常用网络设备
                 </a>
             </div>
             <div class="post-nav-item">
@@ -408,7 +416,7 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">94k</span>
+    <span title="站点总字数">93k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
