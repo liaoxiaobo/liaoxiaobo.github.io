@@ -26,11 +26,19 @@
 <meta property="og:site_name" content="liaoxb&#39;s blog">
 <meta property="og:description" content="上次了解到nginx相关基础知识，这次就趁热打铁，学习亲手搭建一个静态资源的文件服务器。其中会涉及到gzip功能的配置。 搭建目标1、可以成功访问一些静态资源文件（图片、日志文件html等）2、服务器会以gzip压缩的形式返回数据 搭建步骤容器运行nginx，端口映射到本机8080  查看静态资源文件和nginx.conf本地机器上，静态资源全部放在static-web目录下。子目录img存放的是">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2019/01/17/nginx_web/nginx6.jpeg">
+<meta property="og:image" content="http://example.com/2019/01/17/nginx_web/nginx8.png">
+<meta property="og:image" content="http://example.com/2019/01/17/nginx_web/nginx9.png">
+<meta property="og:image" content="http://example.com/2019/01/17/nginx_web/nginx10.png">
+<meta property="og:image" content="http://example.com/2019/01/17/nginx_web/nginx11.png">
+<meta property="og:image" content="http://example.com/2019/01/17/nginx_web/nginx14.jpeg">
+<meta property="og:image" content="http://example.com/2019/01/17/nginx_web/nginx12.png">
 <meta property="article:published_time" content="2019-01-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-27T15:51:10.418Z">
+<meta property="article:modified_time" content="2025-03-27T16:39:02.653Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="Nginx">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2019/01/17/nginx_web/nginx6.jpeg">
 
 
 <link rel="canonical" href="http://example.com/2019/01/17/nginx_web/">
@@ -256,7 +264,7 @@
     
     <div class="post-body" itemprop="articleBody"><p>上次了解到nginx相关基础知识，这次就趁热打铁，学习亲手搭建一个静态资源的文件服务器。其中会涉及到gzip功能的配置。</p>
 <h1 id="搭建目标"><a href="#搭建目标" class="headerlink" title="搭建目标"></a>搭建目标</h1><p>1、可以成功访问一些静态资源文件（图片、日志文件html等）<br>2、服务器会以gzip压缩的形式返回数据</p>
-<h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><h2 id="容器运行nginx，端口映射到本机8080"><a href="#容器运行nginx，端口映射到本机8080" class="headerlink" title="容器运行nginx，端口映射到本机8080"></a>容器运行nginx，端口映射到本机8080</h2>
+<h1 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h1><h2 id="容器运行nginx，端口映射到本机8080"><a href="#容器运行nginx，端口映射到本机8080" class="headerlink" title="容器运行nginx，端口映射到本机8080"></a>容器运行nginx，端口映射到本机8080</h2><img src="/2019/01/17/nginx_web/nginx6.jpeg" class="" title="6.png">
 
 <h2 id="查看静态资源文件和nginx-conf"><a href="#查看静态资源文件和nginx-conf" class="headerlink" title="查看静态资源文件和nginx.conf"></a>查看静态资源文件和nginx.conf</h2><p>本地机器上，静态资源全部放在static-web目录下。<br>子目录img存放的是图片jpg、png，子目录robot-log存放的是每天归档的测试日志报告html。</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">localhost:nginx-test liaoxb$ tree</span><br><span class="line">.</span><br><span class="line">├── nginx.conf</span><br><span class="line">└── static-web</span><br><span class="line">    ├── img</span><br><span class="line">    │   ├── test01.jpg</span><br><span class="line">    │   └── test02.png</span><br><span class="line">    └── robot-log</span><br><span class="line">        ├── 2019-01-16</span><br><span class="line">        │   ├── log.html</span><br><span class="line">        │   ├── output.xml</span><br><span class="line">        │   └── report.html</span><br><span class="line">        └── 2019-01-17</span><br><span class="line">            ├── log.html</span><br><span class="line">            ├── output.xml</span><br><span class="line">            └── report.html</span><br></pre></td></tr></table></figure>
@@ -271,24 +279,24 @@
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">localhost:nginx-test liaoxb$ ll</span><br><span class="line">total 8</span><br><span class="line">drwxr-xr-x   4 liaoxb  staff   128  3  2 22:56 ./</span><br><span class="line">drwxr-xr-x  10 liaoxb  staff   320  3  1 23:28 ../</span><br><span class="line">-rw-r--r--@  1 liaoxb  staff  1404  1 16  2019 nginx.conf</span><br><span class="line">drwxr-xr-x   5 liaoxb  staff   160  1 16  2019 static-web/</span><br><span class="line">localhost:nginx-test liaoxb$ docker <span class="built_in">cp</span> nginx.conf nginx-test:/etc/nginx/</span><br><span class="line">localhost:nginx-test liaoxb$ docker <span class="built_in">cp</span> static-web nginx-test:/usr/share/</span><br><span class="line">localhost:nginx-test liaoxb$ docker restart nginx-test</span><br><span class="line">nginx-test</span><br><span class="line">localhost:nginx-test liaoxb$ docker ps</span><br><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                  NAMES</span><br><span class="line">addfae34988b        nginx               <span class="string">&quot;nginx -g &#x27;daemon of…&quot;</span>   About an hour ago   Up 7 seconds        0.0.0.0:8080-&gt;80/tcp   nginx-test</span><br></pre></td></tr></table></figure>
 
 <h1 id="访问静态资源"><a href="#访问静态资源" class="headerlink" title="访问静态资源"></a>访问静态资源</h1><p>1、域名:8080访问根目录，成功访问nginx默认web页面</p>
-
+<img src="/2019/01/17/nginx_web/nginx8.png" class="" title="8.png">
 <p>2、域名:8080访问&#x2F;img&#x2F;，成功访问目录下的所有图片</p>
-
+<img src="/2019/01/17/nginx_web/nginx9.png" class="" title="9.png">
 <p>3、域名:8080访问&#x2F;robot-log&#x2F;，成功访问目录下的归档日志</p>
-
-
+<img src="/2019/01/17/nginx_web/nginx10.png" class="" title="10.png">
+<img src="/2019/01/17/nginx_web/nginx11.png" class="" title="11.png">
 
 <h2 id="gzip配置详解"><a href="#gzip配置详解" class="headerlink" title="gzip配置详解"></a>gzip配置详解</h2><blockquote>
 <p>Nginx实现资源压缩的原理是通过ngx_http_gzip_module模块拦截请求，并对需要做gzip的类型做gzip，ngx_http_gzip_module是Nginx默认集成的，不需要重新编译，直接开启即可。</p>
 </blockquote>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 开启gzip</span></span><br><span class="line">gzip              on;</span><br><span class="line"><span class="comment"># 启用gzip压缩的最小文件，小于设置值的文件将不会压缩</span></span><br><span class="line">gzip_min_length   1k;</span><br><span class="line"><span class="comment"># 设置压缩所需要的缓冲区大小</span></span><br><span class="line">gzip_buffers      4 16k;</span><br><span class="line"><span class="comment"># 设置gzip压缩针对的HTTP协议版本</span></span><br><span class="line">gzip_http_version 1.1;</span><br><span class="line"><span class="comment"># gzip 压缩级别，1-9，数字越大压缩的越好，也越占用CPU时间，后面会有详细说明</span></span><br><span class="line">gzip_comp_level   3;</span><br><span class="line"><span class="comment"># 进行压缩的文件类型。javascript有多种形式。其中的值可以在 mime.types 文件中找到</span></span><br><span class="line">gzip_types        text/plain application/x-javascript text/css application/xml text/javascript application/javascript image/jpeg image/jpg image/png;</span><br><span class="line">gzip_proxied      any;</span><br><span class="line"><span class="comment"># 是否在http header中添加Vary: Accept-Encoding，建议开启</span></span><br><span class="line">gzip_vary         on;</span><br><span class="line"><span class="comment"># 禁用IE 6 gzip</span></span><br><span class="line">gzip_disable      <span class="string">&quot;MSIE [1-6]\.&quot;</span>;</span><br></pre></td></tr></table></figure>
 
-<h2 id="压缩效果对比"><a href="#压缩效果对比" class="headerlink" title="压缩效果对比"></a>压缩效果对比</h2>
+<h2 id="压缩效果对比"><a href="#压缩效果对比" class="headerlink" title="压缩效果对比"></a>压缩效果对比</h2><img src="/2019/01/17/nginx_web/nginx14.jpeg" class="" title="14.png">
 <p>curl命令直接对比查看：</p>
 <p>第一次curl请求头未带’Accept-Encoding: gzip,deflate’时，服务器不会压缩，直接返回html，从Content-Length也可以看出report.html的size是233340，也就是228kb大小。</p>
 <p>第二次curl请求头带了’Accept-Encoding: gzip,deflate’时，服务器则会进行压缩数据后再返回content，同时response字段也会出现Content-Encoding: gzip，这就证明gzip压缩配置生效了。不过这次的response看不见Content-Length，怎么确定压缩成多少了呢？</p>
 <p>这也很容易，结合着浏览器访问同个web页面查看size就清楚了，压缩后是77.1kb。</p>
-
+<img src="/2019/01/17/nginx_web/nginx12.png" class="" title="12.png">
 
 <p>参考文档：<br><a target="_blank" rel="noopener" href="https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html">https://www.w3cschool.cn/nginx/nginx-d1aw28wa.html</a></p>
 

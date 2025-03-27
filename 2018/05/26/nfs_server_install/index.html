@@ -26,13 +26,13 @@
 <meta property="og:site_name" content="liaoxb&#39;s blog">
 <meta property="og:description" content="nfs-server-installNFS 是Network File System的缩写，即网络文件系统。功能是通过网络让不同的机器、不同的操作系统能够彼此分享个别的数据，让应用程序在客户端通过网络访问位于服务器磁盘中的数据，是在类Unix系统间实现磁盘文件共享的一种方法。NFS在文件传送或信息传送过程中依赖于RPC协议。所以只要用到NFS的地方都要启动RPC服务，不论是NFS SERVER或者">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/image/nfs01.png">
+<meta property="og:image" content="http://example.com/2018/05/26/nfs_server_install/nfs01.png">
 <meta property="article:published_time" content="2018-05-25T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-27T16:06:30.834Z">
+<meta property="article:modified_time" content="2025-03-27T16:36:24.191Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="NFS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/image/nfs01.png">
+<meta name="twitter:image" content="http://example.com/2018/05/26/nfs_server_install/nfs01.png">
 
 
 <link rel="canonical" href="http://example.com/2018/05/26/nfs_server_install/">
@@ -261,7 +261,8 @@
 <p>一、安装NFS-Server</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpm -qa|grep nfs <span class="comment">#检查系统是否已安装NFS</span></span><br><span class="line">yum install nfs-utils -y <span class="comment">#客户端和服务端都要安装</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/../image/nfs01.png" alt="image"></p>
+<img src="/2018/05/26/nfs_server_install/nfs01.png" class="" title="image">
+
 <p>二、服务端配置启动NFS</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir /var/nfsshare </span><br><span class="line">vim /etc/exports #配置共享目录供客户端集群以读写权限访问</span><br><span class="line">systemctl start nfs</span><br><span class="line">showmount -e localhost //查询NFS的共享状态</span><br><span class="line"></span><br><span class="line">[root@test--0004 ~]# showmount -e 192.168.1.28</span><br><span class="line">Export list for 192.168.1.28:</span><br><span class="line">/var/nfsshare2 *</span><br><span class="line">/var/nfsshare *</span><br></pre></td></tr></table></figure>
 
