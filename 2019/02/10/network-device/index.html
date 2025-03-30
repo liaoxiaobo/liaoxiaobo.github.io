@@ -27,7 +27,7 @@
 <meta property="og:description" content="网络设备   设备 工作层级 功能    集线器 L1 广播数据包到所有端口，无智能过滤   交换机 L2 基于 MAC 地址对数据帧进行转发，支持 VLAN 划分   路由器 L3 基于 IP 地址路由数据包（Packet），隔离广播域，支持 NAT 和防火墙   三层交换机 L3 结合交换机和路由器的功能，高速转发并支持路由策略   交换机工作原理交换机根据每个端口接收到的数据帧源地址进行MA">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2019-02-10T12:41:20.000Z">
-<meta property="article:modified_time" content="2025-03-27T14:51:28.727Z">
+<meta property="article:modified_time" content="2025-03-30T11:36:29.391Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="网络设备">
 <meta name="twitter:card" content="summary">
@@ -138,7 +138,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">网络设备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC%E5%9C%B0%E5%9D%80%E8%A1%A8%E5%BB%BA%E7%AB%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">MAC地址表建立过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.2.</span> <span class="nav-text">三层交换机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E5%8D%A1"><span class="nav-number">1.3.</span> <span class="nav-text">网卡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E5%8D%A1Bond"><span class="nav-number">1.3.1.</span> <span class="nav-text">网卡Bond</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">常见面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84VLAN%E6%80%8E%E4%B9%88%E5%88%92%E5%88%86%E7%9A%84"><span class="nav-number">2.1.</span> <span class="nav-text">交换机的VLAN怎么划分的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E5%92%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">路由器和交换机区别</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87"><span class="nav-number">1.</span> <span class="nav-text">网络设备</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.1.</span> <span class="nav-text">交换机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">1.1.1.</span> <span class="nav-text">工作原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAC-%E5%9C%B0%E5%9D%80%E8%A1%A8%E5%BB%BA%E7%AB%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.2.</span> <span class="nav-text">MAC 地址表建立过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E4%BA%A4%E6%8D%A2%E6%9C%BA"><span class="nav-number">1.1.3.</span> <span class="nav-text">三层交换机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E5%8D%A1Bond"><span class="nav-number">1.2.</span> <span class="nav-text">网卡Bond</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">常见问题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%9C%BA%E7%9A%84VLAN%E6%80%8E%E4%B9%88%E5%88%92%E5%88%86%E7%9A%84"><span class="nav-number">2.1.</span> <span class="nav-text">交换机的VLAN怎么划分的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%BD%91%E6%AE%B5%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E9%80%9A%E4%BF%A1"><span class="nav-number">2.2.</span> <span class="nav-text">不同网段如何实现通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8%E5%92%8C%E4%BA%A4%E6%8D%A2%E6%9C%BA%E5%8C%BA%E5%88%AB"><span class="nav-number">2.3.</span> <span class="nav-text">路由器和交换机区别</span></a></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -283,10 +283,10 @@
 <td>结合交换机和路由器的功能，高速转发并支持路由策略</td>
 </tr>
 </tbody></table>
-<h2 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a><strong>交换机</strong></h2><h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a><strong>工作原理</strong></h3><p>交换机根据每个<strong>端口</strong>接收到的数据帧源地址进行<strong>MAC地址学习</strong>，内部维护一张<strong>MAC地址表</strong>。在后续的通讯中，发往特定MAC地址的数据包仅被转发至该MAC地址对应的端口，而非所有端口。</p>
-<h3 id="MAC地址表建立过程"><a href="#MAC地址表建立过程" class="headerlink" title="MAC地址表建立过程"></a><strong>MAC地址表建立过程</strong></h3><p>初始状态下，交换机的MAC地址表为空。</p>
+<h2 id="交换机"><a href="#交换机" class="headerlink" title="交换机"></a><strong>交换机</strong></h2><h3 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h3><p>交换机根据每个<strong>端口</strong>接收到的数据帧源地址进行<strong>MAC地址学习</strong>，内部维护一张<strong>MAC地址表</strong>。在后续的通讯中，发往特定MAC地址的数据包仅被转发至该MAC地址对应的端口，而非所有端口。</p>
+<h3 id="MAC-地址表建立过程"><a href="#MAC-地址表建立过程" class="headerlink" title="MAC 地址表建立过程"></a><strong>MAC 地址表建立过程</strong></h3><p>初始状态下，交换机的MAC地址表为空。</p>
 <ol>
-<li><strong>接收数据包</strong>：交换机从其端口接收数据包，交换机会检查数据包的头部信息（包括源MAC和IP地址、目的MAC和IP地址）。同时将源MAC地址和对应端口编号记录到MAC地址表中</li>
+<li><strong>接收数据包</strong>：交换机从某个端口接收数据包，交换机会检查数据包的头部信息（包括源MAC和IP地址、目的MAC和IP地址）。同时将源MAC地址和其端口号记录到MAC地址表中</li>
 <li><strong>查看MAC地址表</strong><ul>
 <li><strong>找到目的MAC</strong> -&gt; 交换机对数据包进行端口<strong>转发</strong></li>
 <li><strong>未找到目的MAC</strong> -&gt; 交换机会<strong>泛洪</strong>数据包，所有主机均会收到该数据包（除了接收端口）</li>
@@ -298,21 +298,18 @@
 </ul>
 </li>
 </ol>
-<blockquote>
-<p>PS：在网络管理员已知某些设备的MAC地址和端口的情况下，可以手动配置静态MAC地址表条目，避免交换机进行广播查找。</p>
-</blockquote>
-<h2 id="三层交换机"><a href="#三层交换机" class="headerlink" title="三层交换机"></a><strong>三层交换机</strong></h2><p>三层交换机（L3 Switch）通过引入路由功能，用于连接局域网中的不同网段，通过对缺省网关的查询学习来建立两个网段之间的直接连接。</p>
-<p>三层交换机在对第一个数据包进行路由后，它将会产生一个MAC地址与IP地址的映射表，当同样的数据包再次通过时，将根据此表直接通过二层交换转发。</p>
-<p>假设两个使用IP协议的主机A、B通过三层交换机进行通信，主机A在开始发送时，把自己的IP地址与主机B的IP地址比较，判断主机B是否与自己在同一子网内。</p>
-<ul>
-<li>若两个主机在同一子网内，则直接进行二层的转发。</li>
-<li>若两个主机不在同一子网内，主机A要向“默认网关”的IP地址广播出一个ARP请求，“默认网关”的IP地址其实是三层交换机的三层交换模块。<ul>
-<li>如果三层交换模块在以前的通信过程中已经知道主机B的MAC地址，则向主机A回复B的MAC地址。</li>
-<li>如果三层交换模块不知道主机B的MAC地址，三层交换模块根据路由信息向主机B广播一个ARP请求，主机B得到此ARP请求后向三层交换模块回复其MAC地址，三层交换模块保存此地址并回复给主机A,同时将主机B的MAC地址发送到二层交换引擎的MAC地址表中。从这以后，当A向B发送的数据包便全部交给二层交换处理，信息得以高速交换。</li>
+<h3 id="三层交换机"><a href="#三层交换机" class="headerlink" title="三层交换机"></a><strong>三层交换机</strong></h3><p>三层交换机（L3 Switch）可以处理网络层协议，通过对缺省网关的查询学习来建立局域网（如企业内网、校园网）不同网段的直接连接。</p>
+<p><strong>首次路由与后续转发</strong></p>
+<ol>
+<li>当主机A与不同子网的主机B通信时，三层交换机需要通过缺省网关进行路由决策：<ul>
+<li>主机A发送ARP请求到缺省网关（三层交换机的IP）。</li>
+<li>交换机查询路由表找到目标网段的下一跳地址，并通过ARP广播获取主机B的MAC地址。</li>
 </ul>
 </li>
-</ul>
-<h2 id="网卡"><a href="#网卡" class="headerlink" title="网卡"></a>网卡</h2><h3 id="网卡Bond"><a href="#网卡Bond" class="headerlink" title="网卡Bond"></a>网卡Bond</h3><p>所谓bond，就是把多个物理网卡绑定成一个逻辑上的网卡，使用同一个IP工作，有时服务器带宽不够了也可以用作增加带宽。</p>
+<li>交换机将IP地址与MAC地址的映射记录到转发表（如FIB表和邻接表），并更新二层MAC地址表。</li>
+<li>当数据包再次到达交换机后，直接通过二层转发（MAC地址表），无需重复路由，再次拆包分析IP地址（即“直接连接”）。</li>
+</ol>
+<h2 id="网卡Bond"><a href="#网卡Bond" class="headerlink" title="网卡Bond"></a>网卡Bond</h2><p>所谓bond，就是把多个物理网卡绑定成一个逻辑上的网卡，使用同一个IP工作，有时服务器带宽不够了也可以用作增加带宽。</p>
 <p>借助于网卡bond技术，不仅可以提高网络传输速度，更重要的是，还可以确保在其中一块网卡出现故障时，依然可以正常提供网络服务。</p>
 <p>网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6。常用的有三种：</p>
 <ul>
@@ -338,21 +335,42 @@
 <p>3.<strong>重启网络验证</strong></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@master01 ~]# systemctl restart network</span><br><span class="line"></span><br><span class="line">[root@master01 ~]# ip a |grep storagepub</span><br><span class="line">11: p4p2: &lt;BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP&gt; mtu 1500 qdisc mq master storagepub state UP group default qlen 1000</span><br><span class="line">19: storagepub: &lt;BROADCAST,MULTICAST,MASTER,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default qlen 1000</span><br><span class="line">    inet 172.22.88.177/24 brd 172.22.88.255 scope global noprefixroute storagepub</span><br></pre></td></tr></table></figure>
 
-<h1 id="常见面试题"><a href="#常见面试题" class="headerlink" title="常见面试题"></a>常见面试题</h1><h2 id="交换机的VLAN怎么划分的"><a href="#交换机的VLAN怎么划分的" class="headerlink" title="交换机的VLAN怎么划分的"></a>交换机的VLAN怎么划分的</h2><p>为了解决广播域带来的问题，引入了VLAN (Virtual Local Area Network)，即虚拟局域网技术：</p>
-<p>通过在交换机上部署VLAN，可以将一个规模较大的广播域在逻辑上划分成若干个不同的、规模较小的广播域，由此可以有效地提升网络的安全性，同时减少垃圾流量，节约网络资源。</p>
-<p>每个VLAN是一个独立的广播域，VLAN内的设备可以相互通信，而不同VLAN之间的设备不能直接通信（除非通过三层设备进行路由）。</p>
+<h1 id="常见问题"><a href="#常见问题" class="headerlink" title="常见问题"></a>常见问题</h1><h2 id="交换机的VLAN怎么划分的"><a href="#交换机的VLAN怎么划分的" class="headerlink" title="交换机的VLAN怎么划分的"></a>交换机的VLAN怎么划分的</h2><p>为了解决广播域带来的问题，引入了VLAN (Virtual Local Area Network)，即虚拟局域网技术：</p>
+<p>通过在交换机上部署VLAN，可以将一个规模较大的广播域在逻辑上划分成若干个规模较小的广播域，由此可以有效地提升网络的安全性，同时减少垃圾流量，节约网络资源。</p>
+<p>每个VLAN网络（子网）是一个独立的广播域，VLAN内的设备可以相互通信，而不同VLAN之间的设备默认不能直接通信，必须通过三层设备（如路由器或三层交换机）进行路由才能互通。</p>
 <p>划分VLAN的方法有多种，常见的包括：</p>
 <ul>
 <li><strong>基于端口划分（常用）</strong>：将交换机的端口分配到不同的VLAN中。例如，将端口1和2分配到VLAN10，端口3和4分配到VLAN20。</li>
 <li><strong>基于MAC地址划分</strong>：根据设备的MAC地址将设备分配到不同的VLAN中。</li>
 <li><strong>基于IP子网划分</strong>：根据设备的IP地址和子网掩码来划分VLAN。</li>
-<li><strong>基于协议划分</strong>：根据设备使用的协议类型来划分VLAN</li>
+<li><strong>基于协议划分</strong>：根据设备使用的协议类型来划分VLAN。</li>
 </ul>
-<h2 id="路由器和交换机区别"><a href="#路由器和交换机区别" class="headerlink" title="路由器和交换机区别"></a>路由器和交换机区别</h2><p>（1）外形上：<br>交换机通常端口比较多，而路由器的端口比较少</p>
-<p>（2）工作层次不同：<br>交换机一般工作在数据链路层，而路由器则工作在网络层</p>
-<p>（3）数据的转发对象不同：<br>交换机是根据MAC地址转发数据帧，而路由器则是根据IP地址来转发IP数据报&#x2F;分组。</p>
-<p>（4）”分工“不同<br>交换机主要是用于组建局域网，而路由器则是负责让主机连接外网。</p>
-<p>（5）冲突域和广播域<br>交换机分割冲突域，但是不分割广播域，而路由器分割广播域。</p>
+<h2 id="不同网段如何实现通信"><a href="#不同网段如何实现通信" class="headerlink" title="不同网段如何实现通信"></a>不同网段如何实现通信</h2><p>不同网段的设备需要通过 <strong>路由设备</strong> 实现通信，具体流程如下：</p>
+<ol>
+<li>主机A（192.168.1.10）向主机B（192.168.2.20）发送数据包：<ul>
+<li>主机A发现目标IP不在同一网段，因此将数据包的目标MAC地址设为 <strong>默认网关</strong>（如L3交换机的IP 192.168.1.1）。</li>
+</ul>
+</li>
+<li>三层交换机接收数据包：<ul>
+<li>根据目标IP 192.168.2.20 查询路由表，找到下一跳接口（如连接192.168.2.0网段的端口）。</li>
+<li>发送 <strong>ARP请求</strong> 到目标网段，获取主机B的MAC地址。</li>
+</ul>
+</li>
+<li>转发数据包：<ul>
+<li>L3交换机将数据包的目标MAC改为主机B的MAC，源MAC改为自己的接口MAC，然后通过二层转发到目标网段。</li>
+</ul>
+</li>
+<li>后续通信优化：<ul>
+<li>三层交换机会缓存 IP-MAC映射 和 路由路径，后续数据包直接通过二层转发，无需重复路由。</li>
+</ul>
+</li>
+</ol>
+<h2 id="路由器和交换机区别"><a href="#路由器和交换机区别" class="headerlink" title="路由器和交换机区别"></a>路由器和交换机区别</h2><ol>
+<li>交换机一般工作在数据链路层，而路由器则工作在网络层。</li>
+<li>路由器可连接超过两个以上不同的网络，而交換机只能连接两个。</li>
+<li>交换机是根据MAC地址转发数据帧，而路由器则是根据IP地址来转发IP数据包&#x2F;分组。</li>
+<li>交换机主要是用于组建局域网，而路由器则更多用于广域网（WAN）或异构网络互联。</li>
+</ol>
 
     </div>
 
