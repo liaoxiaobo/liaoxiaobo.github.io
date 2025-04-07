@@ -1,6 +1,6 @@
 ---
 title: Kubernetes系列：kubeadm部署K8S集群v1.16.4
-date:  2019-12-01
+date: 2019-12-01
 categories:
   - 云原生
 tags:
