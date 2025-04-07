@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Python 面试题数据结构列举 Python 中的基本数据结构   数据结构 特点 应用场景    列表 有序、可变、允许重复元素 动态存储异构数据（如同时存储整数、字符串等）   元组 有序、不可变、允许重复元素 存储固定数据（如坐标、配置参数），比列表更节省内存   字典 无序（Python 3.7+ 有序）、可变、键值对（key: value） 快速通过键查找值（如用户信息映射）   集合">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python面试问题汇总">
+<meta property="og:url" content="http://example.com/2020/01/22/python-interview/index.html">
+<meta property="og:site_name" content="liaoxb&#39;s blog">
+<meta property="og:description" content="Python 面试题数据结构列举 Python 中的基本数据结构   数据结构 特点 应用场景    列表 有序、可变、允许重复元素 动态存储异构数据（如同时存储整数、字符串等）   元组 有序、不可变、允许重复元素 存储固定数据（如坐标、配置参数），比列表更节省内存   字典 无序（Python 3.7+ 有序）、可变、键值对（key: value） 快速通过键查找值（如用户信息映射）   集合">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-01-22T12:30:10.000Z">
+<meta property="article:modified_time" content="2025-04-07T17:30:39.692Z">
+<meta property="article:author" content="liaoxb">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2020/01/22/python-interview/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2020/01/22/python-interview/","path":"2020/01/22/python-interview/","title":"Python面试问题汇总"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Python面试问题汇总 | liaoxb's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">liaoxb's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">Python 面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E4%B8%BE-Python-%E4%B8%AD%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">列举 Python 中的基本数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2-%E2%80%9Cilovechina%E2%80%9D-%E8%BF%9B%E8%A1%8C%E5%8F%8D%E8%BD%AC"><span class="nav-number">1.1.2.</span> <span class="nav-text">如何将字符串 “ilovechina” 进行反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86-%E2%80%9C1-2-3%E2%80%9D-%E5%88%86%E5%89%B2%E6%88%90-%E2%80%9C1%E2%80%9D-%E2%80%9D2%E2%80%9D-%E2%80%9D3%E2%80%9D-%EF%BC%9F"><span class="nav-number">1.1.3.</span> <span class="nav-text">如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%96%B9%E5%BC%8F%E4%BD%A0%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.1.4.</span> <span class="nav-text">Python 中的字符串格式化方式你知道哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%85%83%E7%B4%A0%E6%80%8E%E4%B9%88%E5%8E%BB%E9%87%8D"><span class="nav-number">1.1.5.</span> <span class="nav-text">列表元素怎么去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%88%97%E8%A1%A8%E6%80%8E%E4%B9%88%E8%BD%AC%E6%88%90%E5%AD%97%E5%85%B8"><span class="nav-number">1.1.6.</span> <span class="nav-text">两个列表怎么转成字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.7.</span> <span class="nav-text">如何合并两个列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B-sort-%E5%92%8C-sorted-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.8.</span> <span class="nav-text">举例 sort 和 sorted 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E6%93%8D%E4%BD%9C%E4%B8%AD-del-%E5%92%8C-pop-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.1.9.</span> <span class="nav-text">字典操作中 del 和 pop 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%AD%97%E5%85%B8"><span class="nav-number">1.1.10.</span> <span class="nav-text">如何合并两个字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8A%8A-%E5%85%83%E7%BB%84-%E2%80%9Ca%E2%80%9D-%E2%80%9Db%E2%80%9D-%E5%92%8C-%E5%85%83%E7%BB%84-1-2-%EF%BC%8C%E5%8F%98%E4%B8%BA%E5%AD%97%E5%85%B8-%E2%80%9Ca%E2%80%9D-1-%E2%80%9Db%E2%80%9D-2-%EF%BC%9F"><span class="nav-number">1.1.11.</span> <span class="nav-text">如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%E5%86%99%E6%B3%95%E5%92%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.12.</span> <span class="nav-text">三元运算写法和应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">文件处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%AF%BB%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E4%BD%BF%E7%94%A8-read%E3%80%81readline-%E6%88%96%E8%80%85-readlines%EF%BC%8C%E7%AE%80%E8%BF%B0%E5%AE%83%E4%BB%AC%E5%90%84%E8%87%AA%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E5%AD%97%E5%85%B8%E5%92%8C-json-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.2.</span> <span class="nav-text">Python 字典和 json 字符串相互转化方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">高级特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%A3%85%E9%A5%B0%E5%99%A8%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F%E8%AF%B7%E5%88%97%E4%B8%BE%E8%AF%B4%E6%98%8E"><span class="nav-number">1.3.1.</span> <span class="nav-text">函数装饰器有什么作用？请列举说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0-classmethod-%E5%92%8C-staticmethod-%E7%94%A8%E6%B3%95%E5%92%8C%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.2.</span> <span class="nav-text">简述 @classmethod 和 @staticmethod 用法和区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%A0%E4%BA%86%E8%A7%A3-Python-%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%B0%84%E5%90%97%EF%BC%9F"><span class="nav-number">1.3.3.</span> <span class="nav-text">你了解 Python 中的反射吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-%E5%92%8C-deepcopy-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.4.</span> <span class="nav-text">copy 和 deepcopy 的区别是什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE"><span class="nav-number">1.4.</span> <span class="nav-text">算法题目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%BE%93%E5%87%BA-1-100-%E4%B9%8B%E9%97%B4%E7%9A%84%E6%89%80%E6%9C%89%E5%81%B6%E6%95%B0"><span class="nav-number">1.4.1.</span> <span class="nav-text">一行代码输出 1-100 之间的所有偶数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E5%86%99%E4%B8%80%E4%B8%AA-Python-%E9%80%BB%E8%BE%91%EF%BC%8C%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E5%A4%A7%E5%86%99%E5%AD%97%E6%AF%8D%E6%95%B0%E9%87%8F%E3%80%82"><span class="nav-number">1.4.2.</span> <span class="nav-text">请写一个 Python 逻辑，计算一个文件中的大写字母数量。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%E8%BE%93%E5%87%BAN%E5%88%86%E9%92%9F%E3%80%81%E5%B0%8F%E6%97%B6%E5%90%8E%E7%9A%84%E6%97%B6%E9%97%B4"><span class="nav-number">1.4.3.</span> <span class="nav-text">根据当前时间输出N分钟、小时后的时间</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">liaoxb</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/01/22/python-interview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Python面试问题汇总 | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python面试问题汇总
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-01-22 20:30:10" itemprop="dateCreated datePublished" datetime="2020-01-22T20:30:10+08:00">2020-01-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>4.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>4 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="Python-面试题"><a href="#Python-面试题" class="headerlink" title="Python 面试题"></a>Python 面试题</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="列举-Python-中的基本数据结构"><a href="#列举-Python-中的基本数据结构" class="headerlink" title="列举 Python 中的基本数据结构"></a>列举 Python 中的基本数据结构</h3><table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>特点</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>列表</strong></td>
+<td>有序、可变、允许重复元素</td>
+<td>动态存储异构数据（如同时存储整数、字符串等）</td>
+</tr>
+<tr>
+<td><strong>元组</strong></td>
+<td>有序、不可变、允许重复元素</td>
+<td>存储固定数据（如坐标、配置参数），比列表更节省内存</td>
+</tr>
+<tr>
+<td><strong>字典</strong></td>
+<td>无序（Python 3.7+ 有序）、可变、键值对（key: value）</td>
+<td>快速通过键查找值（如用户信息映射）</td>
+</tr>
+<tr>
+<td><strong>集合</strong></td>
+<td>无序、不可变元素、唯一性（自动去重）</td>
+<td>数学集合运算（交集、并集）、快速成员判断</td>
+</tr>
+<tr>
+<td><strong>字符串</strong></td>
+<td>有序、不可变、字符序列</td>
+<td>文本处理、格式化输出</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>基本结构通常指列表、元组、字典、集合，而字符串可能作为序列类型单独列出</p>
+</blockquote>
+<h3 id="如何将字符串-“ilovechina”-进行反转"><a href="#如何将字符串-“ilovechina”-进行反转" class="headerlink" title="如何将字符串 “ilovechina” 进行反转"></a>如何将字符串 “ilovechina” 进行反转</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&#x27;ilovechina&#x27;</span></span><br><span class="line">s = s[::-<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何将-“1-2-3”-分割成-“1”-”2”-”3”-？"><a href="#如何将-“1-2-3”-分割成-“1”-”2”-”3”-？" class="headerlink" title="如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？"></a>如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&quot;1,2,3&quot;</span></span><br><span class="line">stdout = s.split(<span class="string">&#x27;,&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Python-中的字符串格式化方式你知道哪些？"><a href="#Python-中的字符串格式化方式你知道哪些？" class="headerlink" title="Python 中的字符串格式化方式你知道哪些？"></a>Python 中的字符串格式化方式你知道哪些？</h3><p>Python3.6之后的版本提供了三种字符串格式化的方式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1. %s占位符</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">name</span>):</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;hello %s&#x27;</span> % name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. format() </span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">name</span>):</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;hello &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.f-string</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">name</span>):</span><br><span class="line">  <span class="keyword">return</span> <span class="string">f&#x27;hello <span class="subst">&#123;name&#125;</span>&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="列表元素怎么去重"><a href="#列表元素怎么去重" class="headerlink" title="列表元素怎么去重"></a>列表元素怎么去重</h3><p>自己动手写函数实现（保留原顺序）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">old_list = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">new_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> old_list:</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> new_list:</span><br><span class="line">        new_list.append(i)</span><br><span class="line"><span class="built_in">print</span>(new_list) <span class="comment"># [2, 3, 4, 5, 1]</span></span><br></pre></td></tr></table></figure>
+
+<p>用字典dict去重（保留原顺序）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用list元素值创建一个dict，这将自动删除任何重复项</span></span><br><span class="line">old_list = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">new_list = <span class="built_in">list</span>(<span class="built_in">dict</span>.fromkeys(old_list))</span><br><span class="line"><span class="built_in">print</span>(new_list) <span class="comment"># [2, 3, 4, 5, 1]</span></span><br></pre></td></tr></table></figure>
+
+<p>使用sort函数来去重（保留原顺序）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lst1 = [<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">1</span>]</span><br><span class="line">lst2.sort(key=lst1.index)</span><br><span class="line"><span class="built_in">print</span>(lst2)    <span class="comment"># [2, 1, 3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<p>使用内置set方法（不保证原顺序）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将list转化为set再转化为list</span></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br><span class="line">list2 = <span class="built_in">list</span>(<span class="built_in">set</span>(list1))</span><br><span class="line"><span class="built_in">print</span>(list2)    <span class="comment"># &#123;1, 2, 3, 4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="两个列表怎么转成字典"><a href="#两个列表怎么转成字典" class="headerlink" title="两个列表怎么转成字典"></a>两个列表怎么转成字典</h3><ul>
+<li>动手写一个函数</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;age&#x27;</span>, <span class="string">&#x27;sex&#x27;</span>]</span><br><span class="line">list2 = [<span class="string">&#x27;张三&#x27;</span>, <span class="number">18</span>, <span class="string">&#x27;男&#x27;</span>]</span><br><span class="line"><span class="built_in">dict</span> = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list1)):</span><br><span class="line">    <span class="built_in">dict</span>[list1[i]] = list2[i]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">dict</span>, <span class="built_in">type</span>(<span class="built_in">dict</span>)) <span class="comment"># &#123;&#x27;name&#x27;: &#x27;张三&#x27;, &#x27;age&#x27;: 18, &#x27;sex&#x27;: &#x27;男&#x27;&#125; &lt;class &#x27;dict&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>使用内置函数zip</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">list1 = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;age&#x27;</span>, <span class="string">&#x27;sex&#x27;</span>]</span><br><span class="line">list2 = [<span class="string">&#x27;张三&#x27;</span>, <span class="number">18</span>, <span class="string">&#x27;男&#x27;</span>]</span><br><span class="line">d = <span class="built_in">dict</span>(<span class="built_in">zip</span>(list1, list2))</span><br><span class="line"><span class="built_in">print</span>(d)    <span class="comment"># &#123;&#x27;name&#x27;: &#x27;张三&#x27;, &#x27;age&#x27;: 18, &#x27;sex&#x27;: &#x27;男&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="如何合并两个列表"><a href="#如何合并两个列表" class="headerlink" title="如何合并两个列表"></a>如何合并两个列表</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">9</span>]</span><br><span class="line">b = [<span class="number">2</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">8</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1</span></span><br><span class="line">a.extend(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2</span></span><br><span class="line">a[<span class="number">0</span>:<span class="number">0</span>] = b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法3</span></span><br><span class="line">a += b</span><br></pre></td></tr></table></figure>
+
+<h3 id="举例-sort-和-sorted-的区别"><a href="#举例-sort-和-sorted-的区别" class="headerlink" title="举例 sort 和 sorted 的区别"></a>举例 sort 和 sorted 的区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort()与sorted()的不同在于，sort是在原位重新排列列表，而sorted()是产生一个新的列表</span><br></pre></td></tr></table></figure>
+
+<h3 id="字典操作中-del-和-pop-有什么区别？"><a href="#字典操作中-del-和-pop-有什么区别？" class="headerlink" title="字典操作中 del 和 pop 有什么区别？"></a>字典操作中 del 和 pop 有什么区别？</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">del 操作删除键值对，不返回值；</span><br><span class="line">pop 操作删除键值对的同时，返回键所对应的值。</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何合并两个字典"><a href="#如何合并两个字典" class="headerlink" title="如何合并两个字典"></a>如何合并两个字典</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># python3合并字典有三种方式</span></span><br><span class="line"><span class="comment"># 1.</span></span><br><span class="line">a = &#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">1</span>,<span class="string">&#x27;b&#x27;</span>:<span class="number">2</span>&#125;</span><br><span class="line">b = &#123;<span class="string">&#x27;c&#x27;</span>:<span class="number">3</span>,<span class="string">&#x27;d&#x27;</span>:<span class="number">4</span>&#125;</span><br><span class="line">c = &#123;&#125;</span><br><span class="line">c.update(a)</span><br><span class="line">c.update(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.</span></span><br><span class="line">c = <span class="built_in">dict</span>(a,**b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.</span></span><br><span class="line">c = &#123;**a,**b&#125; <span class="comment"># 官方推荐这种方式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="如何把-元组-“a”-”b”-和-元组-1-2-，变为字典-“a”-1-”b”-2-？"><a href="#如何把-元组-“a”-”b”-和-元组-1-2-，变为字典-“a”-1-”b”-2-？" class="headerlink" title="如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？"></a>如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = (<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">b = (<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">z = <span class="built_in">zip</span>(a,b)</span><br><span class="line">c = <span class="built_in">dict</span>(z)</span><br></pre></td></tr></table></figure>
+
+<h3 id="三元运算写法和应用场景"><a href="#三元运算写法和应用场景" class="headerlink" title="三元运算写法和应用场景"></a>三元运算写法和应用场景</h3><p>三元运算符的作用就是判断，可以理解为if条件判断的简化版。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">条件语句比较简单时可以使用三元运算符，最常见的就是 </span><br><span class="line">res = &#x27;test True&#x27; if expression is True else &#x27;test False&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h2><h3 id="在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用"><a href="#在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用" class="headerlink" title="在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用"></a>在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用</h3><p>read将整个文本都读取为一个字符串，占用内存大，readline读取为一个生成器，支持遍历和迭代，占用空间小。</p>
+<p>readlines将文本读取为列表，占用空间大。</p>
+<h3 id="Python-字典和-json-字符串相互转化方法"><a href="#Python-字典和-json-字符串相互转化方法" class="headerlink" title="Python 字典和 json 字符串相互转化方法"></a>Python 字典和 json 字符串相互转化方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">json.dumps()   将Python中的对象转换为JSON中的字符串对象</span><br><span class="line">json.loads()   将JSON中的字符串对象转换为Python中的对象</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h3 id="函数装饰器有什么作用？请列举说明"><a href="#函数装饰器有什么作用？请列举说明" class="headerlink" title="函数装饰器有什么作用？请列举说明"></a>函数装饰器有什么作用？请列举说明</h3><p>函数装饰器可以在不修改原函数的条件下，为原函数添加额外的功能，例如记录日志，运行性能，缓存等</p>
+<h3 id="简述-classmethod-和-staticmethod-用法和区别"><a href="#简述-classmethod-和-staticmethod-用法和区别" class="headerlink" title="简述 @classmethod 和 @staticmethod 用法和区别"></a>简述 @classmethod 和 @staticmethod 用法和区别</h3><table>
+<thead>
+<tr>
+<th><strong>对比项</strong></th>
+<th><strong><code>@classmethod</code></strong></th>
+<th><strong><code>@staticmethod</code></strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>参数</strong></td>
+<td>必须有 <code>cls</code>（类本身）</td>
+<td>无特殊参数，类似普通函数</td>
+</tr>
+<tr>
+<td><strong>访问权限</strong></td>
+<td>可访问&#x2F;修改类属性</td>
+<td>无法访问类或实例属性</td>
+</tr>
+<tr>
+<td><strong>依赖性</strong></td>
+<td>依赖类的上下文</td>
+<td>与类或实例无关</td>
+</tr>
+<tr>
+<td><strong>典型用途</strong></td>
+<td>工厂方法（替代构造函数来创建对象）、操作类属性、多态场景</td>
+<td>工具函数、逻辑相关但独立的功能</td>
+</tr>
+<tr>
+<td><strong>调用灵活性</strong></td>
+<td>推荐通过类名调用</td>
+<td>推荐通过类名调用</td>
+</tr>
+</tbody></table>
+<h3 id="你了解-Python-中的反射吗？"><a href="#你了解-Python-中的反射吗？" class="headerlink" title="你了解 Python 中的反射吗？"></a>你了解 Python 中的反射吗？</h3><p>通过字符串映射object对象的方法或者属性</p>
+<ol>
+<li>hasattr(obj,name_str): 判断objec是否有name_str这个方法或者属性</li>
+<li>getattr(obj,name_str): 获取object对象中与name_str同名的方法或者函数</li>
+<li>setattr(obj,name_str,value): 为object对象设置一个以name_str为名的value方法或者属性</li>
+<li>delattr(obj,name_str): 删除object对象中的name_str方法或者属性</li>
+</ol>
+<p>举个栗子</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Http</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.get(url)</span><br><span class="line">        response = res.text</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.post(url)</span><br><span class="line">        response = res.text</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用反射后</span></span><br><span class="line">url = <span class="string">&quot;https://www.jianshu.com/u/14140bf8f6c7&quot;</span></span><br><span class="line">method = <span class="built_in">input</span>(<span class="string">&quot;请求方法&gt;&gt;&gt;:&quot;</span>)</span><br><span class="line">h = Http()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">hasattr</span>(h,method):</span><br><span class="line">    func = <span class="built_in">getattr</span>(h,method)</span><br><span class="line">    res = func(url)</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你的请求方式有误...&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="copy-和-deepcopy-的区别是什么？"><a href="#copy-和-deepcopy-的区别是什么？" class="headerlink" title="copy 和 deepcopy 的区别是什么？"></a>copy 和 deepcopy 的区别是什么？</h3><p>copy 即所谓的浅拷贝，赋值的时候非递归地复制子对象的引用；<br>deepcopy 即所谓的深拷贝，赋值的时候递归复制子对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">xs = [<span class="number">1</span>,<span class="number">2</span>,[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line">ys = xs <span class="comment"># 浅拷贝</span></span><br><span class="line">zs = deepcopy(xs) <span class="comment"># 深拷贝</span></span><br><span class="line">xs[<span class="number">2</span>][<span class="number">0</span>] = <span class="number">5</span></span><br><span class="line"><span class="built_in">print</span>(ys)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(xs)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(zs)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>] <span class="comment"># 由于深拷贝已经递归复制了子对象，所以内部的List也发生改变</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="算法题目"><a href="#算法题目" class="headerlink" title="算法题目"></a>算法题目</h2><h3 id="一行代码输出-1-100-之间的所有偶数"><a href="#一行代码输出-1-100-之间的所有偶数" class="headerlink" title="一行代码输出 1-100 之间的所有偶数"></a>一行代码输出 1-100 之间的所有偶数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">101</span>) <span class="keyword">if</span> x %<span class="number">2</span> ==<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="请写一个-Python-逻辑，计算一个文件中的大写字母数量。"><a href="#请写一个-Python-逻辑，计算一个文件中的大写字母数量。" class="headerlink" title="请写一个 Python 逻辑，计算一个文件中的大写字母数量。"></a>请写一个 Python 逻辑，计算一个文件中的大写字母数量。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;a.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f_content = f.read()</span><br><span class="line">    len_cap = <span class="built_in">len</span>(re.<span class="built_in">compile</span>(<span class="string">r&#x27;[A-Z]&#x27;</span>).findall(f_content))</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据当前时间输出N分钟、小时后的时间"><a href="#根据当前时间输出N分钟、小时后的时间" class="headerlink" title="根据当前时间输出N分钟、小时后的时间"></a>根据当前时间输出N分钟、小时后的时间</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_query_time</span>(<span class="params">minutes=<span class="number">10</span>, hours=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;获取查询的时间段，默认返回最近的10分钟&quot;&quot;&quot;</span></span><br><span class="line">    now_time = datetime.now()</span><br><span class="line">    start_time = now_time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    end_time = (now_time + timedelta(minutes=minutes)).strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> hours:</span><br><span class="line">        end_time = (now_time + timedelta(hours=hours)).strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> start_time, end_time</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Python/" rel="tag"># Python</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/12/01/kubernetes_deploy/" rel="prev" title="Kubernetes系列：kubeadm部署K8S集群v1.16.4">
+                  <i class="fa fa-angle-left"></i> Kubernetes系列：kubeadm部署K8S集群v1.16.4
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/06/python-decorator/" rel="next" title="Python编程进阶：装饰器的使用">
+                  Python编程进阶：装饰器的使用 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">liaoxb</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">97k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:29</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

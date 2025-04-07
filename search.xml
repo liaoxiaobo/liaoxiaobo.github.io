@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Git工具-基础使用</title>
+    <title>常用工具-Git命令使用</title>
     <url>/2019/11/15/git_tool_note/</url>
     <content><![CDATA[<h3 id="代码拉取到本地"><a href="#代码拉取到本地" class="headerlink" title="代码拉取到本地"></a>代码拉取到本地</h3><h4 id="与主分支保持同步"><a href="#与主分支保持同步" class="headerlink" title="与主分支保持同步"></a>与主分支保持同步</h4><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git checkout main</span><br><span class="line">git pull origin main</span><br><span class="line">git checkout feature/my-new-feature</span><br><span class="line">git merge main</span><br></pre></td></tr></table></figure>
 <h4 id="代码拉取冲突处理"><a href="#代码拉取冲突处理" class="headerlink" title="代码拉取冲突处理"></a>代码拉取冲突处理</h4><p><strong>1、保留并继续合并代码</strong></p>
@@ -1339,8 +1339,8 @@
       </tags>
   </entry>
   <entry>
-    <title>网络系列：计算机网络基础</title>
-    <url>/2019/02/05/network-base/</url>
+    <title>网络系列：计算机网络基础知识</title>
+    <url>/2021/01/26/network-base/</url>
     <content><![CDATA[<h1 id="TCP-IP-模型"><a href="#TCP-IP-模型" class="headerlink" title="TCP&#x2F;IP 模型"></a>TCP&#x2F;IP 模型</h1><table>
 <thead>
 <tr>
@@ -1452,15 +1452,17 @@
 <li>不验证通信方的身份，因此有可能遭遇伪装。</li>
 <li>无法证明报文的完整性，所以有可能已遭篡改。</li>
 </ul>
-<h2 id="怎么解决-HTTP-请求无状态带来的问题"><a href="#怎么解决-HTTP-请求无状态带来的问题" class="headerlink" title="怎么解决 HTTP 请求无状态带来的问题"></a>怎么解决 HTTP 请求无状态带来的问题</h2><h3 id="1-Cookie机制"><a href="#1-Cookie机制" class="headerlink" title="1. Cookie机制"></a>1. <strong>Cookie机制</strong></h3><ul>
-<li><strong>原理</strong>：服务器通过响应头的<code>Set-Cookie</code>字段向客户端浏览器写入键值对数据，客户端后续请求时自动携带这些Cookie，从而使服务器能够识别并跟踪用户会话。</li>
+<h2 id="怎么解决-HTTP-请求无状态带来的问题"><a href="#怎么解决-HTTP-请求无状态带来的问题" class="headerlink" title="怎么解决 HTTP 请求无状态带来的问题"></a>怎么解决 HTTP 请求无状态带来的问题</h2><h3 id="1-Cookie机制"><a href="#1-Cookie机制" class="headerlink" title="1. Cookie机制"></a>1. <strong>Cookie机制</strong></h3><img src="/2021/01/26/network-base/640.png"  alt="cookie技术" style="zoom: 50%;" />
+
+<ul>
+<li><strong>原理</strong>：服务器通过响应头的<code>Set-Cookie</code>字段向客户端写入键值对数据，客户端后续请求时携带这些Cookie，从而使服务器能够识别并跟踪用户会话。</li>
 <li><strong>局限</strong>：<ul>
 <li>数据存储在客户端，存在安全风险（如XSS攻击窃取Cookie）。</li>
 <li>单个域名下Cookie大小受限（通常4KB），且每次请求均会携带，可能影响性能</li>
 </ul>
 </li>
 </ul>
-<h3 id="2-Session机制"><a href="#2-Session机制" class="headerlink" title="2. Session机制"></a>2. <strong>Session机制</strong></h3><img src="/2019/02/05/network-base/image.png"  alt="image" style="zoom:50%;" />
+<h3 id="2-Session机制"><a href="#2-Session机制" class="headerlink" title="2. Session机制"></a>2. <strong>Session机制</strong></h3><img src="/2021/01/26/network-base/image.png"  alt="image" style="zoom:50%;" />
 
 <ul>
 <li><strong>原理</strong>：服务器创建唯一Session ID并将其发送给客户端（通常通过Cookie传递），并将用户状态存储在服务端（如内存、数据库）。在后续的请求中，客户端会携带Session ID，服务器根据Session ID在服务器端检索对应的会话状态。</li>
@@ -1506,7 +1508,7 @@
 <li>当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包，如果是，则首先从数据包中取出源主机的IP和MAC地址写入到ARP列表中，如果已经存在，则覆盖，然后将自己的MAC地址写入ARP响应包中，告诉源主机自己是它想要找的MAC地址。</li>
 <li>源主机收到ARP响应包后。将目的主机的IP和MAC地址写入ARP列表，并利用此信息发送数据。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败。</li>
 </ol>
-<img src="/2019/02/05/network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png"  alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom:50%;" />
+<img src="/2021/01/26/network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png"  alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom:50%;" />
 
 <h2 id="DNS-的作用是什么？"><a href="#DNS-的作用是什么？" class="headerlink" title="DNS 的作用是什么？"></a>DNS 的作用是什么？</h2><p>DNS（Domain Name System）域名管理系统，是当用户使用浏览器访问网址之后，使用的第一个重要协议。DNS 要解决的是<strong>域名和 IP 地址的映射问题</strong>。</p>
 <h2 id="DNS进行域名解析的过程"><a href="#DNS进行域名解析的过程" class="headerlink" title="DNS进行域名解析的过程"></a>DNS进行域名解析的过程</h2><ol>
@@ -1515,7 +1517,7 @@
 <li>根DNS服务器并不会记录域名和IP地址的对应关系，只会“指路”；即告知<strong>本地DNS</strong>去迭代查找至顶级域、二级域（.com 、.org），三级域，直至找到要解析的IP地址</li>
 <li><strong>本地DNS</strong> 再将IP地址返回给客户端，客户端与目标成功建立连接。同时把对应关系保存在缓存中，加快网络访问。</li>
 </ol>
-<img src="/2019/02/05/network-base/1715326531135-c1f081dd-89e1-4b31-94e4-95a76f9fcba4.png"  alt="img" style="zoom: 33%;" />
+<img src="/2021/01/26/network-base/1715326531135-c1f081dd-89e1-4b31-94e4-95a76f9fcba4.png"  alt="img" style="zoom: 33%;" />
 
 <p>更详细的总结：</p>
 <p>浏览器缓存——》系统hosts文件——》本地DNS解析器缓存——》本地域名服务器（本地配置区域资源、本地域名服务器缓存)——》根域名服务器——》主域名服务器——》下一级域名域名服务器 客户端——》本地域名服务器（递归查询) 本地域名服务器—》DNS服务器的交互查询是迭代查询</p>
@@ -1555,7 +1557,7 @@
   </entry>
   <entry>
     <title>网络系列：常用网络设备</title>
-    <url>/2019/02/10/network-device/</url>
+    <url>/2021/02/07/network-device/</url>
     <content><![CDATA[<h1 id="网络设备"><a href="#网络设备" class="headerlink" title="网络设备"></a>网络设备</h1><table>
 <thead>
 <tr>
@@ -1858,66 +1860,144 @@
       </tags>
   </entry>
   <entry>
-    <title>Python编程进阶：装饰器的使用</title>
-    <url>/2020/01/06/python-decorator/</url>
-    <content><![CDATA[<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>在Python开发中，装饰器（Decorator）是一种强大而优雅的语法特性，它允许在<strong>不修改原函数代码</strong>的前提下，动态地为函数添加额外功能（如日志记录、性能分析、参数校验等）。本文将从闭包的基础概念出发，深入解析装饰器的实现原理，并通过实际示例展示其应用场景。</p>
-<hr>
-<h3 id="闭包：装饰器的基石"><a href="#闭包：装饰器的基石" class="headerlink" title="闭包：装饰器的基石"></a>闭包：装饰器的基石</h3><p>在理解装饰器之前，必须先了解<strong>闭包（Closure）</strong>的概念。闭包是指在函数内部定义的函数（嵌套函数），该函数可以访问外层函数的变量，即使外层函数已经执行完毕。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">outer</span>():</span><br><span class="line">    x = <span class="number">10</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;通过闭包访问外层变量x的值: <span class="subst">&#123;x&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> inner	<span class="comment"># 返回闭包</span></span><br><span class="line"></span><br><span class="line">closure = outer()</span><br><span class="line">closure()  <span class="comment"># 输出: 通过闭包访问外层变量x的值: 10</span></span><br></pre></td></tr></table></figure>
-<p>在这个例子中，<code>outer</code> 返回 <code>inner</code>，后者可以访问并使用 <code>outer</code> 中的变量 <code>x</code></p>
-<h3 id="装饰器的实现"><a href="#装饰器的实现" class="headerlink" title="装饰器的实现"></a>装饰器的实现</h3><p>装饰器的本质是一个接收函数作为参数的外层函数，其内部定义一个闭包（通常命名为<code>wrapper</code>），用于包裹原函数并增强其功能。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 装饰器模版</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):          <span class="comment"># 外层函数（装饰器）</span></span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):  <span class="comment"># 内层函数（闭包）</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        result = func(*args, **kwargs)	<span class="comment"># 访问外层函数的参数 `func`</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
-<p>在上面的例子中，<code>decorator</code>就是一个装饰器。它接受一个函数<code>func</code>作为参数，并返回一个包裹原函数的新函数<code>wrapper</code>。</p>
-<p><strong>代码解析</strong></p>
-<ol>
-<li><code>@wraps(func)</code> ：保留原函数的元数据（如函数名、文档信息）</li>
-<li><code>*args, **kwargs</code>：接受任意、不定数量的参数，增强装饰器的通用性。</li>
-<li>外层<code>return wrapper</code>：确保装饰器返回包装后的函数，其实就是一个闭包函数。</li>
-<li>内层<code>return result</code>：确保原函数的返回值不被丢弃</li>
-</ol>
-<h3 id="装饰器应用场景"><a href="#装饰器应用场景" class="headerlink" title="装饰器应用场景"></a>装饰器应用场景</h3><p>1.日志记录：在大型项目中，使用装饰器可以轻松地为多个函数添加日志功能，而无需在每个函数中重复编写日志代码。</p>
-<p>2.性能分析：通过装饰器可以方便地测量函数的执行时间，帮助开发者识别性能瓶颈。</p>
-<p>3.访问控制：在Web应用中，装饰器可以用于实现用户认证和授权，确保只有具有特定权限的用户才能访问某些功能。</p>
-<p>4.缓存机制：对于计算密集型函数，使用缓存装饰器可以显著提高程序的执行效率，避免重复计算。</p>
-<p>5.输入验证：在数据处理应用中，装饰器可以用于检查函数输入的有效性，提高代码的健壮性。</p>
-<h3 id="装饰器函数示例"><a href="#装饰器函数示例" class="headerlink" title="装饰器函数示例"></a>装饰器函数示例</h3><h4 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">log_decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="comment"># logging.getLogger().setLevel(logging.INFO)</span></span><br><span class="line">        logging.info(<span class="string">f&quot;调用函数: <span class="subst">&#123;func.__name__&#125;</span>, 参数: <span class="subst">&#123;args&#125;</span>, <span class="subst">&#123;kwargs&#125;</span>&quot;</span>)</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        logging.info(<span class="string">f&quot;函数返回: <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@log_decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;两数相加&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>)  <span class="comment"># 自动记录日志</span></span><br></pre></td></tr></table></figure>
+    <title>Python面试问题汇总</title>
+    <url>/2020/01/22/python-interview/</url>
+    <content><![CDATA[<h1 id="Python-面试题"><a href="#Python-面试题" class="headerlink" title="Python 面试题"></a>Python 面试题</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="列举-Python-中的基本数据结构"><a href="#列举-Python-中的基本数据结构" class="headerlink" title="列举 Python 中的基本数据结构"></a>列举 Python 中的基本数据结构</h3><table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>特点</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>列表</strong></td>
+<td>有序、可变、允许重复元素</td>
+<td>动态存储异构数据（如同时存储整数、字符串等）</td>
+</tr>
+<tr>
+<td><strong>元组</strong></td>
+<td>有序、不可变、允许重复元素</td>
+<td>存储固定数据（如坐标、配置参数），比列表更节省内存</td>
+</tr>
+<tr>
+<td><strong>字典</strong></td>
+<td>无序（Python 3.7+ 有序）、可变、键值对（key: value）</td>
+<td>快速通过键查找值（如用户信息映射）</td>
+</tr>
+<tr>
+<td><strong>集合</strong></td>
+<td>无序、不可变元素、唯一性（自动去重）</td>
+<td>数学集合运算（交集、并集）、快速成员判断</td>
+</tr>
+<tr>
+<td><strong>字符串</strong></td>
+<td>有序、不可变、字符序列</td>
+<td>文本处理、格式化输出</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>基本结构通常指列表、元组、字典、集合，而字符串可能作为序列类型单独列出</p>
+</blockquote>
+<h3 id="如何将字符串-“ilovechina”-进行反转"><a href="#如何将字符串-“ilovechina”-进行反转" class="headerlink" title="如何将字符串 “ilovechina” 进行反转"></a>如何将字符串 “ilovechina” 进行反转</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s = <span class="string">&#x27;ilovechina&#x27;</span></span><br><span class="line">s = s[::-<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
 
-<p><strong>代码解析</strong></p>
-<ol>
-<li><code>@log_decorator</code>是装饰器的应用方式，相当于：<code>add = log_decorator(add)</code></li>
-<li>装饰器返回的<code>wrapper</code>函数能够访问外部函数<code>log_decorator</code>的作用域，因此可以在原函数执行前后插入自己的逻辑。</li>
-</ol>
-<h4 id="函数计时"><a href="#函数计时" class="headerlink" title="函数计时"></a>函数计时</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timer</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kw</span>):</span><br><span class="line">        t1=time.time()</span><br><span class="line">        <span class="comment"># 这是函数真正执行的地方</span></span><br><span class="line">        func(*args, **kw)</span><br><span class="line">        t2=time.time()</span><br><span class="line">        <span class="comment"># 计算下时长</span></span><br><span class="line">        cost_time = t2-t1 </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;花费时间：&#123;&#125;秒&quot;</span>.<span class="built_in">format</span>(cost_time))</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@timer</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">want_sleep</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line">want_sleep(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="如何将-“1-2-3”-分割成-“1”-”2”-”3”-？"><a href="#如何将-“1-2-3”-分割成-“1”-”2”-”3”-？" class="headerlink" title="如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？"></a>如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s = <span class="string">&quot;1,2,3&quot;</span></span><br><span class="line">stdout = s.split(<span class="string">&#x27;,&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
-<h4 id="函数重试"><a href="#函数重试" class="headerlink" title="函数重试"></a>函数重试</h4><p>若需要为装饰器传递参数（如重试次数），需定义一个<strong>装饰器工厂函数</strong>，它可以根据参数“生产”出不同的装饰器。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">repeat</span>(<span class="params">num_times</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">        @wraps(<span class="params">func</span>)</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_times):</span><br><span class="line">                result = func(*args, **kwargs)</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="meta">@repeat(<span class="params">num_times=<span class="number">3</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Hello <span class="subst">&#123;name&#125;</span>!&quot;</span>)</span><br><span class="line"></span><br><span class="line">greet(<span class="string">&quot;Alice&quot;</span>)  <span class="comment"># 输出3次&quot;Hello Alice!&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="Python-中的字符串格式化方式你知道哪些？"><a href="#Python-中的字符串格式化方式你知道哪些？" class="headerlink" title="Python 中的字符串格式化方式你知道哪些？"></a>Python 中的字符串格式化方式你知道哪些？</h3><p>Python3.6之后的版本提供了三种字符串格式化的方式</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1. %s占位符</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">name</span>):</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;hello %s&#x27;</span> % name</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. format() </span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">name</span>):</span><br><span class="line">  <span class="keyword">return</span> <span class="string">&#x27;hello &#123;&#125;&#x27;</span>.<span class="built_in">format</span>(name)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.f-string</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">foo</span>(<span class="params">name</span>):</span><br><span class="line">  <span class="keyword">return</span> <span class="string">f&#x27;hello <span class="subst">&#123;name&#125;</span>&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>从以上例子中可以看到，在带参数的装饰器函数中一共有三层函数嵌套，其实剥离出最外面的一层，我们可以发现和简单（不带参数）的装饰器是一样的。</p>
-<p><strong>代码解析</strong>：</p>
-<ul>
-<li><code>repeat</code>是一个装饰器工厂函数，负责“生产”返回一个实际的装饰器<code>decorator</code>。</li>
-<li><code>@repeat(num_times=3)</code>等价于<code>greet = repeat(3)(greet)</code>。</li>
+<h3 id="列表元素怎么去重"><a href="#列表元素怎么去重" class="headerlink" title="列表元素怎么去重"></a>列表元素怎么去重</h3><p>自己动手写函数实现（保留原顺序）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">old_list = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">new_list = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> old_list:</span><br><span class="line">    <span class="keyword">if</span> i <span class="keyword">not</span> <span class="keyword">in</span> new_list:</span><br><span class="line">        new_list.append(i)</span><br><span class="line"><span class="built_in">print</span>(new_list) <span class="comment"># [2, 3, 4, 5, 1]</span></span><br></pre></td></tr></table></figure>
+
+<p>用字典dict去重（保留原顺序）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用list元素值创建一个dict，这将自动删除任何重复项</span></span><br><span class="line">old_list = [<span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">new_list = <span class="built_in">list</span>(<span class="built_in">dict</span>.fromkeys(old_list))</span><br><span class="line"><span class="built_in">print</span>(new_list) <span class="comment"># [2, 3, 4, 5, 1]</span></span><br></pre></td></tr></table></figure>
+
+<p>使用sort函数来去重（保留原顺序）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">lst1 = [<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">1</span>]</span><br><span class="line">lst2.sort(key=lst1.index)</span><br><span class="line"><span class="built_in">print</span>(lst2)    <span class="comment"># [2, 1, 3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<p>使用内置set方法（不保证原顺序）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 将list转化为set再转化为list</span></span><br><span class="line">list1 = [<span class="number">1</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">1</span>]</span><br><span class="line">list2 = <span class="built_in">list</span>(<span class="built_in">set</span>(list1))</span><br><span class="line"><span class="built_in">print</span>(list2)    <span class="comment"># &#123;1, 2, 3, 4&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="两个列表怎么转成字典"><a href="#两个列表怎么转成字典" class="headerlink" title="两个列表怎么转成字典"></a>两个列表怎么转成字典</h3><ul>
+<li>动手写一个函数</li>
 </ul>
-<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><p>绝大多数装饰器都是基于函数和闭包实现的，但这并非制造装饰器的唯一方式。事实上，Python 对某个对象是否能通过装饰器（<code>@decorator</code>）形式使用只有一个要求：<strong>decorator 必须是一个“可被调用（callable）的对象</strong>。</p>
-<p>基于类装饰器的实现，必须实现 <code>__call__</code> 和 <code>__init__</code>两个内置函数。</p>
-<h4 id="不带参数的类装饰器"><a href="#不带参数的类装饰器" class="headerlink" title="不带参数的类装饰器"></a>不带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Decorator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func</span>):	<span class="comment"># 接收被装饰函数</span></span><br><span class="line">        <span class="variable language_">self</span>.func = func</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):	<span class="comment"># 实现装饰逻辑。</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;函数 <span class="subst">&#123;self.func.__name__&#125;</span> 被调用&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello!&quot;</span>)</span><br><span class="line"></span><br><span class="line">say_hello()  <span class="comment"># 输出: 函数 say_hello 被调用 → Hello!</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1 = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;age&#x27;</span>, <span class="string">&#x27;sex&#x27;</span>]</span><br><span class="line">list2 = [<span class="string">&#x27;张三&#x27;</span>, <span class="number">18</span>, <span class="string">&#x27;男&#x27;</span>]</span><br><span class="line"><span class="built_in">dict</span> = &#123;&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(list1)):</span><br><span class="line">    <span class="built_in">dict</span>[list1[i]] = list2[i]</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">dict</span>, <span class="built_in">type</span>(<span class="built_in">dict</span>)) <span class="comment"># &#123;&#x27;name&#x27;: &#x27;张三&#x27;, &#x27;age&#x27;: 18, &#x27;sex&#x27;: &#x27;男&#x27;&#125; &lt;class &#x27;dict&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p>在不带参数的类装饰器中，等价于 <code>func = class(func)</code>，此时函数作为了类的实例参数。</p>
-<h4 id="带参数的类装饰器"><a href="#带参数的类装饰器" class="headerlink" title="带参数的类装饰器"></a>带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">logger</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, level=<span class="string">&#x27;INFO&#x27;</span></span>):	<span class="comment"># 接受装饰器参数</span></span><br><span class="line">        <span class="variable language_">self</span>.level = level</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, func</span>): <span class="comment"># 接受被装饰函数</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[&#123;level&#125;]: the function &#123;func&#125;() is running...&quot;</span>\</span><br><span class="line">                .<span class="built_in">format</span>(level=<span class="variable language_">self</span>.level, func=func.__name__))</span><br><span class="line">            func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapper  <span class="comment">#返回函数</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@logger(<span class="params">level=<span class="string">&#x27;WARNING&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say</span>(<span class="params">something</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;say &#123;&#125;!&quot;</span>.<span class="built_in">format</span>(something))</span><br><span class="line"></span><br><span class="line">say(<span class="string">&quot;hello&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在带参数的类装饰器中，等价于<code>func = class(para)(func)</code>。也就是说，此时函数并不是实例化参数，而变成了callable 的参数，这也就是为什么需要在__call__() 中传入func。</p>
-<h3 id="内置装饰器"><a href="#内置装饰器" class="headerlink" title="内置装饰器"></a>内置装饰器</h3><p>Python还提供了一些常用的内置装饰器。例如：</p>
 <ul>
-<li><code>@property</code>：用于将一个方法转换为属性。广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查。</li>
-<li><code>@staticmethod</code> 和 <code>@classmethod</code>：用于定义静态方法和类方法。</li>
+<li>使用内置函数zip</li>
 </ul>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
-<li>装饰器是闭包的一种应用，闭包为装饰器提供了“记住外部函数参数（如被装饰函数 <code>func</code>）”的能力。</li>
-<li>一切 callable 的对象都可以被用来实现装饰器，比如函数、类。</li>
-<li>装饰器会改变原函数的原始签名，需要使用 <code>functools.wraps</code></li>
-<li>在内层函数修改外层函数的变量时，需要使用 <code>nonlocal</code> 关键字。</li>
-<li>“装饰器”并没有提供某种无法替代的功能，等同于<code>func = decorator(func)</code>。它只是一颗“语法糖”而已，就像乐高积木，可以自由组合各种功能模块，在某些特定场景里可以使代码更简洁易维护。</li>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">list1 = [<span class="string">&#x27;name&#x27;</span>, <span class="string">&#x27;age&#x27;</span>, <span class="string">&#x27;sex&#x27;</span>]</span><br><span class="line">list2 = [<span class="string">&#x27;张三&#x27;</span>, <span class="number">18</span>, <span class="string">&#x27;男&#x27;</span>]</span><br><span class="line">d = <span class="built_in">dict</span>(<span class="built_in">zip</span>(list1, list2))</span><br><span class="line"><span class="built_in">print</span>(d)    <span class="comment"># &#123;&#x27;name&#x27;: &#x27;张三&#x27;, &#x27;age&#x27;: 18, &#x27;sex&#x27;: &#x27;男&#x27;&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="如何合并两个列表"><a href="#如何合并两个列表" class="headerlink" title="如何合并两个列表"></a>如何合并两个列表</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = [<span class="number">1</span>,<span class="number">5</span>,<span class="number">7</span>,<span class="number">9</span>]</span><br><span class="line">b = [<span class="number">2</span>,<span class="number">2</span>,<span class="number">6</span>,<span class="number">8</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法1</span></span><br><span class="line">a.extend(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法2</span></span><br><span class="line">a[<span class="number">0</span>:<span class="number">0</span>] = b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 方法3</span></span><br><span class="line">a += b</span><br></pre></td></tr></table></figure>
+
+<h3 id="举例-sort-和-sorted-的区别"><a href="#举例-sort-和-sorted-的区别" class="headerlink" title="举例 sort 和 sorted 的区别"></a>举例 sort 和 sorted 的区别</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sort()与sorted()的不同在于，sort是在原位重新排列列表，而sorted()是产生一个新的列表</span><br></pre></td></tr></table></figure>
+
+<h3 id="字典操作中-del-和-pop-有什么区别？"><a href="#字典操作中-del-和-pop-有什么区别？" class="headerlink" title="字典操作中 del 和 pop 有什么区别？"></a>字典操作中 del 和 pop 有什么区别？</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">del 操作删除键值对，不返回值；</span><br><span class="line">pop 操作删除键值对的同时，返回键所对应的值。</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何合并两个字典"><a href="#如何合并两个字典" class="headerlink" title="如何合并两个字典"></a>如何合并两个字典</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># python3合并字典有三种方式</span></span><br><span class="line"><span class="comment"># 1.</span></span><br><span class="line">a = &#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">1</span>,<span class="string">&#x27;b&#x27;</span>:<span class="number">2</span>&#125;</span><br><span class="line">b = &#123;<span class="string">&#x27;c&#x27;</span>:<span class="number">3</span>,<span class="string">&#x27;d&#x27;</span>:<span class="number">4</span>&#125;</span><br><span class="line">c = &#123;&#125;</span><br><span class="line">c.update(a)</span><br><span class="line">c.update(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.</span></span><br><span class="line">c = <span class="built_in">dict</span>(a,**b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.</span></span><br><span class="line">c = &#123;**a,**b&#125; <span class="comment"># 官方推荐这种方式</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="如何把-元组-“a”-”b”-和-元组-1-2-，变为字典-“a”-1-”b”-2-？"><a href="#如何把-元组-“a”-”b”-和-元组-1-2-，变为字典-“a”-1-”b”-2-？" class="headerlink" title="如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？"></a>如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">a = (<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">b = (<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">z = <span class="built_in">zip</span>(a,b)</span><br><span class="line">c = <span class="built_in">dict</span>(z)</span><br></pre></td></tr></table></figure>
+
+<h3 id="三元运算写法和应用场景"><a href="#三元运算写法和应用场景" class="headerlink" title="三元运算写法和应用场景"></a>三元运算写法和应用场景</h3><p>三元运算符的作用就是判断，可以理解为if条件判断的简化版。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">条件语句比较简单时可以使用三元运算符，最常见的就是 </span><br><span class="line">res = &#x27;test True&#x27; if expression is True else &#x27;test False&#x27;</span><br></pre></td></tr></table></figure>
+
+<h2 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h2><h3 id="在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用"><a href="#在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用" class="headerlink" title="在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用"></a>在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用</h3><p>read将整个文本都读取为一个字符串，占用内存大，readline读取为一个生成器，支持遍历和迭代，占用空间小。</p>
+<p>readlines将文本读取为列表，占用空间大。</p>
+<h3 id="Python-字典和-json-字符串相互转化方法"><a href="#Python-字典和-json-字符串相互转化方法" class="headerlink" title="Python 字典和 json 字符串相互转化方法"></a>Python 字典和 json 字符串相互转化方法</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">json.dumps()   将Python中的对象转换为JSON中的字符串对象</span><br><span class="line">json.loads()   将JSON中的字符串对象转换为Python中的对象</span><br></pre></td></tr></table></figure>
+
+<h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h3 id="函数装饰器有什么作用？请列举说明"><a href="#函数装饰器有什么作用？请列举说明" class="headerlink" title="函数装饰器有什么作用？请列举说明"></a>函数装饰器有什么作用？请列举说明</h3><p>函数装饰器可以在不修改原函数的条件下，为原函数添加额外的功能，例如记录日志，运行性能，缓存等</p>
+<h3 id="简述-classmethod-和-staticmethod-用法和区别"><a href="#简述-classmethod-和-staticmethod-用法和区别" class="headerlink" title="简述 @classmethod 和 @staticmethod 用法和区别"></a>简述 @classmethod 和 @staticmethod 用法和区别</h3><table>
+<thead>
+<tr>
+<th><strong>对比项</strong></th>
+<th><strong><code>@classmethod</code></strong></th>
+<th><strong><code>@staticmethod</code></strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>参数</strong></td>
+<td>必须有 <code>cls</code>（类本身）</td>
+<td>无特殊参数，类似普通函数</td>
+</tr>
+<tr>
+<td><strong>访问权限</strong></td>
+<td>可访问&#x2F;修改类属性</td>
+<td>无法访问类或实例属性</td>
+</tr>
+<tr>
+<td><strong>依赖性</strong></td>
+<td>依赖类的上下文</td>
+<td>与类或实例无关</td>
+</tr>
+<tr>
+<td><strong>典型用途</strong></td>
+<td>工厂方法（替代构造函数来创建对象）、操作类属性、多态场景</td>
+<td>工具函数、逻辑相关但独立的功能</td>
+</tr>
+<tr>
+<td><strong>调用灵活性</strong></td>
+<td>推荐通过类名调用</td>
+<td>推荐通过类名调用</td>
+</tr>
+</tbody></table>
+<h3 id="你了解-Python-中的反射吗？"><a href="#你了解-Python-中的反射吗？" class="headerlink" title="你了解 Python 中的反射吗？"></a>你了解 Python 中的反射吗？</h3><p>通过字符串映射object对象的方法或者属性</p>
+<ol>
+<li>hasattr(obj,name_str): 判断objec是否有name_str这个方法或者属性</li>
+<li>getattr(obj,name_str): 获取object对象中与name_str同名的方法或者函数</li>
+<li>setattr(obj,name_str,value): 为object对象设置一个以name_str为名的value方法或者属性</li>
+<li>delattr(obj,name_str): 删除object对象中的name_str方法或者属性</li>
 </ol>
+<p>举个栗子</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Http</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.get(url)</span><br><span class="line">        response = res.text</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.post(url)</span><br><span class="line">        response = res.text</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用反射后</span></span><br><span class="line">url = <span class="string">&quot;https://www.jianshu.com/u/14140bf8f6c7&quot;</span></span><br><span class="line">method = <span class="built_in">input</span>(<span class="string">&quot;请求方法&gt;&gt;&gt;:&quot;</span>)</span><br><span class="line">h = Http()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">hasattr</span>(h,method):</span><br><span class="line">    func = <span class="built_in">getattr</span>(h,method)</span><br><span class="line">    res = func(url)</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你的请求方式有误...&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="copy-和-deepcopy-的区别是什么？"><a href="#copy-和-deepcopy-的区别是什么？" class="headerlink" title="copy 和 deepcopy 的区别是什么？"></a>copy 和 deepcopy 的区别是什么？</h3><p>copy 即所谓的浅拷贝，赋值的时候非递归地复制子对象的引用；<br>deepcopy 即所谓的深拷贝，赋值的时候递归复制子对象。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">xs = [<span class="number">1</span>,<span class="number">2</span>,[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line">ys = xs <span class="comment"># 浅拷贝</span></span><br><span class="line">zs = deepcopy(xs) <span class="comment"># 深拷贝</span></span><br><span class="line">xs[<span class="number">2</span>][<span class="number">0</span>] = <span class="number">5</span></span><br><span class="line"><span class="built_in">print</span>(ys)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(xs)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(zs)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>] <span class="comment"># 由于深拷贝已经递归复制了子对象，所以内部的List也发生改变</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="算法题目"><a href="#算法题目" class="headerlink" title="算法题目"></a>算法题目</h2><h3 id="一行代码输出-1-100-之间的所有偶数"><a href="#一行代码输出-1-100-之间的所有偶数" class="headerlink" title="一行代码输出 1-100 之间的所有偶数"></a>一行代码输出 1-100 之间的所有偶数</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">[x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">101</span>) <span class="keyword">if</span> x %<span class="number">2</span> ==<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+
+<h3 id="请写一个-Python-逻辑，计算一个文件中的大写字母数量。"><a href="#请写一个-Python-逻辑，计算一个文件中的大写字母数量。" class="headerlink" title="请写一个 Python 逻辑，计算一个文件中的大写字母数量。"></a>请写一个 Python 逻辑，计算一个文件中的大写字母数量。</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;a.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f_content = f.read()</span><br><span class="line">    len_cap = <span class="built_in">len</span>(re.<span class="built_in">compile</span>(<span class="string">r&#x27;[A-Z]&#x27;</span>).findall(f_content))</span><br></pre></td></tr></table></figure>
+
+<h3 id="根据当前时间输出N分钟、小时后的时间"><a href="#根据当前时间输出N分钟、小时后的时间" class="headerlink" title="根据当前时间输出N分钟、小时后的时间"></a>根据当前时间输出N分钟、小时后的时间</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_query_time</span>(<span class="params">minutes=<span class="number">10</span>, hours=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;获取查询的时间段，默认返回最近的10分钟&quot;&quot;&quot;</span></span><br><span class="line">    now_time = datetime.now()</span><br><span class="line">    start_time = now_time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    end_time = (now_time + timedelta(minutes=minutes)).strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> hours:</span><br><span class="line">        end_time = (now_time + timedelta(hours=hours)).strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> start_time, end_time</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>Python</category>
@@ -1928,7 +2008,7 @@
   </entry>
   <entry>
     <title>软件测试理论与知识总结</title>
-    <url>/2020/09/30/testing-theory/</url>
+    <url>/2022/01/10/testing-theory/</url>
     <content><![CDATA[<hr>
 <h2 id="软件质量模型"><a href="#软件质量模型" class="headerlink" title="软件质量模型"></a>软件质量模型</h2><p>软件质量模型是一组特性及特性之间的关系，它提供规定质量需求和评价质量的基础。</p>
 <table>
@@ -2027,7 +2107,7 @@
 <li><strong>发布维护</strong>：监控线上问题并修复。</li>
 </ol>
 <h3 id="敏捷测试流程"><a href="#敏捷测试流程" class="headerlink" title="敏捷测试流程"></a>敏捷测试流程</h3><p>敏捷测试本质是短、频、快地反馈代码提交的质量，促进持续交付。</p>
-<img src="/2020/09/30/testing-theory/image-20250212001852714.png" class="" title="image-20250212001852714">
+<img src="/2022/01/10/testing-theory/image-20250212001852714.png" class="" title="image-20250212001852714">
 
 <p>敏捷测试的特点如下：</p>
 <ul>
@@ -2251,6 +2331,75 @@
       </categories>
       <tags>
         <tag>测试</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python编程进阶：装饰器的使用</title>
+    <url>/2020/02/06/python-decorator/</url>
+    <content><![CDATA[<h2 id="装饰器"><a href="#装饰器" class="headerlink" title="装饰器"></a>装饰器</h2><p>在Python开发中，装饰器（Decorator）是一种强大而优雅的语法特性，它允许在<strong>不修改原函数代码</strong>的前提下，动态地为函数添加额外功能（如日志记录、性能分析、参数校验等）。本文将从闭包的基础概念出发，深入解析装饰器的实现原理，并通过实际示例展示其应用场景。</p>
+<hr>
+<h3 id="闭包：装饰器的基石"><a href="#闭包：装饰器的基石" class="headerlink" title="闭包：装饰器的基石"></a>闭包：装饰器的基石</h3><p>在理解装饰器之前，必须先了解<strong>闭包（Closure）</strong>的概念。闭包是指在函数内部定义的函数（嵌套函数），该函数可以访问外层函数的变量，即使外层函数已经执行完毕。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">outer</span>():</span><br><span class="line">    x = <span class="number">10</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">inner</span>():</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;通过闭包访问外层变量x的值: <span class="subst">&#123;x&#125;</span>&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> inner	<span class="comment"># 返回闭包</span></span><br><span class="line"></span><br><span class="line">closure = outer()</span><br><span class="line">closure()  <span class="comment"># 输出: 通过闭包访问外层变量x的值: 10</span></span><br></pre></td></tr></table></figure>
+<p>在这个例子中，<code>outer</code> 返回 <code>inner</code>，后者可以访问并使用 <code>outer</code> 中的变量 <code>x</code></p>
+<h3 id="装饰器的实现"><a href="#装饰器的实现" class="headerlink" title="装饰器的实现"></a>装饰器的实现</h3><p>装饰器的本质是一个接收函数作为参数的外层函数，其内部定义一个闭包（通常命名为<code>wrapper</code>），用于包裹原函数并增强其功能。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 装饰器模版</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):          <span class="comment"># 外层函数（装饰器）</span></span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):  <span class="comment"># 内层函数（闭包）</span></span><br><span class="line">        <span class="comment"># do something</span></span><br><span class="line">        result = func(*args, **kwargs)	<span class="comment"># 访问外层函数的参数 `func`</span></span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br></pre></td></tr></table></figure>
+<p>在上面的例子中，<code>decorator</code>就是一个装饰器。它接受一个函数<code>func</code>作为参数，并返回一个包裹原函数的新函数<code>wrapper</code>。</p>
+<p><strong>代码解析</strong></p>
+<ol>
+<li><code>@wraps(func)</code> ：保留原函数的元数据（如函数名、文档信息）</li>
+<li><code>*args, **kwargs</code>：接受任意、不定数量的参数，增强装饰器的通用性。</li>
+<li>外层<code>return wrapper</code>：确保装饰器返回包装后的函数，其实就是一个闭包函数。</li>
+<li>内层<code>return result</code>：确保原函数的返回值不被丢弃</li>
+</ol>
+<h3 id="装饰器应用场景"><a href="#装饰器应用场景" class="headerlink" title="装饰器应用场景"></a>装饰器应用场景</h3><p>1.日志记录：在大型项目中，使用装饰器可以轻松地为多个函数添加日志功能，而无需在每个函数中重复编写日志代码。</p>
+<p>2.性能分析：通过装饰器可以方便地测量函数的执行时间，帮助开发者识别性能瓶颈。</p>
+<p>3.访问控制：在Web应用中，装饰器可以用于实现用户认证和授权，确保只有具有特定权限的用户才能访问某些功能。</p>
+<p>4.缓存机制：对于计算密集型函数，使用缓存装饰器可以显著提高程序的执行效率，避免重复计算。</p>
+<p>5.输入验证：在数据处理应用中，装饰器可以用于检查函数输入的有效性，提高代码的健壮性。</p>
+<h3 id="装饰器函数示例"><a href="#装饰器函数示例" class="headerlink" title="装饰器函数示例"></a>装饰器函数示例</h3><h4 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> logging</span><br><span class="line"><span class="keyword">from</span> functools <span class="keyword">import</span> wraps</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">log_decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">    @wraps(<span class="params">func</span>)</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">        <span class="comment"># logging.getLogger().setLevel(logging.INFO)</span></span><br><span class="line">        logging.info(<span class="string">f&quot;调用函数: <span class="subst">&#123;func.__name__&#125;</span>, 参数: <span class="subst">&#123;args&#125;</span>, <span class="subst">&#123;kwargs&#125;</span>&quot;</span>)</span><br><span class="line">        result = func(*args, **kwargs)</span><br><span class="line">        logging.info(<span class="string">f&quot;函数返回: <span class="subst">&#123;result&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> result</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@log_decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">x, y</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;两数相加&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> x + y</span><br><span class="line"></span><br><span class="line">add(<span class="number">3</span>, <span class="number">5</span>)  <span class="comment"># 自动记录日志</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>代码解析</strong></p>
+<ol>
+<li><code>@log_decorator</code>是装饰器的应用方式，相当于：<code>add = log_decorator(add)</code></li>
+<li>装饰器返回的<code>wrapper</code>函数能够访问外部函数<code>log_decorator</code>的作用域，因此可以在原函数执行前后插入自己的逻辑。</li>
+</ol>
+<h4 id="函数计时"><a href="#函数计时" class="headerlink" title="函数计时"></a>函数计时</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">timer</span>(<span class="params">func</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kw</span>):</span><br><span class="line">        t1=time.time()</span><br><span class="line">        <span class="comment"># 这是函数真正执行的地方</span></span><br><span class="line">        func(*args, **kw)</span><br><span class="line">        t2=time.time()</span><br><span class="line">        <span class="comment"># 计算下时长</span></span><br><span class="line">        cost_time = t2-t1 </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;花费时间：&#123;&#125;秒&quot;</span>.<span class="built_in">format</span>(cost_time))</span><br><span class="line">    <span class="keyword">return</span> wrapper</span><br><span class="line"></span><br><span class="line"><span class="meta">@timer</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">want_sleep</span>(<span class="params">sleep_time</span>):</span><br><span class="line">    time.sleep(sleep_time)</span><br><span class="line"></span><br><span class="line">want_sleep(<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="函数重试"><a href="#函数重试" class="headerlink" title="函数重试"></a>函数重试</h4><p>若需要为装饰器传递参数（如重试次数），需定义一个<strong>装饰器工厂函数</strong>，它可以根据参数“生产”出不同的装饰器。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">repeat</span>(<span class="params">num_times</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">decorator</span>(<span class="params">func</span>):</span><br><span class="line"><span class="meta">        @wraps(<span class="params">func</span>)</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(num_times):</span><br><span class="line">                result = func(*args, **kwargs)</span><br><span class="line">            <span class="keyword">return</span> result</span><br><span class="line">        <span class="keyword">return</span> wrapper</span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"><span class="meta">@repeat(<span class="params">num_times=<span class="number">3</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">greet</span>(<span class="params">name</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Hello <span class="subst">&#123;name&#125;</span>!&quot;</span>)</span><br><span class="line"></span><br><span class="line">greet(<span class="string">&quot;Alice&quot;</span>)  <span class="comment"># 输出3次&quot;Hello Alice!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>从以上例子中可以看到，在带参数的装饰器函数中一共有三层函数嵌套，其实剥离出最外面的一层，我们可以发现和简单（不带参数）的装饰器是一样的。</p>
+<p><strong>代码解析</strong>：</p>
+<ul>
+<li><code>repeat</code>是一个装饰器工厂函数，负责“生产”返回一个实际的装饰器<code>decorator</code>。</li>
+<li><code>@repeat(num_times=3)</code>等价于<code>greet = repeat(3)(greet)</code>。</li>
+</ul>
+<h3 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h3><p>绝大多数装饰器都是基于函数和闭包实现的，但这并非制造装饰器的唯一方式。事实上，Python 对某个对象是否能通过装饰器（<code>@decorator</code>）形式使用只有一个要求：<strong>decorator 必须是一个“可被调用（callable）的对象</strong>。</p>
+<p>基于类装饰器的实现，必须实现 <code>__call__</code> 和 <code>__init__</code>两个内置函数。</p>
+<h4 id="不带参数的类装饰器"><a href="#不带参数的类装饰器" class="headerlink" title="不带参数的类装饰器"></a>不带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">Decorator</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, func</span>):	<span class="comment"># 接收被装饰函数</span></span><br><span class="line">        <span class="variable language_">self</span>.func = func</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, *args, **kwargs</span>):	<span class="comment"># 实现装饰逻辑。</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;函数 <span class="subst">&#123;self.func.__name__&#125;</span> 被调用&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.func(*args, **kwargs)</span><br><span class="line"></span><br><span class="line"><span class="meta">@Decorator</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say_hello</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;Hello!&quot;</span>)</span><br><span class="line"></span><br><span class="line">say_hello()  <span class="comment"># 输出: 函数 say_hello 被调用 → Hello!</span></span><br></pre></td></tr></table></figure>
+
+<p>在不带参数的类装饰器中，等价于 <code>func = class(func)</code>，此时函数作为了类的实例参数。</p>
+<h4 id="带参数的类装饰器"><a href="#带参数的类装饰器" class="headerlink" title="带参数的类装饰器"></a>带参数的类装饰器</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">logger</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, level=<span class="string">&#x27;INFO&#x27;</span></span>):	<span class="comment"># 接受装饰器参数</span></span><br><span class="line">        <span class="variable language_">self</span>.level = level</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__call__</span>(<span class="params">self, func</span>): <span class="comment"># 接受被装饰函数</span></span><br><span class="line">        <span class="keyword">def</span> <span class="title function_">wrapper</span>(<span class="params">*args, **kwargs</span>):</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">&quot;[&#123;level&#125;]: the function &#123;func&#125;() is running...&quot;</span>\</span><br><span class="line">                .<span class="built_in">format</span>(level=<span class="variable language_">self</span>.level, func=func.__name__))</span><br><span class="line">            func(*args, **kwargs)</span><br><span class="line">        <span class="keyword">return</span> wrapper  <span class="comment">#返回函数</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@logger(<span class="params">level=<span class="string">&#x27;WARNING&#x27;</span></span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">say</span>(<span class="params">something</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;say &#123;&#125;!&quot;</span>.<span class="built_in">format</span>(something))</span><br><span class="line"></span><br><span class="line">say(<span class="string">&quot;hello&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在带参数的类装饰器中，等价于<code>func = class(para)(func)</code>。也就是说，此时函数并不是实例化参数，而变成了callable 的参数，这也就是为什么需要在__call__() 中传入func。</p>
+<h3 id="内置装饰器"><a href="#内置装饰器" class="headerlink" title="内置装饰器"></a>内置装饰器</h3><p>Python还提供了一些常用的内置装饰器。例如：</p>
+<ul>
+<li><code>@property</code>：用于将一个方法转换为属性。广泛应用在类的定义中，可以让调用者写出简短的代码，同时保证对参数进行必要的检查。</li>
+<li><code>@staticmethod</code> 和 <code>@classmethod</code>：用于定义静态方法和类方法。</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ol>
+<li>装饰器是闭包的一种应用，闭包为装饰器提供了“记住外部函数参数（如被装饰函数 <code>func</code>）”的能力。</li>
+<li>一切 callable 的对象都可以被用来实现装饰器，比如函数、类。</li>
+<li>装饰器会改变原函数的原始签名，需要使用 <code>functools.wraps</code></li>
+<li>在内层函数修改外层函数的变量时，需要使用 <code>nonlocal</code> 关键字。</li>
+<li>“装饰器”并没有提供某种无法替代的功能，等同于<code>func = decorator(func)</code>。它只是一颗“语法糖”而已，就像乐高积木，可以自由组合各种功能模块，在某些特定场景里可以使代码更简洁易维护。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
       </tags>
   </entry>
 </search>
