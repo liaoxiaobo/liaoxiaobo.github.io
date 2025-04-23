@@ -19,15 +19,15 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="Python 面试题数据结构列举 Python 中的基本数据结构   数据结构 特点 应用场景    列表 有序、可变、允许重复元素 动态存储异构数据（如同时存储整数、字符串等）   元组 有序、不可变、允许重复元素 存储固定数据（如坐标、配置参数），比列表更节省内存   字典 无序（Python 3.7+ 有序）、可变、键值对（key: value） 快速通过键查找值（如用户信息映射）   集合">
+    <meta name="description" content="Python 面试题数据操作如何将字符串 “ilovechina” 进行反转12s &#x3D; &#x27;ilovechina&#x27;s &#x3D; s[::-1]  如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？12s &#x3D; &quot;1,2,3&quot;stdout &#x3D; s.split(&#x27;,&#x27;)  Python 中的字符串格式化方式你知道哪些？Python3.6之后的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Python面试问题汇总">
 <meta property="og:url" content="http://example.com/2020/01/22/python-interview/index.html">
 <meta property="og:site_name" content="liaoxb&#39;s blog">
-<meta property="og:description" content="Python 面试题数据结构列举 Python 中的基本数据结构   数据结构 特点 应用场景    列表 有序、可变、允许重复元素 动态存储异构数据（如同时存储整数、字符串等）   元组 有序、不可变、允许重复元素 存储固定数据（如坐标、配置参数），比列表更节省内存   字典 无序（Python 3.7+ 有序）、可变、键值对（key: value） 快速通过键查找值（如用户信息映射）   集合">
+<meta property="og:description" content="Python 面试题数据操作如何将字符串 “ilovechina” 进行反转12s &#x3D; &#x27;ilovechina&#x27;s &#x3D; s[::-1]  如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？12s &#x3D; &quot;1,2,3&quot;stdout &#x3D; s.split(&#x27;,&#x27;)  Python 中的字符串格式化方式你知道哪些？Python3.6之后的">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-01-22T12:30:10.000Z">
-<meta property="article:modified_time" content="2025-04-07T17:30:39.692Z">
+<meta property="article:modified_time" content="2025-04-23T07:50:56.879Z">
 <meta property="article:author" content="liaoxb">
 <meta property="article:tag" content="Python">
 <meta name="twitter:card" content="summary">
@@ -138,7 +138,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">Python 面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E4%B8%BE-Python-%E4%B8%AD%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.1.1.</span> <span class="nav-text">列举 Python 中的基本数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2-%E2%80%9Cilovechina%E2%80%9D-%E8%BF%9B%E8%A1%8C%E5%8F%8D%E8%BD%AC"><span class="nav-number">1.1.2.</span> <span class="nav-text">如何将字符串 “ilovechina” 进行反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86-%E2%80%9C1-2-3%E2%80%9D-%E5%88%86%E5%89%B2%E6%88%90-%E2%80%9C1%E2%80%9D-%E2%80%9D2%E2%80%9D-%E2%80%9D3%E2%80%9D-%EF%BC%9F"><span class="nav-number">1.1.3.</span> <span class="nav-text">如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%96%B9%E5%BC%8F%E4%BD%A0%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.1.4.</span> <span class="nav-text">Python 中的字符串格式化方式你知道哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%85%83%E7%B4%A0%E6%80%8E%E4%B9%88%E5%8E%BB%E9%87%8D"><span class="nav-number">1.1.5.</span> <span class="nav-text">列表元素怎么去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%88%97%E8%A1%A8%E6%80%8E%E4%B9%88%E8%BD%AC%E6%88%90%E5%AD%97%E5%85%B8"><span class="nav-number">1.1.6.</span> <span class="nav-text">两个列表怎么转成字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.7.</span> <span class="nav-text">如何合并两个列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B-sort-%E5%92%8C-sorted-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.8.</span> <span class="nav-text">举例 sort 和 sorted 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E6%93%8D%E4%BD%9C%E4%B8%AD-del-%E5%92%8C-pop-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.1.9.</span> <span class="nav-text">字典操作中 del 和 pop 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%AD%97%E5%85%B8"><span class="nav-number">1.1.10.</span> <span class="nav-text">如何合并两个字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8A%8A-%E5%85%83%E7%BB%84-%E2%80%9Ca%E2%80%9D-%E2%80%9Db%E2%80%9D-%E5%92%8C-%E5%85%83%E7%BB%84-1-2-%EF%BC%8C%E5%8F%98%E4%B8%BA%E5%AD%97%E5%85%B8-%E2%80%9Ca%E2%80%9D-1-%E2%80%9Db%E2%80%9D-2-%EF%BC%9F"><span class="nav-number">1.1.11.</span> <span class="nav-text">如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E5%85%83%E8%BF%90%E7%AE%97%E5%86%99%E6%B3%95%E5%92%8C%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.12.</span> <span class="nav-text">三元运算写法和应用场景</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">文件处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%AF%BB%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E4%BD%BF%E7%94%A8-read%E3%80%81readline-%E6%88%96%E8%80%85-readlines%EF%BC%8C%E7%AE%80%E8%BF%B0%E5%AE%83%E4%BB%AC%E5%90%84%E8%87%AA%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E5%AD%97%E5%85%B8%E5%92%8C-json-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.2.</span> <span class="nav-text">Python 字典和 json 字符串相互转化方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E7%89%B9%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">高级特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%A3%85%E9%A5%B0%E5%99%A8%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F%E8%AF%B7%E5%88%97%E4%B8%BE%E8%AF%B4%E6%98%8E"><span class="nav-number">1.3.1.</span> <span class="nav-text">函数装饰器有什么作用？请列举说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0-classmethod-%E5%92%8C-staticmethod-%E7%94%A8%E6%B3%95%E5%92%8C%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.2.</span> <span class="nav-text">简述 @classmethod 和 @staticmethod 用法和区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%A0%E4%BA%86%E8%A7%A3-Python-%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%B0%84%E5%90%97%EF%BC%9F"><span class="nav-number">1.3.3.</span> <span class="nav-text">你了解 Python 中的反射吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-%E5%92%8C-deepcopy-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.4.</span> <span class="nav-text">copy 和 deepcopy 的区别是什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%B3%95%E9%A2%98%E7%9B%AE"><span class="nav-number">1.4.</span> <span class="nav-text">算法题目</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E8%BE%93%E5%87%BA-1-100-%E4%B9%8B%E9%97%B4%E7%9A%84%E6%89%80%E6%9C%89%E5%81%B6%E6%95%B0"><span class="nav-number">1.4.1.</span> <span class="nav-text">一行代码输出 1-100 之间的所有偶数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%B7%E5%86%99%E4%B8%80%E4%B8%AA-Python-%E9%80%BB%E8%BE%91%EF%BC%8C%E8%AE%A1%E7%AE%97%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E5%A4%A7%E5%86%99%E5%AD%97%E6%AF%8D%E6%95%B0%E9%87%8F%E3%80%82"><span class="nav-number">1.4.2.</span> <span class="nav-text">请写一个 Python 逻辑，计算一个文件中的大写字母数量。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AE%E5%BD%93%E5%89%8D%E6%97%B6%E9%97%B4%E8%BE%93%E5%87%BAN%E5%88%86%E9%92%9F%E3%80%81%E5%B0%8F%E6%97%B6%E5%90%8E%E7%9A%84%E6%97%B6%E9%97%B4"><span class="nav-number">1.4.3.</span> <span class="nav-text">根据当前时间输出N分钟、小时后的时间</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Python-%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">Python 面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C"><span class="nav-number">1.1.</span> <span class="nav-text">数据操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86%E5%AD%97%E7%AC%A6%E4%B8%B2-%E2%80%9Cilovechina%E2%80%9D-%E8%BF%9B%E8%A1%8C%E5%8F%8D%E8%BD%AC"><span class="nav-number">1.1.1.</span> <span class="nav-text">如何将字符串 “ilovechina” 进行反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%B0%86-%E2%80%9C1-2-3%E2%80%9D-%E5%88%86%E5%89%B2%E6%88%90-%E2%80%9C1%E2%80%9D-%E2%80%9D2%E2%80%9D-%E2%80%9D3%E2%80%9D-%EF%BC%9F"><span class="nav-number">1.1.2.</span> <span class="nav-text">如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E4%B8%AD%E7%9A%84%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%A0%BC%E5%BC%8F%E5%8C%96%E6%96%B9%E5%BC%8F%E4%BD%A0%E7%9F%A5%E9%81%93%E5%93%AA%E4%BA%9B%EF%BC%9F"><span class="nav-number">1.1.3.</span> <span class="nav-text">Python 中的字符串格式化方式你知道哪些？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E8%A1%A8%E5%85%83%E7%B4%A0%E6%80%8E%E4%B9%88%E5%8E%BB%E9%87%8D"><span class="nav-number">1.1.4.</span> <span class="nav-text">列表元素怎么去重</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%A4%E4%B8%AA%E5%88%97%E8%A1%A8%E6%80%8E%E4%B9%88%E8%BD%AC%E6%88%90%E5%AD%97%E5%85%B8"><span class="nav-number">1.1.5.</span> <span class="nav-text">两个列表怎么转成字典</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%88%97%E8%A1%A8"><span class="nav-number">1.1.6.</span> <span class="nav-text">如何合并两个列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BE%E4%BE%8B-sort-%E5%92%8C-sorted-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.1.7.</span> <span class="nav-text">举例 sort 和 sorted 的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E6%8A%8A-%E5%85%83%E7%BB%84-%E2%80%9Ca%E2%80%9D-%E2%80%9Db%E2%80%9D-%E3%80%81-1-2-%EF%BC%8C%E5%8F%98%E4%B8%BA%E5%AD%97%E5%85%B8-%E2%80%9Ca%E2%80%9D-1-%E2%80%9Db%E2%80%9D-2-%EF%BC%9F"><span class="nav-number">1.1.8.</span> <span class="nav-text">如何把 元组 (“a”,”b”) 、(1,2)，变为字典{“a”:1,”b”:2}？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E5%85%B8%E6%93%8D%E4%BD%9C%E4%B8%AD-del-%E5%92%8C-pop-%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="nav-number">1.1.9.</span> <span class="nav-text">字典操作中 del 和 pop 有什么区别？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%90%88%E5%B9%B6%E4%B8%A4%E4%B8%AA%E5%AD%97%E5%85%B8"><span class="nav-number">1.1.10.</span> <span class="nav-text">如何合并两个字典</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%A4%84%E7%90%86"><span class="nav-number">1.2.</span> <span class="nav-text">文件处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%AF%BB%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E7%9A%84%E6%97%B6%E5%80%99%E4%BC%9A%E4%BD%BF%E7%94%A8-read%E3%80%81readline-%E6%88%96%E8%80%85-readlines%EF%BC%8C%E7%AE%80%E8%BF%B0%E5%AE%83%E4%BB%AC%E5%90%84%E8%87%AA%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E5%AD%97%E5%85%B8%E5%92%8C-json-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9B%B8%E4%BA%92%E8%BD%AC%E5%8C%96%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.2.</span> <span class="nav-text">Python 字典和 json 字符串相互转化方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E8%A8%80%E7%89%B9%E6%80%A7"><span class="nav-number">1.3.</span> <span class="nav-text">语言特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E4%B8%AD%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">1.3.1.</span> <span class="nav-text">Python 中的基本数据结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0%E7%9A%84%E4%BC%A0%E9%80%92%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.2.</span> <span class="nav-text">Python 函数参数的传递机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Python-%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.3.</span> <span class="nav-text">Python 垃圾回收机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%A3%85%E9%A5%B0%E5%99%A8%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F%E8%AF%B7%E5%88%97%E4%B8%BE%E8%AF%B4%E6%98%8E"><span class="nav-number">1.3.4.</span> <span class="nav-text">函数装饰器有什么作用？请列举说明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E8%BF%B0-classmethod-%E5%92%8C-staticmethod-%E7%94%A8%E6%B3%95%E5%92%8C%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.5.</span> <span class="nav-text">简述 @classmethod 和 @staticmethod 用法和区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%A0%E4%BA%86%E8%A7%A3-Python-%E4%B8%AD%E7%9A%84%E5%8F%8D%E5%B0%84%E5%90%97%EF%BC%9F"><span class="nav-number">1.3.6.</span> <span class="nav-text">你了解 Python 中的反射吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#copy-%E5%92%8C-deepcopy-%E7%9A%84%E5%8C%BA%E5%88%AB%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.3.7.</span> <span class="nav-text">copy 和 deepcopy 的区别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">1.3.8.</span> <span class="nav-text">进程与线程的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python%E4%B8%AD%E7%9A%84GIL"><span class="nav-number">1.3.9.</span> <span class="nav-text">python中的GIL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#python-%E5%8D%8F%E7%A8%8B%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.3.10.</span> <span class="nav-text">python 协程是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.3.11.</span> <span class="nav-text">什么是单例模式</span></a></li></ol></li></ol></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -237,14 +237,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">本文字数：</span>
-      <span>4.4k</span>
+      <span>8.4k</span>
     </span>
     <span class="post-meta-item" title="阅读时长">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">阅读时长 &asymp;</span>
-      <span>4 分钟</span>
+      <span>8 分钟</span>
     </span>
 </div>
 
@@ -254,44 +254,7 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id="Python-面试题"><a href="#Python-面试题" class="headerlink" title="Python 面试题"></a>Python 面试题</h1><h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><h3 id="列举-Python-中的基本数据结构"><a href="#列举-Python-中的基本数据结构" class="headerlink" title="列举 Python 中的基本数据结构"></a>列举 Python 中的基本数据结构</h3><table>
-<thead>
-<tr>
-<th>数据结构</th>
-<th>特点</th>
-<th>应用场景</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>列表</strong></td>
-<td>有序、可变、允许重复元素</td>
-<td>动态存储异构数据（如同时存储整数、字符串等）</td>
-</tr>
-<tr>
-<td><strong>元组</strong></td>
-<td>有序、不可变、允许重复元素</td>
-<td>存储固定数据（如坐标、配置参数），比列表更节省内存</td>
-</tr>
-<tr>
-<td><strong>字典</strong></td>
-<td>无序（Python 3.7+ 有序）、可变、键值对（key: value）</td>
-<td>快速通过键查找值（如用户信息映射）</td>
-</tr>
-<tr>
-<td><strong>集合</strong></td>
-<td>无序、不可变元素、唯一性（自动去重）</td>
-<td>数学集合运算（交集、并集）、快速成员判断</td>
-</tr>
-<tr>
-<td><strong>字符串</strong></td>
-<td>有序、不可变、字符序列</td>
-<td>文本处理、格式化输出</td>
-</tr>
-</tbody></table>
-<blockquote>
-<p>基本结构通常指列表、元组、字典、集合，而字符串可能作为序列类型单独列出</p>
-</blockquote>
-<h3 id="如何将字符串-“ilovechina”-进行反转"><a href="#如何将字符串-“ilovechina”-进行反转" class="headerlink" title="如何将字符串 “ilovechina” 进行反转"></a>如何将字符串 “ilovechina” 进行反转</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&#x27;ilovechina&#x27;</span></span><br><span class="line">s = s[::-<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
+    <div class="post-body" itemprop="articleBody"><h1 id="Python-面试题"><a href="#Python-面试题" class="headerlink" title="Python 面试题"></a>Python 面试题</h1><h2 id="数据操作"><a href="#数据操作" class="headerlink" title="数据操作"></a>数据操作</h2><h3 id="如何将字符串-“ilovechina”-进行反转"><a href="#如何将字符串-“ilovechina”-进行反转" class="headerlink" title="如何将字符串 “ilovechina” 进行反转"></a>如何将字符串 “ilovechina” 进行反转</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&#x27;ilovechina&#x27;</span></span><br><span class="line">s = s[::-<span class="number">1</span>]</span><br></pre></td></tr></table></figure>
 
 <h3 id="如何将-“1-2-3”-分割成-“1”-”2”-”3”-？"><a href="#如何将-“1-2-3”-分割成-“1”-”2”-”3”-？" class="headerlink" title="如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？"></a>如何将 “1,2,3” 分割成 [“1”,”2”,”3”]？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s = <span class="string">&quot;1,2,3&quot;</span></span><br><span class="line">stdout = s.split(<span class="string">&#x27;,&#x27;</span>)</span><br></pre></td></tr></table></figure>
 
@@ -324,20 +287,110 @@
 
 <h3 id="举例-sort-和-sorted-的区别"><a href="#举例-sort-和-sorted-的区别" class="headerlink" title="举例 sort 和 sorted 的区别"></a>举例 sort 和 sorted 的区别</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sort()与sorted()的不同在于，sort是在原位重新排列列表，而sorted()是产生一个新的列表</span><br></pre></td></tr></table></figure>
 
+<h3 id="如何把-元组-“a”-”b”-、-1-2-，变为字典-“a”-1-”b”-2-？"><a href="#如何把-元组-“a”-”b”-、-1-2-，变为字典-“a”-1-”b”-2-？" class="headerlink" title="如何把 元组 (“a”,”b”) 、(1,2)，变为字典{“a”:1,”b”:2}？"></a>如何把 元组 (“a”,”b”) 、(1,2)，变为字典{“a”:1,”b”:2}？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = (<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">b = (<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">z = <span class="built_in">zip</span>(a,b)</span><br><span class="line">c = <span class="built_in">dict</span>(z)</span><br></pre></td></tr></table></figure>
 <h3 id="字典操作中-del-和-pop-有什么区别？"><a href="#字典操作中-del-和-pop-有什么区别？" class="headerlink" title="字典操作中 del 和 pop 有什么区别？"></a>字典操作中 del 和 pop 有什么区别？</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">del 操作删除键值对，不返回值；</span><br><span class="line">pop 操作删除键值对的同时，返回键所对应的值。</span><br></pre></td></tr></table></figure>
 
-<h3 id="如何合并两个字典"><a href="#如何合并两个字典" class="headerlink" title="如何合并两个字典"></a>如何合并两个字典</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># python3合并字典有三种方式</span></span><br><span class="line"><span class="comment"># 1.</span></span><br><span class="line">a = &#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">1</span>,<span class="string">&#x27;b&#x27;</span>:<span class="number">2</span>&#125;</span><br><span class="line">b = &#123;<span class="string">&#x27;c&#x27;</span>:<span class="number">3</span>,<span class="string">&#x27;d&#x27;</span>:<span class="number">4</span>&#125;</span><br><span class="line">c = &#123;&#125;</span><br><span class="line">c.update(a)</span><br><span class="line">c.update(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.</span></span><br><span class="line">c = <span class="built_in">dict</span>(a,**b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.</span></span><br><span class="line">c = &#123;**a,**b&#125; <span class="comment"># 官方推荐这种方式</span></span><br></pre></td></tr></table></figure>
+<h3 id="如何合并两个字典"><a href="#如何合并两个字典" class="headerlink" title="如何合并两个字典"></a>如何合并两个字典</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># python3合并字典有三种方式</span></span><br><span class="line"><span class="comment"># 1.</span></span><br><span class="line">a = &#123;<span class="string">&#x27;a&#x27;</span>:<span class="number">1</span>,<span class="string">&#x27;b&#x27;</span>:<span class="number">2</span>&#125;</span><br><span class="line">b = &#123;<span class="string">&#x27;c&#x27;</span>:<span class="number">3</span>,<span class="string">&#x27;d&#x27;</span>:<span class="number">4</span>&#125;</span><br><span class="line">c = &#123;&#125;</span><br><span class="line">c.update(a)</span><br><span class="line">c.update(b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.</span></span><br><span class="line">c = <span class="built_in">dict</span>(a,**b)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 3.动态解包</span></span><br><span class="line">c = &#123;**a,**b&#125; <span class="comment"># 官方推荐这种方式</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="如何把-元组-“a”-”b”-和-元组-1-2-，变为字典-“a”-1-”b”-2-？"><a href="#如何把-元组-“a”-”b”-和-元组-1-2-，变为字典-“a”-1-”b”-2-？" class="headerlink" title="如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？"></a>如何把 元组 (“a”,”b”) 和 元组(1,2)，变为字典{“a”:1,”b”:2}？</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = (<span class="string">&#x27;a&#x27;</span>,<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">b = (<span class="number">1</span>,<span class="number">2</span>)</span><br><span class="line">z = <span class="built_in">zip</span>(a,b)</span><br><span class="line">c = <span class="built_in">dict</span>(z)</span><br></pre></td></tr></table></figure>
-
-<h3 id="三元运算写法和应用场景"><a href="#三元运算写法和应用场景" class="headerlink" title="三元运算写法和应用场景"></a>三元运算写法和应用场景</h3><p>三元运算符的作用就是判断，可以理解为if条件判断的简化版。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">条件语句比较简单时可以使用三元运算符，最常见的就是 </span><br><span class="line">res = &#x27;test True&#x27; if expression is True else &#x27;test False&#x27;</span><br></pre></td></tr></table></figure>
-
-<h2 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h2><h3 id="在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用"><a href="#在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用" class="headerlink" title="在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用"></a>在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用</h3><p>read将整个文本都读取为一个字符串，占用内存大，readline读取为一个生成器，支持遍历和迭代，占用空间小。</p>
-<p>readlines将文本读取为列表，占用空间大。</p>
+<h2 id="文件处理"><a href="#文件处理" class="headerlink" title="文件处理"></a>文件处理</h2><h3 id="在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用"><a href="#在读文件操作的时候会使用-read、readline-或者-readlines，简述它们各自的作用" class="headerlink" title="在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用"></a>在读文件操作的时候会使用 read、readline 或者 readlines，简述它们各自的作用</h3><ul>
+<li>read():一次读取文本全部内容为字符串（可以指定size去读取），占用空间大</li>
+<li>readline():读取文本为一个生成器，支持遍历和迭代，占用空间小</li>
+<li>readlines():一次读取文本全部内容为列表，占用空间大</li>
+</ul>
 <h3 id="Python-字典和-json-字符串相互转化方法"><a href="#Python-字典和-json-字符串相互转化方法" class="headerlink" title="Python 字典和 json 字符串相互转化方法"></a>Python 字典和 json 字符串相互转化方法</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">json.dumps()   将Python中的对象转换为JSON中的字符串对象</span><br><span class="line">json.loads()   将JSON中的字符串对象转换为Python中的对象</span><br></pre></td></tr></table></figure>
 
-<h2 id="高级特性"><a href="#高级特性" class="headerlink" title="高级特性"></a>高级特性</h2><h3 id="函数装饰器有什么作用？请列举说明"><a href="#函数装饰器有什么作用？请列举说明" class="headerlink" title="函数装饰器有什么作用？请列举说明"></a>函数装饰器有什么作用？请列举说明</h3><p>函数装饰器可以在不修改原函数的条件下，为原函数添加额外的功能，例如记录日志，运行性能，缓存等</p>
+<h2 id="语言特性"><a href="#语言特性" class="headerlink" title="语言特性"></a>语言特性</h2><h3 id="Python-中的基本数据结构"><a href="#Python-中的基本数据结构" class="headerlink" title="Python 中的基本数据结构"></a>Python 中的基本数据结构</h3><blockquote>
+<p>基本结构通常指列表、元组、字典、集合，而字符串可能作为序列类型单独列出</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>数据结构</th>
+<th>特点</th>
+<th>实现原理</th>
+<th>应用场景</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>列表</strong></td>
+<td>有序、可变、允许重复元素</td>
+<td>动态数组存储，支持自动扩容</td>
+<td>动态数据读取&#x2F;更新、栈&#x2F;队列实现</td>
+</tr>
+<tr>
+<td><strong>元组</strong></td>
+<td>有序、不可变、允许重复元素</td>
+<td>紧凑数组存储</td>
+<td>存储固定数据（如函数参数传递、配置参数），比列表更节省内存</td>
+</tr>
+<tr>
+<td><strong>字典</strong></td>
+<td>无序（Python 3.7+ 有序）、可变、键值对</td>
+<td>哈希表</td>
+<td>快速查询、JSON 数据处理</td>
+</tr>
+<tr>
+<td><strong>集合</strong></td>
+<td>无序、可变、唯一性（自动去重）</td>
+<td>哈希表（仅键）</td>
+<td>去重、集合运算（交集、并集）、成员判断</td>
+</tr>
+<tr>
+<td><strong>字符串</strong></td>
+<td>有序、不可变、字符序列</td>
+<td>动态编码机制存储字符，如UTF-8、GBK</td>
+<td>文本处理、数据序列化（JSON&#x2F;XML格式）</td>
+</tr>
+</tbody></table>
+<h3 id="Python-函数参数的传递机制"><a href="#Python-函数参数的传递机制" class="headerlink" title="Python 函数参数的传递机制"></a>Python 函数参数的传递机制</h3><p>Python的函数参数传递机制是对象引用传递（Pass by Object Reference），其核心是传递对象的引用，而非对象本身或对象的值。这一机制的行为取决于对象是否可变。</p>
+<p><strong>1. 如何理解对象引用传递</strong></p>
+<ul>
+<li><strong>所有变量都是对象的引用</strong>：Python中变量名本质上是对象的引用（指针），即所有数据（如整数、字符串、列表等）都以对象形式存在，变量仅指向这些对象。</li>
+<li><strong>传递的是引用的拷贝</strong>：函数调用时，实参对象的引用（地址）会被拷贝给形参。因此，形参和实参<strong>指向同一个对象</strong>，但引用本身是独立的。</li>
+</ul>
+<p><strong>2. 不可变对象的传递</strong></p>
+<p><strong>不可变对象</strong>（如 <code>int</code>、<code>str</code>、<code>tuple</code> 等）的值不能被修改，因此：</p>
+<ul>
+<li><strong>函数内部无法修改原对象</strong>：对形参的“修改”都会创建新对象（如重新赋值），外部变量不变，行为类似“值传递”</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">modify_immutable</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;函数内原始x的id: <span class="subst">&#123;<span class="built_in">id</span>(x)&#125;</span>&quot;</span>)</span><br><span class="line">    x = <span class="number">10</span>  <span class="comment"># 创建新对象，原引用被替换</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;修改后x的id: <span class="subst">&#123;<span class="built_in">id</span>(x)&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">x = <span class="number">5</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;调用前x的id: <span class="subst">&#123;<span class="built_in">id</span>(x)&#125;</span>&quot;</span>)</span><br><span class="line">modify_immutable(x)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;调用后x的值: <span class="subst">&#123;x&#125;</span>&quot;</span>)  <span class="comment"># 输出：5（未改变）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出:</span></span><br><span class="line"><span class="comment"># 调用前x的id: 4353896768</span></span><br><span class="line"><span class="comment"># 函数内原始x的id: 4353896768</span></span><br><span class="line"><span class="comment"># 修改后x的id: 4353896928</span></span><br><span class="line"><span class="comment"># 调用后x的值: 5</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>3.可变对象的传递</strong></p>
+<p><strong>可变对象</strong>（如 <code>list</code>、<code>dict</code>、<code>set</code> 等）的值可以被修改，因此：</p>
+<ul>
+<li><strong>函数内部可直接修改原对象</strong>：通过原地操作（如 <code>append</code>、<code>update</code>）会修改原对象，会影响外部变量，行为类似“引用传递”</li>
+<li>特殊情况：如果在函数内部重新赋值（如 lst &#x3D; new_list），形参的引用会指向新对象，外部变量不变</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">modify_mutable</span>(<span class="params">lst</span>):</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;函数内原始lst的id: <span class="subst">&#123;<span class="built_in">id</span>(lst)&#125;</span>&quot;</span>)</span><br><span class="line">    lst.append(<span class="number">4</span>)  <span class="comment"># 原地修改，对象内容改变</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;原地修改后lst的id: <span class="subst">&#123;<span class="built_in">id</span>(lst)&#125;</span>&quot;</span>)</span><br><span class="line">    lst = [<span class="number">100</span>, <span class="number">200</span>]  <span class="comment"># 此处重新赋值，形参lst指向新对象，但原my_list未受影响</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;重新赋值后lst的id: <span class="subst">&#123;<span class="built_in">id</span>(lst)&#125;</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line">my_list = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;调用前my_list的id: <span class="subst">&#123;<span class="built_in">id</span>(my_list)&#125;</span>&quot;</span>)</span><br><span class="line">modify_mutable(my_list)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">f&quot;调用后my_list的内容: <span class="subst">&#123;my_list&#125;</span>&quot;</span>)  <span class="comment"># 输出：[1, 2, 3, 4]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出:</span></span><br><span class="line"><span class="comment"># 调用前my_list的id: 4408370176</span></span><br><span class="line"><span class="comment"># 函数内原始lst的id: 4408370176</span></span><br><span class="line"><span class="comment"># 原地修改后lst的id: 4408370176</span></span><br><span class="line"><span class="comment"># 重新赋值后lst的id: 4404760832</span></span><br><span class="line"><span class="comment"># 调用后my_list的内容: [1, 2, 3, 4]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Python-垃圾回收机制"><a href="#Python-垃圾回收机制" class="headerlink" title="Python 垃圾回收机制"></a>Python 垃圾回收机制</h3><p>Python的垃圾回收（Garbage Collection, GC）机制旨在自动管理内存，回收不再被使用的对象，避免内存泄漏。其核心机制结合了引用计数和分代回收（Generational Collection），同时通过gc模块提供手动控制的灵活性。</p>
+<p><strong>1. 核心机制：引用计数</strong></p>
+<p><strong>基本原理</strong></p>
+<ul>
+<li><strong>每个对象都有一个引用计数器</strong>：记录当前有多少变量或对象引用它。</li>
+<li>引用计数的增减：<ul>
+<li>当对象被创建时，初始引用计数为1。</li>
+<li>每次有新的变量或对象引用该对象时，计数器加1。</li>
+<li>当引用失效（如变量被删除、超出作用域、重新赋值）时，计数器减1。</li>
+<li><strong>当计数器降为0时</strong>，Python立即释放该对象的内存。</li>
+</ul>
+</li>
+</ul>
+<p><strong>示例</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]  <span class="comment"># 列表对象的引用计数为1（被a引用）</span></span><br><span class="line">b = a          <span class="comment"># 引用计数变为2（被a和b引用）</span></span><br><span class="line"><span class="keyword">del</span> a          <span class="comment"># 引用计数减为1（仅b引用）</span></span><br><span class="line">b = <span class="literal">None</span>       <span class="comment"># 引用计数降为0，列表对象被回收</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>引用计数的局限性</strong></p>
+<ul>
+<li>无法处理循环引用：当两个或多个对象互相引用时，引用计数永远不会为0，导致内存泄漏。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">a = []</span><br><span class="line">b = []</span><br><span class="line">a.append(b)   <span class="comment"># a引用b</span></span><br><span class="line">b.append(a)   <span class="comment"># b引用a</span></span><br><span class="line"><span class="keyword">del</span> a, b      <span class="comment"># 循环引用的计数仍为1，无法回收</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>分代回收（Generational Collection）</strong></li>
+</ol>
+<p>作用：解决循环引用问题，通过周期性扫描检测并回收被循环引用的对象。</p>
+<p>分代回收的整体思想是：将系统中的所有内存块根据其存活时间划分为不同的集合，每个集合就成为一个“代”，垃圾收集频率随着“代”的存活时间的增大而减小，存活时间通常利用经过几次垃圾回收来度量。</p>
+<h3 id="函数装饰器有什么作用？请列举说明"><a href="#函数装饰器有什么作用？请列举说明" class="headerlink" title="函数装饰器有什么作用？请列举说明"></a>函数装饰器有什么作用？请列举说明</h3><p>函数装饰器可以在不修改原函数的条件下，为原函数添加额外的功能，例如记录日志，运行性能，缓存等</p>
 <h3 id="简述-classmethod-和-staticmethod-用法和区别"><a href="#简述-classmethod-和-staticmethod-用法和区别" class="headerlink" title="简述 @classmethod 和 @staticmethod 用法和区别"></a>简述 @classmethod 和 @staticmethod 用法和区别</h3><table>
 <thead>
 <tr>
@@ -372,24 +425,69 @@
 <td>推荐通过类名调用</td>
 </tr>
 </tbody></table>
-<h3 id="你了解-Python-中的反射吗？"><a href="#你了解-Python-中的反射吗？" class="headerlink" title="你了解 Python 中的反射吗？"></a>你了解 Python 中的反射吗？</h3><p>通过字符串映射object对象的方法或者属性</p>
+<h3 id="你了解-Python-中的反射吗？"><a href="#你了解-Python-中的反射吗？" class="headerlink" title="你了解 Python 中的反射吗？"></a>你了解 Python 中的反射吗？</h3><p>Python 的反射能力由一系列内置函数和模块支持，允许代码在运行时根据字符串名称操作对象，实现高度动态的编程。比如动态操作对象属性、调用方法、模块导入等</p>
+<p><strong>内置函数</strong></p>
 <ol>
-<li>hasattr(obj,name_str): 判断objec是否有name_str这个方法或者属性</li>
-<li>getattr(obj,name_str): 获取object对象中与name_str同名的方法或者函数</li>
-<li>setattr(obj,name_str,value): 为object对象设置一个以name_str为名的value方法或者属性</li>
-<li>delattr(obj,name_str): 删除object对象中的name_str方法或者属性</li>
+<li><code>hasattr(obj, name)</code>: 检查对象是否包含指定属性&#x2F;方法</li>
+<li><code>getattr(obj, name, default)</code>: 获取对象的属性&#x2F;方法，若不存在则返回 <code>default</code> 或抛出错误</li>
+<li><code>setattr(obj, name, value)</code>: 动态设置对象的属性值</li>
+<li><code>delattr(obj, name)</code>: 删除对象中的属性&#x2F;方法</li>
 </ol>
-<p>举个栗子</p>
+<p><strong>应用场景</strong></p>
+<p>1、动态调用方法</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Http</span>(<span class="title class_ inherited__">object</span>):</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">get</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.get(url)</span><br><span class="line">        response = res.text</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">post</span>(<span class="params">self,url</span>):</span><br><span class="line">        res = requests.post(url)</span><br><span class="line">        response = res.text</span><br><span class="line">        <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用反射后</span></span><br><span class="line">url = <span class="string">&quot;https://www.jianshu.com/u/14140bf8f6c7&quot;</span></span><br><span class="line">method = <span class="built_in">input</span>(<span class="string">&quot;请求方法&gt;&gt;&gt;:&quot;</span>)</span><br><span class="line">h = Http()</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">hasattr</span>(h,method):</span><br><span class="line">    func = <span class="built_in">getattr</span>(h,method)</span><br><span class="line">    res = func(url)</span><br><span class="line">    <span class="built_in">print</span>(res)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;你的请求方式有误...&quot;</span>)</span><br></pre></td></tr></table></figure>
 
-<h3 id="copy-和-deepcopy-的区别是什么？"><a href="#copy-和-deepcopy-的区别是什么？" class="headerlink" title="copy 和 deepcopy 的区别是什么？"></a>copy 和 deepcopy 的区别是什么？</h3><p>copy 即所谓的浅拷贝，赋值的时候非递归地复制子对象的引用；<br>deepcopy 即所谓的深拷贝，赋值的时候递归复制子对象。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">xs = [<span class="number">1</span>,<span class="number">2</span>,[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line">ys = xs <span class="comment"># 浅拷贝</span></span><br><span class="line">zs = deepcopy(xs) <span class="comment"># 深拷贝</span></span><br><span class="line">xs[<span class="number">2</span>][<span class="number">0</span>] = <span class="number">5</span></span><br><span class="line"><span class="built_in">print</span>(ys)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line"><span class="built_in">print</span>(xs)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>]</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(zs)</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,[<span class="number">5</span>,<span class="number">3</span>,<span class="number">4</span>],<span class="number">3</span>] <span class="comment"># 由于深拷贝已经递归复制了子对象，所以内部的List也发生改变</span></span><br></pre></td></tr></table></figure>
+<p>2、动态属性操作</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">DynamicObject</span>:</span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">obj = DynamicObject()</span><br><span class="line"><span class="built_in">setattr</span>(obj, <span class="string">&quot;dynamic_attr&quot;</span>, <span class="number">42</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">getattr</span>(obj, <span class="string">&quot;dynamic_attr&quot;</span>))  <span class="comment"># 输出 42</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="算法题目"><a href="#算法题目" class="headerlink" title="算法题目"></a>算法题目</h2><h3 id="一行代码输出-1-100-之间的所有偶数"><a href="#一行代码输出-1-100-之间的所有偶数" class="headerlink" title="一行代码输出 1-100 之间的所有偶数"></a>一行代码输出 1-100 之间的所有偶数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[x <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">101</span>) <span class="keyword">if</span> x %<span class="number">2</span> ==<span class="number">0</span>]</span><br></pre></td></tr></table></figure>
+<p>3、动态加载模块或类</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">module_name = <span class="string">&quot;math&quot;</span></span><br><span class="line">module = <span class="built_in">__import__</span>(module_name)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">getattr</span>(module, <span class="string">&quot;sqrt&quot;</span>)(<span class="number">16</span>))  <span class="comment"># 输出 4.0</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="请写一个-Python-逻辑，计算一个文件中的大写字母数量。"><a href="#请写一个-Python-逻辑，计算一个文件中的大写字母数量。" class="headerlink" title="请写一个 Python 逻辑，计算一个文件中的大写字母数量。"></a>请写一个 Python 逻辑，计算一个文件中的大写字母数量。</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;a.txt&#x27;</span>,<span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f_content = f.read()</span><br><span class="line">    len_cap = <span class="built_in">len</span>(re.<span class="built_in">compile</span>(<span class="string">r&#x27;[A-Z]&#x27;</span>).findall(f_content))</span><br></pre></td></tr></table></figure>
+<p><strong>inspect 模块</strong></p>
+<p><code>inspect</code> 模块提供更强大的内省功能。</p>
+<p>严格来说，内省是反射的一部分，主要用于查看分析函数&#x2F;类的元数据。简单一句就是运行时能够获得对象的类型.比如type(),dir(),getattr(),hasattr(),isinstance()。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> inspect</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">my_function</span>(<span class="params">a, b</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;示例函数&quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> a + b</span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取函数参数信息</span></span><br><span class="line"><span class="built_in">print</span>(inspect.signature(my_function))  <span class="comment"># 输出 (a, b)</span></span><br><span class="line"><span class="comment"># 获取文档字符串</span></span><br><span class="line"><span class="built_in">print</span>(inspect.getdoc(my_function))     <span class="comment"># 输出 &quot;示例函数&quot;</span></span><br><span class="line"><span class="comment"># 获取源代码</span></span><br><span class="line"><span class="built_in">print</span>(inspect.getsource(my_function))  <span class="comment"># 输出函数定义的源代码</span></span><br></pre></td></tr></table></figure>
 
-<h3 id="根据当前时间输出N分钟、小时后的时间"><a href="#根据当前时间输出N分钟、小时后的时间" class="headerlink" title="根据当前时间输出N分钟、小时后的时间"></a>根据当前时间输出N分钟、小时后的时间</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_query_time</span>(<span class="params">minutes=<span class="number">10</span>, hours=<span class="literal">None</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;获取查询的时间段，默认返回最近的10分钟&quot;&quot;&quot;</span></span><br><span class="line">    now_time = datetime.now()</span><br><span class="line">    start_time = now_time.strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    end_time = (now_time + timedelta(minutes=minutes)).strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    <span class="keyword">if</span> hours:</span><br><span class="line">        end_time = (now_time + timedelta(hours=hours)).strftime(<span class="string">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</span><br><span class="line">    <span class="keyword">return</span> start_time, end_time</span><br></pre></td></tr></table></figure>
+<h3 id="copy-和-deepcopy-的区别是什么？"><a href="#copy-和-deepcopy-的区别是什么？" class="headerlink" title="copy 和 deepcopy 的区别是什么？"></a>copy 和 deepcopy 的区别是什么？</h3><p><strong>浅拷贝:</strong> 创建新对象，赋值的时候非递归地复制子对象的引用。</p>
+<p><strong>深拷贝：</strong>创建新对象，赋值的时候递归地复制子对象的引用。即拷贝了对象的所有元素，包括多层嵌套的元素</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> copy</span><br><span class="line">a = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>]]  <span class="comment">#原始对象</span></span><br><span class="line"></span><br><span class="line">b = a  <span class="comment">#赋值，传对象的引用</span></span><br><span class="line">c = copy.copy(a)  <span class="comment">#对象拷贝，浅拷贝</span></span><br><span class="line">d = copy.deepcopy(a)  <span class="comment">#对象拷贝，深拷贝</span></span><br><span class="line"></span><br><span class="line">a.append(<span class="number">5</span>)  <span class="comment">#修改对象a</span></span><br><span class="line">a[<span class="number">4</span>].append(<span class="string">&#x27;c&#x27;</span>)  <span class="comment">#修改对象a中的[&#x27;a&#x27;, &#x27;b&#x27;]数组对象</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;a = &#x27;</span>, a)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;b = &#x27;</span>, b)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;c = &#x27;</span>, c)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;d = &#x27;</span>, d)</span><br><span class="line"></span><br><span class="line">输出结果：</span><br><span class="line">a =  [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>], <span class="number">5</span>]</span><br><span class="line">b =  [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>], <span class="number">5</span>]</span><br><span class="line">c =  [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>, <span class="string">&#x27;c&#x27;</span>]]</span><br><span class="line">d =  [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, [<span class="string">&#x27;a&#x27;</span>, <span class="string">&#x27;b&#x27;</span>]]</span><br></pre></td></tr></table></figure>
+
+<h3 id="进程与线程的区别"><a href="#进程与线程的区别" class="headerlink" title="进程与线程的区别"></a>进程与线程的区别</h3><ul>
+<li>进程是CPU资源分配的基本单位，线程是独立运行与调度的基本单位（CPU上真正运行的是线程）</li>
+<li>进程拥有自己的资源空间，同一个进程中的多个线程并发执行，这些线程共享进程所拥有的资源，但需处理线程安全问题（如锁机制）</li>
+<li>线程的调度与切换比进程快很多</li>
+</ul>
+<h3 id="python中的GIL"><a href="#python中的GIL" class="headerlink" title="python中的GIL"></a>python中的GIL</h3><p>CPython环境下，每个进程都拥有一个GIL(Global Interpreter Lock)，单进程下的多线程，某个线程想要执行，必须先获取GIL，才可以进入CPU执行。因此，一个Python进程中的多个线程不能同时使用多个CPU核心（java中一个进程中的多线程可以利用多核cpu）。</p>
+<p>GIL释放的情况：</p>
+<ol>
+<li>执行的字节码行数到达一定阈值</li>
+<li>通过时间片划分，到达一定时间阈值</li>
+<li>在遇到IO操作时，主动释放</li>
+</ol>
+<p><strong>GIL（全局解释器锁）带来的影响</strong></p>
+<p><strong>多线程</strong>：</p>
+<ul>
+<li>Python 的  GIL 会强制解释器在同一时刻只能执行一个线程的字节码。因此，<strong>多线程在 CPU 密集型任务中无法真正并行</strong>，反而可能因线程切换导致效率下降。</li>
+<li>不过Python标准库中的所有阻塞型I&#x2F;O函数都会释放GIL，等待 IO 时可以切换线程执行其他任务，因此<strong>多线程适合 IO 密集型任务</strong>（如网络请求、爬虫、文件读写）</li>
+</ul>
+<p><strong>多进程</strong>：</p>
+<ul>
+<li>每个进程拥有独立的 Python 解释器和 GIL，因此<strong>多进程可以并行利用多核 CPU，适合 CPU 密集型任务</strong>（如科学计算、数据处理）</li>
+</ul>
+<h3 id="python-协程是什么"><a href="#python-协程是什么" class="headerlink" title="python 协程是什么"></a>python 协程是什么</h3><p><strong>协程是一种比线程更加轻量级的存在，最重要的是，协程不被操作系统内核管理，协程是完全由程序控制的。</strong></p>
+<ul>
+<li>运行效率极高，协程的切换完全由程序控制，不像线程切换需要花费操作系统的开销，线程数量越多，协程的优势就越明显。</li>
+<li>协程不需要多线程的锁机制，因为只有一个线程，不存在变量冲突。</li>
+<li>对于多核CPU，利用多进程+协程的方式，能充分利用CPU，获得极高的性能。</li>
+</ul>
+<p>Python里最常见的yield就是协程的思想!</p>
+<h3 id="什么是单例模式"><a href="#什么是单例模式" class="headerlink" title="什么是单例模式"></a>什么是单例模式</h3><p>单例模式的主要目的是保证在系统中，某个类只能有一个实例存在。比如保存系统基本配置信息的类，在很多地方都要用到，没有必要频繁创建实例与销毁实例，只需要保存一个全局的实例对象即可，这样可以减少对内存资源的占用。</p>
+<p>1、可以在模块中定义单例类并实例化对象，在用的时候直接导入这个模块的实例对象即可</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">GlobalConfig</span>:</span><br><span class="line">    host = <span class="string">&#x27;xxx.xxx&#x27;</span></span><br><span class="line">    port = <span class="number">3306</span></span><br><span class="line">    username = <span class="string">&#x27;username&#x27;</span></span><br><span class="line">    password = <span class="string">&#x27;123123&#x27;</span></span><br><span class="line"></span><br><span class="line">g = GlobalConfig()</span><br></pre></td></tr></table></figure>
+
+<p>2、<code>__new__()</code>是类的构造方法，在实例创建前被调用，它的作用就是创建实例对象。利用这个方法和类的属性的特点可以实现设计模式的单例模式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 多线程下创建单例对象需要加锁</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> threading</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Singleton</span>:</span><br><span class="line">    _instance_lock = threading.Lock()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__new__</span>(<span class="params">cls, *args, **kwargs</span>):</span><br><span class="line">        <span class="comment"># 加锁</span></span><br><span class="line">        <span class="keyword">with</span> cls._instance_lock:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> <span class="built_in">hasattr</span>(cls, <span class="string">&#x27;instance&#x27;</span>):</span><br><span class="line">                cls.instance = <span class="built_in">super</span>().__new__(cls)</span><br><span class="line">        <span class="keyword">return</span> cls.instance</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">func</span>():</span><br><span class="line">    s = Singleton()</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;s:&#123;&#125;&#x27;</span>.<span class="built_in">format</span>(<span class="built_in">id</span>(s)))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">5</span>):</span><br><span class="line">        td = threading.Thread(target=func)</span><br><span class="line">        td.start()</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -445,14 +543,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>站点总字数：</span>
-    <span title="站点总字数">97k</span>
+    <span title="站点总字数">101k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">1:29</span>
+    <span title="站点阅读时长">1:32</span>
   </span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
