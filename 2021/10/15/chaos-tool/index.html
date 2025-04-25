@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.21.1","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="安装相关问题记录1、没有list ep的权限  解决办法：手动部署一个rolebiding文件（为啥该文件没有自动部署？） 12345678910111213apiVersion: rbac.authorization.k8s.io&#x2F;v1kind: RoleBindingmetadata:  name: chaos-mesh-chaos-controller-manager-control-pla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="混沌工程系列：Chaos-Mesh工具使用实战">
+<meta property="og:url" content="http://example.com/2021/10/15/chaos-tool/index.html">
+<meta property="og:site_name" content="liaoxb&#39;s blog">
+<meta property="og:description" content="安装相关问题记录1、没有list ep的权限  解决办法：手动部署一个rolebiding文件（为啥该文件没有自动部署？） 12345678910111213apiVersion: rbac.authorization.k8s.io&#x2F;v1kind: RoleBindingmetadata:  name: chaos-mesh-chaos-controller-manager-control-pla">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/image.png">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/1633950437536-81c7b128-3f83-4b2f-9b7b-90408bf6dda6.png">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/1634564802940-fc178220-a332-48dc-8437-33bf702a7b52.png">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/1634637158658-a6ec02a6-1e6f-4914-9388-3c5808c9266f.png">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/1634637331537-effd5a34-89d2-44a2-9401-330d23ea8ee2.png">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/1633944471571-2af73cb6-c652-44e9-a4af-37a85170a52a.png">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/1633944967210-66033f95-45ba-4ac7-a30b-0e28b7491fbc.png">
+<meta property="og:image" content="http://example.com/2021/10/15/chaos-tool/1634089583922-c06ad231-32a6-4389-aee2-7b56410e763b.png">
+<meta property="article:published_time" content="2021-10-14T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-04-25T03:11:42.995Z">
+<meta property="article:author" content="liaoxb">
+<meta property="article:tag" content="Chaos Mesh">
+<meta property="article:tag" content="Chaos Blade">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/2021/10/15/chaos-tool/image.png">
+
+
+<link rel="canonical" href="http://example.com/2021/10/15/chaos-tool/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2021/10/15/chaos-tool/","path":"2021/10/15/chaos-tool/","title":"混沌工程系列：Chaos-Mesh工具使用实战"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>混沌工程系列：Chaos-Mesh工具使用实战 | liaoxb's blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">liaoxb's blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="搜索..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%9B%B8%E5%85%B3%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">安装相关问题记录</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E6%B2%A1%E6%9C%89list-ep%E7%9A%84%E6%9D%83%E9%99%90"><span class="nav-number">1.1.</span> <span class="nav-text">1、没有list ep的权限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81chaos-pod%E6%B2%A1%E6%9C%89%E5%88%9B%E5%BB%BA%E5%87%BA%E6%9D%A5-%E5%81%B6%E7%8E%B0"><span class="nav-number">1.2.</span> <span class="nav-text">2、chaos pod没有创建出来(偶现)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81ARM%E7%8E%AF%E5%A2%83%E7%BC%96%E8%AF%91%E9%95%9C%E5%83%8F%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E8%AE%B0%E5%BD%95"><span class="nav-number">1.3.</span> <span class="nav-text">3、ARM环境编译镜像遇到的问题记录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F-Pod-%E6%95%85%E9%9A%9C"><span class="nav-number">2.</span> <span class="nav-text">模拟 Pod 故障</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PodChaos-%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.1.</span> <span class="nav-text">PodChaos 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pod-failure-%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.2.</span> <span class="nav-text">pod-failure 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pod-kill-%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.3.</span> <span class="nav-text">pod-kill 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#container-kill-%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.4.</span> <span class="nav-text">container-kill 示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E6%AE%B5%E8%AF%B4%E6%98%8E"><span class="nav-number">2.5.</span> <span class="nav-text">字段说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E5%8E%8B%E5%8A%9B%E5%9C%BA%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text">模拟压力场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#StressChaos-%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.1.</span> <span class="nav-text">StressChaos 介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E6%96%87%E4%BB%B6-I-O-%E6%95%85%E9%9A%9C"><span class="nav-number">4.</span> <span class="nav-text">模拟文件 I&#x2F;O 故障</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IOChaos-%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.1.</span> <span class="nav-text">IOChaos 介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.2.</span> <span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Schedule%E5%AE%9E%E9%AA%8C%E5%9C%BA%E6%99%AF"><span class="nav-number">5.</span> <span class="nav-text">Schedule实验场景</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E9%9A%9430%E5%88%86%E9%92%9F%EF%BC%8C%E9%9A%8F%E6%9C%BAkill%E7%AC%A6%E5%90%88%E6%9D%A1%E4%BB%B6%E7%9A%84pod"><span class="nav-number">5.1.</span> <span class="nav-text">每隔30分钟，随机kill符合条件的pod</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E9%9A%9410%E5%88%86%E9%92%9F%EF%BC%8C%E6%8C%87%E5%AE%9Akill-container-proton-server"><span class="nav-number">5.2.</span> <span class="nav-text">每隔10分钟，指定kill container proton-server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E9%9A%9410%E5%88%86%E9%92%9F%EF%BC%8C%E9%9A%8F%E6%9C%BA%E6%B3%A8%E5%85%A5pod%E4%BA%A7%E7%94%9F%E7%BD%91%E7%BB%9C%E5%BB%B6%E8%BF%9F%EF%BC%8C%E6%8C%81%E7%BB%AD2min"><span class="nav-number">5.3.</span> <span class="nav-text">每隔10分钟，随机注入pod产生网络延迟，持续2min</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AF%8F%E9%9A%9410%E5%88%86%E9%92%9F%EF%BC%8C%E9%9A%8F%E6%9C%BA%E6%B3%A8%E5%85%A5pod%E4%BA%A7%E7%94%9F%E5%8E%8B%E5%8A%9B%EF%BC%8C%E6%8C%81%E7%BB%AD2min"><span class="nav-number">5.4.</span> <span class="nav-text">每隔10分钟，随机注入pod产生压力，持续2min</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">liaoxb</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">18</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/10/15/chaos-tool/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="liaoxb">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="混沌工程系列：Chaos-Mesh工具使用实战 | liaoxb's blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          混沌工程系列：Chaos-Mesh工具使用实战
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-15 00:00:00" itemprop="dateCreated datePublished" datetime="2021-10-15T00:00:00+08:00">2021-10-15</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%B7%B7%E6%B2%8C%E5%B7%A5%E7%A8%8B/" itemprop="url" rel="index"><span itemprop="name">混沌工程</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="安装相关问题记录"><a href="#安装相关问题记录" class="headerlink" title="安装相关问题记录"></a>安装相关问题记录</h2><h3 id="1、没有list-ep的权限"><a href="#1、没有list-ep的权限" class="headerlink" title="1、没有list ep的权限"></a>1、没有list ep的权限</h3><img src="/2021/10/15/chaos-tool/image.png" class="" title="image">
+
+<p>解决办法：手动部署一个rolebiding文件（为啥该文件没有自动部署？）</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">chaos-mesh-chaos-controller-manager-control-plane</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">Role</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">chaos-mesh-chaos-controller-manager-control-plane</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">chaos-controller-manager</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2、chaos-pod没有创建出来-偶现"><a href="#2、chaos-pod没有创建出来-偶现" class="headerlink" title="2、chaos pod没有创建出来(偶现)"></a>2、chaos pod没有创建出来(偶现)</h3><p>pod安全策略导致，错误如下</p>
+<img src="/2021/10/15/chaos-tool/1633950437536-81c7b128-3f83-4b2f-9b7b-90408bf6dda6.png" class="" title="1633950437536-81c7b128-3f83-4b2f-9b7b-90408bf6dda6">
+
+<p>解决办法：手动部署一个psp文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">RoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">psp-chaos-testing</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">roleRef:</span></span><br><span class="line">  <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">psp-privileged</span></span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span></span><br><span class="line">  <span class="attr">kind:</span> <span class="string">Group</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">system:serviceaccounts:chaos-testing</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、ARM环境编译镜像遇到的问题记录"><a href="#3、ARM环境编译镜像遇到的问题记录" class="headerlink" title="3、ARM环境编译镜像遇到的问题记录"></a>3、ARM环境编译镜像遇到的问题记录</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">安装docker（20+版本以上，需要支持</span> <span class="string">--load</span> <span class="string">参数）</span></span><br><span class="line"><span class="string">安装golang</span></span><br><span class="line"><span class="string">git</span> <span class="string">clone</span> <span class="string">https://github.com/chaos-mesh/chaos-mesh.git</span></span><br><span class="line"><span class="string">cd</span> <span class="string">chaos-mesh</span> <span class="string">&amp;&amp;</span> <span class="string">UI=1</span> <span class="string">make</span> <span class="string">chaos-dashboard</span></span><br></pre></td></tr></table></figure>
+
+<p>1、make过程中报–platform错误</p>
+<img src="/2021/10/15/chaos-tool/1634564802940-fc178220-a332-48dc-8437-33bf702a7b52.png" class="" title="1634564802940-fc178220-a332-48dc-8437-33bf702a7b52.png">
+
+<p><a href="https://thenew[stack.io/how-to-enable-docker-experimental-features-and-encrypt-your-login-credentials/](http://stack.io/how-to-enable-docker-experimental-features-and-encrypt-your-login-credentials/)">https://thenew[stack.io/how-to-enable-docker-experimental-features-and-encrypt-your-login-credentials/](http://stack.io/how-to-enable-docker-experimental-features-and-encrypt-your-login-credentials/)</a></p>
+<p>2、make过程中遇到TLSHandshakeTimeout</p>
+<img src="/2021/10/15/chaos-tool/1634637158658-a6ec02a6-1e6f-4914-9388-3c5808c9266f.png" class="" title="1634637158658-a6ec02a6-1e6f-4914-9388-3c5808c9266f.png">
+
+<p>在arm机器上go get则正常，容器内go get mod包出现TLSHandshakeTimeout 解决办法：在Makefile文件中增加docker run参数，把容器网络改为主机网络，重新make编译即可解决。 具体问题原因链接见：</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/goproxy/goproxy.cn/issues/26">https://github.com/goproxy/goproxy.cn/issues/26</a></p>
+<img src="/2021/10/15/chaos-tool/1634637331537-effd5a34-89d2-44a2-9401-330d23ea8ee2.png" class="" title="1634637331537-effd5a34-89d2-44a2-9401-330d23ea8ee2.png">
+
+<h2 id="模拟-Pod-故障"><a href="#模拟-Pod-故障" class="headerlink" title="模拟 Pod 故障"></a>模拟 Pod 故障</h2><h3 id="PodChaos-介绍"><a href="#PodChaos-介绍" class="headerlink" title="PodChaos 介绍"></a>PodChaos 介绍</h3><p>PodChaos 是 Chaos Mesh 中的一种故障类型，通过创建 PodChaos 类型的混沌实验，你可以模拟指定 Pod 或者容器发生故障的情景。目前，PodChaos 支持模拟以下故障类型：</p>
+<ul>
+<li>Pod Failure：向指定的 Pod 中注入故障，使得该 Pod 在一段时间内处于不可用的状态。</li>
+<li>Pod Kill：杀死指定的 Pod 。为了保证 Pod 能够成功重启，需要配置 ReplicaSet 或者类似的机制。</li>
+<li>Container Kill：杀死位于目标 Pod 中的指定容器。</li>
+</ul>
+<p><em>使用限制：Chaos Mesh 不支持向独立的 Pod 中注入故障，独立的 Pod 指未绑定到 ReplicaSet 或 Deployment 的 Pod。</em> </p>
+<h3 id="pod-failure-示例"><a href="#pod-failure-示例" class="headerlink" title="pod-failure 示例"></a>pod-failure 示例</h3><blockquote>
+<p>*PodFailure 是通过 Patch Pod 对象资源，用错误的镜像替换 Pod 中的镜像。Chaos 只修改了 <strong><code>containers</code></strong> 和 <strong><code>initContainers</code></strong> 的 <strong><code>image</code></strong> 字段，这也是因为 Pod 大部分字段是无法更改的。默认用于引发故障的容器镜像是 **<code>gcr.io/google-containers/pause:latest</code>**， 如果在国内环境使用，大概率会水土不服，可以将 <strong><code>gcr.io</code></strong> 替换为 **<code>registry.aliyuncs.com</code>*<em>。</em></p>
+</blockquote>
+<p>1、将实验配置写入到文件中 pod-failure.yaml，内容示例如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PodChaos</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-failure-example</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span> <span class="comment"># 指定ns下创建PodChaos实例,缺省default</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">action:</span> <span class="string">pod-failure</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">  <span class="attr">duration:</span> <span class="string">&#x27;30s&#x27;</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ems</span></span><br><span class="line">    <span class="attr">labelSelectors:</span></span><br><span class="line">      <span class="attr">&#x27;application&#x27;:</span> <span class="string">&#x27;ecp-dashboard&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>2、启动该实验，Chaos Mesh 将向指定的 Pod 中注入 pod-failure 故障，将使该 Pod 在 30 秒内处于不可用的状态。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">root@node-4</span> <span class="string">experiments</span>]<span class="comment"># kos apply -f pod-failure-example.yaml</span></span><br><span class="line"><span class="string">podchaos.chaos-mesh.org/pod-failure-example</span> <span class="string">created</span></span><br><span class="line">[<span class="string">root@node-4</span> <span class="string">experiments</span>]<span class="comment"># kos get PodChaos</span></span><br><span class="line"><span class="string">NAME</span>                  <span class="string">AGE</span></span><br><span class="line"><span class="string">pod-failure-example</span>   <span class="string">40s</span></span><br></pre></td></tr></table></figure>
+
+<p>3、执行命令 kos describe PodChaos  pod-failure-example，可以查看到该实验的目标pod name，以及30s后实验结束并恢复故障</p>
+<img src="/2021/10/15/chaos-tool/1633944471571-2af73cb6-c652-44e9-a4af-37a85170a52a.png" class="" title="1633944471571-2af73cb6-c652-44e9-a4af-37a85170a52a.png">
+
+<p>4、查看pod，可知目标pod出现了故障，被重启过一次</p>
+<img src="/2021/10/15/chaos-tool/1633944967210-66033f95-45ba-4ac7-a30b-0e28b7491fbc.png" class="" title="1633944967210-66033f95-45ba-4ac7-a30b-0e28b7491fbc.png">
+
+<h3 id="pod-kill-示例"><a href="#pod-kill-示例" class="headerlink" title="pod-kill 示例"></a>pod-kill 示例</h3><blockquote>
+<p><em>PodKill 的具体实现其实是通过调用 API Server 发送 Kill 命令。</em></p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PodChaos</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">pod-kill-example</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">action:</span> <span class="string">pod-kill</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">all</span></span><br><span class="line">  <span class="comment">#gracePeriod: 10</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ems</span></span><br><span class="line">    <span class="attr">labelSelectors:</span></span><br><span class="line">      <span class="attr">&#x27;application&#x27;:</span> <span class="string">&#x27;ecp-dashboard&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>依据此配置示例，Chaos Mesh 将向指定的 Pod 中注入 pod-kill 故障，将使该 Pod 被杀死一次。 </p>
+<p>Tips：</p>
+<p><em>1、实验被创建后，pod立刻就被全部kill；pod在被杀死一次后，实验立刻就结束了。</em></p>
+<p>2、<code>GracePeriod</code> 参数适用于 K8s 强制终止 Pod。例如在需要快速删除 Pod 时，我们使用 <code>kubectl delete pod --grace-period=0 --force</code> 命令。</p>
+<p>3、如果要达到持续kill的场景，需要结合schedule来运行实验 </p>
+<h3 id="container-kill-示例"><a href="#container-kill-示例" class="headerlink" title="container-kill 示例"></a>container-kill 示例</h3><blockquote>
+<p><em>ContainerKill 不同于 PodKill 和 PodFailure，后两个都是通过 K8s API Server 控制 Pod 生命周期，而 ContainerKill 是通过运行在集群 Node 上的 Chaos Daemon 程序操作完成。具体来说，ContainerKill 通过 Chaos Controller Manager 运行客户端向 Chaos Daemon 发起 grpc 调用。</em></p>
+</blockquote>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">PodChaos</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">container-kill</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">action:</span> <span class="string">container-kill</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">all</span></span><br><span class="line">  <span class="attr">duration:</span> <span class="string">&#x27;60s&#x27;</span></span><br><span class="line">  <span class="attr">containerNames:</span> [<span class="string">&#x27;ecp-dashboard&#x27;</span>]</span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ems</span></span><br><span class="line">    <span class="attr">labelSelectors:</span></span><br><span class="line">      <span class="attr">&#x27;application&#x27;:</span> <span class="string">&#x27;ecp-dashboard&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>依据此配置示例，Chaos Mesh 将向指定的 Container 中注入 container-kill 故障，将使该 Container 被杀死一次。</p>
+<h3 id="字段说明"><a href="#字段说明" class="headerlink" title="字段说明"></a>字段说明</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>类型</th>
+<th>说明</th>
+<th>默认值</th>
+<th>是否必填</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>action</td>
+<td>string</td>
+<td>指定要注入的故障类型，仅支持 pod-failure、pod-kill、container-kill</td>
+<td>无</td>
+<td>是</td>
+<td>pod-kill</td>
+</tr>
+<tr>
+<td>mode</td>
+<td>string</td>
+<td>指定实验的运行方式，可选择的方式包括：one（表示随机选出一个符合条件的 Pod）、all（表示选出所有符合条件的 Pod）、fixed（表示选出指定数量且符合条件的 Pod）、fixed-percent（表示选出占符合条件的 Pod 中指定百分比的 Pod）、random-max-percent（表示选出占符合条件的 Pod 中不超过指定百分比的 Pod）</td>
+<td>无</td>
+<td>是</td>
+<td>one</td>
+</tr>
+<tr>
+<td>value</td>
+<td>string</td>
+<td>取决与 mode 的配置，为 mode 提供对应的参数。例如，当你将 mode 配置为 fixed-percent 时，value 用于指定 Pod 的百分比。</td>
+<td>无</td>
+<td>否</td>
+<td>2</td>
+</tr>
+<tr>
+<td>selector</td>
+<td>struct</td>
+<td>指定注入故障的目标 Pod，详情请参考<a target="_blank" rel="noopener" href="https://chaos-mesh.org/zh/docs/define-chaos-experiment-scope/">定义实验范围</a></td>
+<td>无</td>
+<td>是</td>
+<td></td>
+</tr>
+<tr>
+<td>containerNames</td>
+<td>[]string</td>
+<td>当你将 action 配置为 container-kill 时，此配置为必填，用于指定注入故障的目标 container 名</td>
+<td>无</td>
+<td>否</td>
+<td>[‘prometheus’]</td>
+</tr>
+<tr>
+<td>gracePeriod</td>
+<td>int64</td>
+<td>当你将 action 配置为 pod-kill 时，需要填写此项，用于指定删除 Pod 之前的持续时间</td>
+<td>0</td>
+<td>否</td>
+<td>0</td>
+</tr>
+<tr>
+<td>duration</td>
+<td>string</td>
+<td>指定实验的持续时间</td>
+<td>无</td>
+<td>是</td>
+<td>30s</td>
+</tr>
+</tbody></table>
+<h2 id="模拟压力场景"><a href="#模拟压力场景" class="headerlink" title="模拟压力场景"></a>模拟压力场景</h2><h3 id="StressChaos-介绍"><a href="#StressChaos-介绍" class="headerlink" title="StressChaos 介绍"></a>StressChaos 介绍</h3><blockquote>
+<p><em>StressChaos 类型的混沌也是由 Chaos Daemon 实施的，Controller Manager 计算好规则后就将任务下发到具体的 Daemon 上。拼装的参数如下，这些参数会组合成命令执行的参数，附加到 <strong><code>stress-ng</code></strong> 命令后执行</em></p>
+</blockquote>
+<p>Chaos Mesh 提供的 StressChaos 实验类型可用于模拟容器内压力的场景。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">StressChaos</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">stress</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">all</span></span><br><span class="line">  <span class="attr">duration:</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">ems</span></span><br><span class="line">    <span class="attr">labelSelectors:</span></span><br><span class="line">      <span class="attr">&#x27;application&#x27;:</span> <span class="string">&#x27;ecp-dashboard&#x27;</span></span><br><span class="line">  <span class="attr">stressors:</span></span><br><span class="line">    <span class="attr">memory:</span></span><br><span class="line">      <span class="attr">workers:</span> <span class="number">2</span></span><br><span class="line">      <span class="attr">size:</span> <span class="string">&#x27;1024MB&#x27;</span></span><br><span class="line">    <span class="attr">cpu:</span></span><br><span class="line">      <span class="attr">workers:</span> <span class="number">2</span></span><br><span class="line">      <span class="attr">load:</span> <span class="number">100</span></span><br></pre></td></tr></table></figure>
+
+<p>该实验配置会在选中容器中创建worker进程，不断分配和在内存中进行读写，最多占用 1024MB 内存和2核cpu</p>
+<h2 id="模拟文件-I-O-故障"><a href="#模拟文件-I-O-故障" class="headerlink" title="模拟文件 I&#x2F;O 故障"></a>模拟文件 I&#x2F;O 故障</h2><h3 id="IOChaos-介绍"><a href="#IOChaos-介绍" class="headerlink" title="IOChaos 介绍"></a>IOChaos 介绍</h3><p>目前，IOChaos 支持模拟以下故障类型：</p>
+<ul>
+<li>latency：为文件系统调用加入延迟</li>
+<li>fault：使文件系统调用返回错误</li>
+<li>attrOverride：修改文件属性</li>
+<li>mistake：使文件读到或写入错误的值</li>
+</ul>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>创建 IOChaos 实验前，请确保目标 Pod 上没有运行 Chaos Mesh 的 Controller Manager。</li>
+<li>IOChaos 可能会损坏你的数据，在生产环境中请<strong>谨慎</strong>使用</li>
+</ol>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">IOChaos</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">io-latency-example</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">action:</span> <span class="string">latency</span></span><br><span class="line">  <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">openstack</span></span><br><span class="line">    <span class="attr">labelSelectors:</span></span><br><span class="line">      <span class="attr">application:</span> <span class="string">busybox</span></span><br><span class="line">  <span class="attr">volumePath:</span> <span class="string">/host-log/containers</span></span><br><span class="line">  <span class="attr">path:</span> <span class="string">&#x27;/host-log/containers/**/*&#x27;</span></span><br><span class="line">  <span class="attr">delay:</span> <span class="string">&#x27;1000ms&#x27;</span></span><br><span class="line">  <span class="attr">percent:</span> <span class="number">50</span></span><br><span class="line">  <span class="attr">duration:</span> <span class="string">&#x27;400s&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>依据此配置示例，Chaos Mesh 将向 &#x2F;host-log&#x2F;containers 目录注入延迟故障，使该目录下的所有文件系统操作（包括读，写，列出目录内容等）产生 1 秒延迟。 </p>
+<p>注入故障时遇到该问题</p>
+<img src="/2021/10/15/chaos-tool/1634089583922-c06ad231-32a6-4389-aee2-7b56410e763b.png" class="" title="1634089583922-c06ad231-32a6-4389-aee2-7b56410e763b.png">
+
+<p>计划：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Schedule</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">ovn-pod-random-kill</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">concurrencyPolicy:</span> <span class="string">Forbid</span></span><br><span class="line">  <span class="attr">historyLimit:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">podChaos:</span></span><br><span class="line">    <span class="attr">action:</span> <span class="string">pod-kill</span></span><br><span class="line">    <span class="attr">duration:</span> <span class="string">48h</span></span><br><span class="line">    <span class="attr">gracePeriod:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">    <span class="attr">selector:</span></span><br><span class="line">      <span class="attr">labelSelectors:</span></span><br><span class="line">        <span class="attr">application:</span> <span class="string">ovn</span></span><br><span class="line">      <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">openstack</span></span><br><span class="line">  <span class="attr">schedule:</span> <span class="string">&#x27;*/30 * * * *&#x27;</span></span><br><span class="line">  <span class="attr">startingDeadlineSeconds:</span> <span class="number">86400</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">PodChaos</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Schedule实验场景"><a href="#Schedule实验场景" class="headerlink" title="Schedule实验场景"></a>Schedule实验场景</h2><h3 id="每隔30分钟，随机kill符合条件的pod"><a href="#每隔30分钟，随机kill符合条件的pod" class="headerlink" title="每隔30分钟，随机kill符合条件的pod"></a>每隔30分钟，随机kill符合条件的pod</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Schedule</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">ovn-pod-kill</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">concurrencyPolicy:</span> <span class="string">Forbid</span></span><br><span class="line">  <span class="attr">historyLimit:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">podChaos:</span></span><br><span class="line">    <span class="attr">action:</span> <span class="string">pod-kill</span></span><br><span class="line">    <span class="attr">gracePeriod:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">    <span class="attr">selector:</span></span><br><span class="line">      <span class="attr">labelSelectors:</span></span><br><span class="line">        <span class="attr">application:</span> <span class="string">ovn</span></span><br><span class="line">      <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">openstack</span></span><br><span class="line">  <span class="attr">schedule:</span> <span class="string">&#x27;*/30 * * * *&#x27;</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">PodChaos</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="每隔10分钟，指定kill-container-proton-server"><a href="#每隔10分钟，指定kill-container-proton-server" class="headerlink" title="每隔10分钟，指定kill container proton-server"></a>每隔10分钟，指定kill container proton-server</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Schedule</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">ovn-container-kill</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">chaos-testing</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">concurrencyPolicy:</span> <span class="string">Forbid</span></span><br><span class="line">  <span class="attr">historyLimit:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">podChaos:</span></span><br><span class="line">    <span class="attr">action:</span> <span class="string">container-kill</span></span><br><span class="line">    <span class="attr">duration:</span> <span class="string">1h</span></span><br><span class="line">    <span class="attr">containerNames:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">proton-server</span></span><br><span class="line">    <span class="attr">gracePeriod:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">    <span class="attr">selector:</span></span><br><span class="line">      <span class="attr">labelSelectors:</span></span><br><span class="line">        <span class="attr">application:</span> <span class="string">proton</span></span><br><span class="line">      <span class="attr">namespaces:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">openstack</span></span><br><span class="line">  <span class="attr">schedule:</span> <span class="string">&#x27;*/10 * * * *&#x27;</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">PodChaos</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="每隔10分钟，随机注入pod产生网络延迟，持续2min"><a href="#每隔10分钟，随机注入pod产生网络延迟，持续2min" class="headerlink" title="每隔10分钟，随机注入pod产生网络延迟，持续2min"></a>每隔10分钟，随机注入pod产生网络延迟，持续2min</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Schedule</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">ovndb-sb-network-delay</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">schedule:</span> <span class="string">&#x27;*/10 * * * *&#x27;</span></span><br><span class="line">  <span class="attr">startingDeadlineSeconds:</span> <span class="number">3600</span></span><br><span class="line">  <span class="attr">concurrencyPolicy:</span> <span class="string">Forbid</span></span><br><span class="line">  <span class="attr">historyLimit:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">NetworkChaos</span></span><br><span class="line">  <span class="attr">networkChaos:</span></span><br><span class="line">    <span class="attr">selector:</span></span><br><span class="line">      <span class="attr">namespaces:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">openstack</span></span><br><span class="line">      <span class="attr">labelSelectors:</span></span><br><span class="line">        <span class="attr">component:</span> <span class="string">ovn-ovsdb-sb</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">    <span class="attr">action:</span> <span class="string">delay</span></span><br><span class="line">    <span class="attr">duration:</span> <span class="string">120s</span></span><br><span class="line">    <span class="attr">delay:</span></span><br><span class="line">      <span class="attr">latency:</span> <span class="string">1s</span></span><br><span class="line">      <span class="attr">correlation:</span> <span class="string">&#x27;100&#x27;</span></span><br><span class="line">      <span class="attr">jitter:</span> <span class="string">&#x27;0ms&#x27;</span></span><br><span class="line">    <span class="comment">#direction: to</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="每隔10分钟，随机注入pod产生压力，持续2min"><a href="#每隔10分钟，随机注入pod产生压力，持续2min" class="headerlink" title="每隔10分钟，随机注入pod产生压力，持续2min"></a>每隔10分钟，随机注入pod产生压力，持续2min</h3><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">kind:</span> <span class="string">Schedule</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">chaos-mesh.org/v1alpha1</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">ovn-controller-cpu-load-80</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">schedule:</span> <span class="string">&#x27;*/60 * * * *&#x27;</span></span><br><span class="line">  <span class="attr">startingDeadlineSeconds:</span> <span class="number">60</span></span><br><span class="line">  <span class="attr">concurrencyPolicy:</span> <span class="string">Forbid</span></span><br><span class="line">  <span class="attr">historyLimit:</span> <span class="number">10</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">StressChaos</span></span><br><span class="line">  <span class="attr">stressChaos:</span></span><br><span class="line">    <span class="attr">selector:</span></span><br><span class="line">      <span class="attr">namespaces:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">openstack</span></span><br><span class="line">      <span class="attr">labelSelectors:</span></span><br><span class="line">        <span class="attr">component:</span> <span class="string">ovn-controller</span></span><br><span class="line">    <span class="attr">mode:</span> <span class="string">one</span></span><br><span class="line">    <span class="attr">stressors:</span></span><br><span class="line">      <span class="attr">memory:</span></span><br><span class="line">        <span class="attr">workers:</span> <span class="number">1</span></span><br><span class="line">        <span class="attr">size:</span> <span class="string">&#x27;1024&#x27;</span></span><br><span class="line">      <span class="attr">cpu:</span></span><br><span class="line">        <span class="attr">workers:</span> <span class="number">2</span></span><br><span class="line">        <span class="attr">load:</span> <span class="number">80</span></span><br><span class="line">    <span class="attr">duration:</span> <span class="string">120s</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Chaos-Mesh/" rel="tag"># Chaos Mesh</a>
+              <a href="/tags/Chaos-Blade/" rel="tag"># Chaos Blade</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/21/chaos/" rel="prev" title="混沌工程系列：基础知识与工具调研">
+                  <i class="fa fa-angle-left"></i> 混沌工程系列：基础知识与工具调研
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/01/10/testing-theory/" rel="next" title="软件测试理论与知识总结">
+                  软件测试理论与知识总结 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2025</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">liaoxb</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>站点总字数：</span>
+    <span title="站点总字数">116k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:46</span>
+  </span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
