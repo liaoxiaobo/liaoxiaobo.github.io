@@ -1,5 +1,5 @@
 ---
-title: 网络系列：计算机网络基础知识
+title: 网络系列：网络基础理论
 date: 2021/1/26 12:11:20
 categories:
   - 网络
@@ -8,24 +8,28 @@ tags:
   - 网络协议
 ---
 
-# TCP/IP 模型
+# TCP/IP 网络模型
 
-| TCP/IP 层级 | 对应 OSI 层级                   | 功能描述                   | 核心协议                  |
-| ----------- | ------------------------------- | -------------------------- | ------------------------- |
-| 应用层      | L5-L7（会话层、表示层、应用层） | 面向用户，处理具体应用需求 | HTTP、FTP、DNS、SMTP、SSH |
-| 传输层      | L4                              | 确保数据“端到端”可靠传输   | TCP、UDP                  |
-| 网络层      | L3                              | 转发和路由                 | IP、ICMP、ARP、BGP        |
-| 链路层      | L1-L2（数据链路层、物理层）     | 物理介质传输比特流         | 以太网、Wi-Fi、MAC 地址   |
+## TCP/IP 网络模型
 
-# 常见网络协议
+TCP/IP模型是互联网的基础，它是一系列网络协议的总称。这些协议可以划分为四层，分别为链路层、网络层、传输层和应用层。
+
+| TCP/IP 层级 | 对应 OSI 层级                   | 功能描述                     | 常用协议                  |
+| ----------- | ------------------------------- | ---------------------------- | ------------------------- |
+| 应用层      | L5-L7（会话层、表示层、应用层） | 面向用户，处理具体应用需求   | HTTP、FTP、DNS、SMTP、SSH |
+| 传输层      | L4                              | 确保报文数据“端到端”可靠传输 | TCP、UDP                  |
+| 网络层      | L3                              | 转发和路由给目标网络或主机   | IP、ICMP、BGP             |
+| 链路层      | L1-L2（数据链路层、物理层）     | 物理介质传输比特流           | ARP、RARP                 |
+
+在整个数据传输过程中，数据在发送端时经过各层时都要附加上相应层的协议头和协议尾（仅数据链路层需要封装协议尾）部分，也就是要对数据进行协议封装，以标识对应层所用的通信协议。
 
 ## HTTP 协议
 
-**基本概念**
+### **基本概念**
 
 HTTP 是超文本传输协议，也就是**HyperText Transfer Protocol**。具体来说，主要是来规范浏览器和服务器端的行为的。并且，HTTP 是一个无状态（stateless）协议，也就是说服务器不维护任何有关客户端过去所发请求的消息。
 
-**常见状态码**
+### **常见状态码**
 
 `1xx` 类状态码属于**提示信息**，是协议处理中的一种中间状态，实际用到的比较少。
 
@@ -96,6 +100,264 @@ IP 协议使用 **IP 地址** 来区分互联网上的每一台设备。但是�
 **路由**
 
 IP 协议另一个重要的能力就是**路由**。实际场景中，两台设备并不是用一条网线连接起来的，而是通过很多网关、路由器、交换机等众多网络设备连接起来的，那么就会形成很多条网络的路径。**路由器**寻址工作中，就是要找到目标地址的子网，找到后进而把数据包转发给对应的网络内。
+
+## ARP 协议
+
+### 基本概念
+
+ARP（地址解析协议）负责IP地址与MAC地址之间的映射。
+
+ARP 高效运行的关键是每台主机上都有一个ARP高速缓存，缓存中每一项的生存时间一般为20分钟。可以通过arp命令来操作ARP高速缓存：
+
+- arp -a 显示当前的ARP缓存列表
+
+### **地址解析实现过程**
+
+1. 首先，每个主机都会在自己的ARP缓冲区中建立一个ARP列表（通过`arp -n`查找），以表示IP地址和MAC地址之间的对应关系。
+2. 源主机发送数据时，首先检查ARP缓存列表中是否存在目的主机IP的MAC地址，
+   - 如果有，则直接发送数据，
+   - 如果没有，就**广播发送ARP请求**，即向本网段的所有主机发送ARP数据包。对于ARP请求来说，目的MAC地址为广播地址ff:ff:ff:ff:ff:ff。
+
+3. 本网络的所有主机收到广播请求时，首先检查数据包中的IP地址是否是自己的IP地址。
+   - 如果不是，则忽略该数据包，
+   - 如果是，则首先从数据包中取出源主机的IP和MAC地址写入到本地ARP列表中（如果已经存在，则覆盖），然后将自己的MAC地址写入ARP响应包中，然后**单播发送ARP响应**。
+
+4. 源主机收到ARP响应包后。将目的主机的IP和MAC地址写入ARP列表
+
+<img src="network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png" alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom:50%;" />
+
+一个完整ARP请求应答的抓包：
+
+```bash
+# tcpdump -e -p arp -n -vv
+21:08:10.329163 00:16:3e:01:79:43 > ff:ff:ff:ff:ff:ff, ethertype ARP (0x0806), length 42: Ethernet (len 6), IPv4 (len 4), Request who-has 192.168.14.23 tell 192.168.13.43, length 28
+21:08:10.329626 00:16:3e:01:7b:17 > 00:16:3e:01:79:43, ethertype ARP (0x0806), length 60: Ethernet (len 6), IPv4 (len 4), Reply 192.168.14.23 is-at 00:16:3e:01:7b:17, length 46
+```
+
+
+# 网络设备
+
+
+| 设备           | 工作层级 | 功能                                                         |
+| -------------- | -------- | ------------------------------------------------------------ |
+| **集线器**     | L1       | 广播数据包到所有端口，无智能过滤                             |
+| **交换机**     | L2       | 基于 MAC 地址对数据帧进行转发，支持 VLAN 划分                |
+| **路由器**     | L3       | 基于 IP 地址路由数据包（Packet），隔离广播域，支持 NAT 和防火墙 |
+| **三层交换机** | L3       | 结合交换机和路由器的功能，高速转发并支持路由策略             |
+
+## **交换机**
+
+交换机是最重要的信息交换网络设备，主要功能包括
+
+- 学习设备MAC地址
+- 二层转发
+- 三层转发
+- ACL
+- QoS
+- 消除回路
+
+随着SDN和NFV的发展，现在已经有越来越多的功能都放到了虚拟交换机上来。最常见的虚拟交换机是[Open vSwitch](https://www.bookstack.cn/read/sdn-handbook/ovs-index.md)
+
+### 交换机工作原理
+
+交换机根据每个**端口**接收到的数据帧源地址进行**MAC地址学习**，内部维护一张**MAC地址表**。在后续的通讯中，发往特定MAC地址的数据包仅被转发至该MAC地址对应的端口，而非所有端口。
+
+### **MAC 地址表学习过程**
+
+初始状态下，交换机的MAC地址表为空。
+
+1. **接收数据包**：交换机从某个端口接收数据包，交换机会检查数据包的头部信息（包括源MAC和IP地址、目的MAC和IP地址）。同时将源MAC地址和其端口号记录到MAC地址表中
+2. **查看MAC地址表**
+   - **找到目的MAC** -> 交换机对数据包进行端口**转发**
+   - **未找到目的MAC** -> 交换机会**泛洪**数据包，所有主机均会收到该数据包（除了接收端口）
+3. **更新MAC地址表**
+   - **收到响应数据包** -> 交换机记录响应数据包的源MAC地址和端口号，并更新MAC地址表
+   - **未收到响应数据包** -> 说明目的主机可能不在网络中或者没有响应，数据包**丢弃**（交换机默认行为）
+
+### **L3 交换机**
+
+三层交换机（L3 Switch）可以处理网络层协议，通过对缺省网关的查询学习来建立局域网（如企业内网、校园网）不同网段的直接连接。
+
+**首次路由与后续转发**
+
+1. 当主机A与不同子网的主机B通信时，三层交换机需要通过缺省网关进行路由决策：
+   - 主机A发送ARP请求到缺省网关（三层交换机的IP）。
+   - 交换机查询路由表找到目标网段的下一跳地址，并通过ARP广播获取主机B的MAC地址。
+2. 交换机将IP地址与MAC地址的映射记录到转发表（如FIB表和邻接表），并更新二层MAC地址表。
+3. 当数据包再次到达交换机后，直接通过二层转发（MAC地址表），无需重复路由，再次拆包分析IP地址（即“直接连接”）。
+
+# VLAN
+
+VLAN（Virtual Local Area Network）即虚拟局域网，是将一个物理的LAN在逻辑上划分成多个广播域的通信技术。
+
+## 为什么需要VLAN
+
+早期以太网是一种基于CSMA/CD（Carrier Sense Multiple Access/Collision Detection）的共享通讯介质的数据网络通讯技术。当主机数目较多时会导致冲突严重、广播泛滥、性能显著下降甚至造成网络不可用等问题。通过二层设备实现LAN互连虽然可以解决冲突严重的问题，但仍然不能隔离广播报文和提升网络质量。
+
+在这种情况下出现了VLAN技术。这种技术可以把一个LAN划分成多个逻辑的VLAN，每个VLAN是一个广播域，VLAN内的主机间通信就和在一个LAN内一样，而VLAN间则不能直接互通（必须通过三层设备进行路由），广播报文就被限制在一个VLAN内。
+
+![VLAN的作用](network-base/download.png)
+
+因此，VLAN具备以下优点：
+
+- **限制广播域**：广播域被限制在一个VLAN内，节省了带宽，提高了网络处理能力。
+- **增强局域网的安全性**：不同VLAN内的报文在传输时相互隔离，即一个VLAN内的用户不能和其它VLAN内的用户直接通信。
+- **提高了网络的健壮性**：故障被限制在一个VLAN内，本VLAN内的故障不会影响其他VLAN的正常工作。
+- **灵活构建虚拟工作组**：用VLAN可以划分不同的用户到不同的工作组，同一工作组的用户也不必局限于某一固定的物理范围，网络构建和维护更方便灵活。
+
+## VLAN Tag和VLAN ID
+
+要使交换机能够分辨不同VLAN的报文，需要在报文中添加标识VLAN信息的字段。IEEE 802.1Q协议规定，在以太网数据帧中加入4个字节的VLAN标签（又称VLAN Tag），用以标识VLAN信息。
+
+![IEEE 802.1Q封装的VLAN数据帧格式](network-base/download-20250518041913791.png)
+*IEEE 802.1Q封装的VLAN数据帧格式*
+
+**数据帧中的VID字段标识了该数据帧所属的VLAN，数据帧只能在其所属VLAN内进行传输。**VLAN ID取值范围是0～4095。由于0和4095为协议保留取值，所以VLAN ID的有效取值范围是1～4094。
+
+## VLAN的接口类型
+
+现网中属于同一个VLAN的主机可能会被连接在不同的交换机上，且跨越交换机的VLAN可能不止一个（比如上图中的VLAN 10、VLAN 20）。如果需要主机间的互通，就需要交换机间的接口能够同时识别和发送多个VLAN的数据帧。根据接口连接对象以及对收发数据帧处理的不同，当前有VLAN的多种接口类型，以适应不同的连接和组网。
+
+常见的VLAN接口类型有三种，包括：Access、Trunk和Hybrid。
+
+**Access接口**
+
+Access接口一般用于和不能识别Tag的用户终端（如用户主机、服务器）相连，或者不需要区分不同VLAN成员时使用。
+
+在一个VLAN交换网络中，以太网数据帧主要有以下两种形式：
+
+- 无标记帧（Untagged帧）：原始的、未加入4字节VLAN标签的帧。
+- 有标记帧（Tagged帧）：加入了4字节VLAN标签的帧。
+
+Access接口大部分情况只能收发Untagged帧，且只能为Untagged帧添加唯一VLAN的Tag。交换机内部只处理Tagged帧，所以Access接口需要给收到的数据帧添加VLAN Tag，也就必须配置缺省VLAN。
+
+当Access接口收到带有Tag的帧，并且帧中VID与PVID相同时，Access接口也能接收并处理该帧。在发送带有Tag的帧前，Access接口会剥离Tag。
+
+**Trunk接口**
+
+Trunk接口一般用于连接交换机、路由器、AP以及可同时收发Tagged帧和Untagged帧的语音终端。它可以允许多个VLAN的帧带Tag通过，但只允许属于缺省VLAN的帧从该类接口上发出时不带Tag（即剥除Tag）。
+
+Trunk接口上的缺省VLAN，有的厂商也将它定义为native VLAN。当Trunk接口收到Untagged帧时，会为Untagged帧打上Native VLAN对应的Tag。
+
+**Hybrid接口**
+
+Hybrid接口既可以用于连接不能识别Tag的用户终端（如用户主机、服务器）和网络设备（如Hub），也可以用于连接交换机、路由器以及可同时收发Tagged帧和Untagged帧的语音终端、AP。它可以允许多个VLAN的帧带Tag通过，且允许从该类接口发出的帧根据需要配置某些VLAN的帧带Tag（即不剥除Tag）、某些VLAN的帧不带Tag（即剥除Tag）。
+
+Hybrid接口和Trunk接口在很多应用场景下可以通用，但在某些应用场景下，必须使用Hybrid接口。比如在灵活QinQ中，服务提供商网络的多个VLAN的报文在进入用户网络前，需要剥离外层VLAN Tag，此时Trunk接口不能实现该功能，因为Trunk接口只能使该接口缺省VLAN的报文不带VLAN Tag通过。
+
+# 网卡Bond
+
+所谓bond，就是把多个物理网卡绑定成一个逻辑上的网卡，使用同一个IP工作，有时服务器带宽不够了也可以用作增加带宽。
+
+借助于网卡bond技术，不仅可以提高网络传输速度，更重要的是，还可以确保在其中一块网卡出现故障时，依然可以正常提供网络服务。
+
+网卡绑定mode共有七种(0~6) bond0、bond1、bond2、bond3、bond4、bond5、bond6。常用的有三种：
+
+- mode=0（平衡负载模式）：平时两块网卡均工作，且自动备援，但需要在与服务器本地网卡相连的交换机设备上进行端口聚合来支持绑定技术。
+- mode=1（自动备援模式）：平时只有一块主网卡工作，在它故障后自动替换为另外的网卡。
+- mode=6（平衡负载模式）：平时两块网卡均工作，且自动备援，无须交换机设备提供辅助支持。
+
+**1.Bond准备工作**
+
+首先要确定服务器上的网卡规划用途，以及哪些网卡已插网线，一般是有两块网卡对应两根网线，分别连接不同的交换机。
+
+```sh
+[root@master01 network-scripts]# ethtool p4p2
+Settings for p4p2:
+        Supported ports: [ FIBRE ]
+        Supported link modes:   1000baseKX/Full
+                                10000baseKR/Full
+                                25000baseCR/Full
+                                25000baseKR/Full
+                                25000baseSR/Full
+        Supported pause frame use: Symmetric
+        Supports auto-negotiation: Yes
+        Supported FEC modes: None BaseR
+        Advertised link modes:  1000baseKX/Full
+                                10000baseKR/Full
+                                25000baseCR/Full
+                                25000baseKR/Full
+                                25000baseSR/Full
+        Advertised pause frame use: Symmetric
+        Advertised auto-negotiation: Yes
+        Advertised FEC modes: None
+        Speed: 10000Mb/s
+        Duplex: Full
+        Port: FIBRE
+        PHYAD: 0
+        Transceiver: internal
+        Auto-negotiation: on
+        Supports Wake-on: d
+        Wake-on: d
+        Current message level: 0x00000004 (4)
+                               link
+        Link detected: yes
+```
+
+> ethtool查看网卡信息，`Link detected：yes`表示有网线插入；
+>
+> 如果`Link detected:no` 的话，尝试用`ifup ethxxx`，如果依然为no的话，才能说明此网卡确实没有网线插入。
+
+**2.网卡Bond配置**
+
+方法一：命令行配置
+
+```sh
+# 创建一个名为 storagepub 的网卡绑定接口，类型为 bond，模式为 802.3ad
+ip link add storagepub type bond mode 802.3ad xmit_hash_policy layer3+4
+
+# 关闭网卡
+ip link set ens4np1 down
+
+# 将网卡 ens4np1 加入到名为 storagepub 的绑定接口，成为其从属（slave）设备
+ip link set ens4np1 master storagepub
+
+# 启用网卡
+ip link set ens4np1 up
+
+# 启用绑定接口 storagepub，使其可用
+ip link set storagepub up
+
+# 查看绑定接口 storagepub 的详细信息，包括模式、成员网卡、负载均衡策略等。
+cat /proc/net/bonding/storagepub
+```
+
+方法二：修改bond网卡的配置文件
+
+```sh
+[root@master01 network-scripts]# cat ifcfg-bond-storagepub
+DEVICE=storagepub
+BONDING_OPTS="mode=4 miimon=100 xmit_hash_policy=1"
+TYPE=Bond
+BONDING_MASTER=yes	# 表示该设备是绑定主设备（master）。
+BOOTPROTO=static	# 使用静态 IP 配置（不依赖 DHCP）
+PEERDNS=no
+IPV4_FAILURE_FATAL=no
+IPV6INIT=no	# 不启用 IPv6 配置
+NAME=bond-storagepub
+ONBOOT=yes
+IPADDR=172.22.88.177
+NETMASK=255.255.255.0
+
+[root@master01 network-scripts]# cat ifcfg-p4p2
+TYPE=Ethernet
+BOOTPROTO=static
+DEVICE=p4p2
+ONBOOT=yes
+MASTER=storagepub	# 指定绑定接口的主设备为 storagepu。
+SLAVE=yes	# 指定该网卡是绑定接口的从设备（slave）
+```
+
+3.**重启网络验证**
+
+```
+[root@master01 ~]# systemctl restart network
+
+[root@master01 ~]# ip a |grep storagepub
+11: p4p2: <BROADCAST,MULTICAST,SLAVE,UP,LOWER_UP> mtu 1500 qdisc mq master storagepub state UP group default qlen 1000
+19: storagepub: <BROADCAST,MULTICAST,MASTER,UP,LOWER_UP> mtu 1500 qdisc noqueue state UP group default qlen 1000
+    inet 172.22.88.177/24 brd 172.22.88.255 scope global noprefixroute storagepub
+```
 
 # 计算机网络面试题
 
@@ -191,17 +453,6 @@ HTTP 比较严重的缺点就是不安全：
 6. 浏览器收到 HTTP 响应报文后，解析响应体中的 HTML 代码，渲染网页的结构和样式，同时根据 HTML 中的其他资源的 URL（如图片、CSS、JS 等），再次发起 HTTP 请求，获取这些资源的内容，直到网页完全加载显示。
 7. 浏览器在不需要和服务器通信时，可以主动关闭 TCP 连接，或者等待服务器的关闭请求。
 
-## ARP地址解析协议的工作过程
-
-**广播发送ARP请求，单播发送ARP响应。**
-
-1. 首先，每个主机都会在自己的ARP缓冲区中建立一个ARP列表（通过`arp -n`查找），以表示IP地址和MAC地址之间的对应关系。
-2. 当源主机要发送数据时，首先检查ARP列表中是否有对应IP地址的目的主机的MAC地址，如果有，则直接发送数据，如果没有，就向本网段的所有主机发送ARP数据包，该数据包包括的内容有：源主机 IP地址，源主机MAC地址，目的主机的IP 地址。
-3. 当本网络的所有主机收到该ARP数据包时，首先检查数据包中的IP地址是否是自己的IP地址，如果不是，则忽略该数据包，如果是，则首先从数据包中取出源主机的IP和MAC地址写入到ARP列表中，如果已经存在，则覆盖，然后将自己的MAC地址写入ARP响应包中，告诉源主机自己是它想要找的MAC地址。
-4. 源主机收到ARP响应包后。将目的主机的IP和MAC地址写入ARP列表，并利用此信息发送数据。如果源主机一直没有收到ARP响应数据包，表示ARP查询失败。
-
-<img src="network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png" alt="2378e655-5580-4f80-b2fc-138287c17ea2" style="zoom:50%;" />
-
 ## DNS 的作用是什么？
 
 DNS（Domain Name System）域名管理系统，是当用户使用浏览器访问网址之后，使用的第一个重要协议。DNS 要解决的是**域名和 IP 地址的映射问题**。
@@ -257,3 +508,27 @@ WebSocket 和 HTTP 两者都是基于 TCP 的应用层协议，都可以在网�
 
 - `FTP` 文件传输；
 - HTTP / HTTPS；
+
+## 不同网段如何实现通信
+
+不同网段的设备需要通过 **路由设备** 实现通信，具体流程如下：
+
+1. 主机A（192.168.1.10）向主机B（192.168.2.20）发送数据包：
+   - 主机A发现目标IP不在同一网段，因此将数据包的目标MAC地址设为 **默认网关**（如L3交换机的IP 192.168.1.1）。
+2. 三层交换机接收数据包：
+   - 根据目标IP 192.168.2.20 查询路由表，找到下一跳接口（如连接192.168.2.0网段的端口）。
+   - 发送 **ARP请求** 到目标网段，获取主机B的MAC地址。
+3. 转发数据包：
+   - L3交换机将数据包的目标MAC改为主机B的MAC，源MAC改为自己的接口MAC，然后通过二层转发到目标网段。
+4. 后续通信优化：
+   - 三层交换机会缓存 IP-MAC映射 和 路由路径，后续数据包直接通过二层转发，无需重复路由。
+
+## 路由器和交换机区别
+
+**（一）工作层级**：交换机工作在数据链路层（第二层），基于MAC地址进行局域网内的数据转发；路由器工作在网络层（第三层），通过IP地址和路由表实现不同网络间的数据路由和转发。
+
+**（二）数据传输范围**：交换机仅在局域网内进行数据转发；路由器可以连接局域网、广域网和互联网，实现跨网络的数据传输。
+
+**（三）转发方式**：交换机使用MAC地址学习和转发表进行数据包的转发；路由器根据IP地址和路由表选择最佳路径和下一跳地址，进行数据包转发。
+
+**（四）安全性：**交换机提供基本的网络隔离和广播域控制；路由器具备高级安全功能，如ACL、防火墙和VPN，提供更强的网络安全保护。
