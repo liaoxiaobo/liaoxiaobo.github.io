@@ -1,0 +1,235 @@
+{
+  "main": {
+    "id": "52272a898b7c37b1",
+    "type": "split",
+    "children": [
+      {
+        "id": "54c4972c32dc4d7e",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b131344f7558c3b2",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "5-专项测试技术/5.3 混沌工程/5.3.1 混沌工程理论与原则.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "5.3.1 混沌工程理论与原则"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "3cad61ba92004316",
+    "type": "split",
+    "children": [
+      {
+        "id": "e06f43319ebb4b9d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "3b2473e9a5f70abf",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "30ef20820a7a7e6d",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "44fb3aabb71a34c0",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "3448836eee918098",
+    "type": "split",
+    "children": [
+      {
+        "id": "2938dda8d26e2679",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b7806c57ab611021",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "2-测试开发基础能力/2.2 Linux 基础/2.2.1 Linux 核心概念.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "2.2.1 Linux 核心概念 的反向链接列表"
+            }
+          },
+          {
+            "id": "f1f19cd6ad64902b",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "2-测试开发基础能力/2.2 Linux 基础/2.2.1 Linux 核心概念.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "2.2.1 Linux 核心概念 的出链列表"
+            }
+          },
+          {
+            "id": "3f0960843112bfeb",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "79cd06b66dfa06cf",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "729181e47d7b5f49",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "5-专项测试技术/5.3 混沌工程/5.3.1 混沌工程理论与原则.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "5.3.1 混沌工程理论与原则 的大纲"
+            }
+          }
+        ],
+        "currentTab": 4
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "3b2473e9a5f70abf",
+  "lastOpenFiles": [
+    "5-专项测试技术/5.2 稳定性与可靠性测试/5.2.1 稳定性与可靠性测试.md",
+    "5-专项测试技术/5.3 混沌工程/5.3.1 混沌工程理论与原则.md",
+    "5-专项测试技术/5.3 混沌工程/5.3.2 Chaos Mesh 实战.md",
+    "5-专项测试技术/5.3 混沌工程/5.3.3 Chaos Blade 实战.md",
+    "5-专项测试技术/5.3 混沌工程/README.md",
+    "5-专项测试技术/README.md",
+    "4-云原生与基础设施测试/README.md",
+    "3-自动化测试工程/3.4.1 Jenkins Pipeline.md",
+    "3-自动化测试工程/3.1.2 Robot Framework.md",
+    "3-自动化测试工程/3.1.1 Pytest.md",
+    "3-自动化测试工程/README.md",
+    "2-测试开发基础能力/2.2 Linux 基础/2.2.1 Linux 核心概念.md",
+    "2-测试开发基础能力/2.3 计算机网络/2.3.1 TCP-IP 与 HTTP-HTTPS.md",
+    "2-测试开发基础能力/2.2 Linux 基础/2.2.2 Linux 常用命令速查.md",
+    "2-测试开发基础能力/2.2 Linux 基础/2.2.3 Shell 脚本编程.md",
+    "2-测试开发基础能力/README.md",
+    "2-测试开发基础能力/2.4 数据库基础/2.4.2 测试数据构造与数据库断言.md",
+    "2-测试开发基础能力/2.4 数据库基础/2.4.1 SQL 与关系型数据库基础.md",
+    "2-测试开发基础能力/2.5 数据结构与算法/2.5.1 常用数据结构.md",
+    "2-测试开发基础能力/2.1 Python 测试编程/2.1.3 Python 代码质量与规范.md",
+    "2-测试开发基础能力/2.1 Python 测试编程/2.1.2 Python 测试编程实践.md",
+    "2-测试开发基础能力/2.1 Python 测试编程/2.1.1 Python 语言核心.md",
+    "2-测试开发基础能力/2.5 数据结构与算法/2.5.2 算法在测试开发中的应用.md",
+    "2-测试开发基础能力/2.6 Git 版本控制/2.6.1 Git 工作流与测试协作.md",
+    "2-测试开发基础能力/2.7 AI 编程工具与开发范式/2.7.1 Claude Code 核心概念与应用.md",
+    "2-测试开发基础能力/2.7 AI 编程工具与开发范式/2.7.2 AI 编程工具选型与 Prompt 实践.md",
+    "2-测试开发基础能力/2.7 AI 编程工具与开发范式",
+    "2-测试开发基础能力/2.6 Git 版本控制",
+    "2-测试开发基础能力/2.5 数据结构与算法",
+    "2-测试开发基础能力/2.4 数据库基础",
+    "2-测试开发基础能力/2.3 计算机网络",
+    "2-测试开发基础能力/2.2 Linux 基础",
+    "2-测试开发基础能力/2.2 Linux / Shell 基础",
+    "2-测试开发基础能力/2.2 Linux ",
+    "2-测试开发基础能力/2.1 Python 测试编程",
+    "5-专项测试技术/5.10 AI 应用测试",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-base/640.png",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-base/1715326531135-c1f081dd-89e1-4b31-94e4-95a76f9fcba4.png",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-base/2378e655-5580-4f80-b2fc-138287c17ea2.png",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-sdn/image-20250518173425294.png",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-sdn/image-20250518171557317.png",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-base/image.png",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-base/download.png",
+    "02-测试开发基础能力/02.03 计算机网络/assets-network-base/download-20250518041913791.png",
+    "02-测试开发基础能力/02.02 Linux-Shell 基础/assets-linux-shell/output-1737428425946-1.png",
+    "02-测试开发基础能力/02.02 Linux-Shell 基础/assets-linux-shell/image-20191201181925883.3d391ba7.png"
+  ]
+}
